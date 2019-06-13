@@ -1,6 +1,3 @@
-import { getISOWeek } from 'date-fns';
-import { partition } from "./itertools";
-
 export const UTCDate = (date: Date) => new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 
 function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
@@ -31,6 +28,3 @@ export class Month extends DateRange {
         super(start, end);
     }
 }
-
-export const calendar = (month: number, year: number) =>
-    partition(new Month(month, year), getISOWeek);
