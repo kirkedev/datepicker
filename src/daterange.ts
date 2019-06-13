@@ -4,7 +4,7 @@ function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     let date = UTCDate(start);
 
     while (end == null || date < end) {
-        yield new Date(date);
+        yield UTCDate(date);
         date.setDate(date.getDate() + step);
     }
 }
