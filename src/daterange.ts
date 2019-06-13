@@ -1,5 +1,10 @@
 export const UTCDate = (date: Date) => new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 
+export function truncateDate(date: Date) {
+    date.setHours(0, 0, 0, 0);
+    return date;
+}
+
 function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     let date = UTCDate(start);
 

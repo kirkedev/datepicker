@@ -26,11 +26,12 @@ export class DatePickerViewModel {
     }
 
     get dates(): Iterable<DateViewModel[]> {
-        const today = new Date();
+        const today = new Date().setHours(0, 0, 0, 0);
+        const selected = this.selected != null && this.selected.setHours(0, 0, 0, 0);
         const month = partition(new Month(this.month, this.year), getISOWeek);
 
         return map(month, week => week.map(date =>
-            new DateViewModel(date, this.selected != null && +date === +this.selected, +date === +today)
+            new DateViewModel(date, selected === +date, +date === today)
         ));
     }
 

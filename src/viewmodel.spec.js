@@ -46,3 +46,11 @@ test('select a date', () => {
     const date = dates.find(date => date.isSelected);
     expect(date.date).toEqual(6);
 });
+
+test('highlight today', () => {
+    const today = new Date();
+    const datePicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
+    const dates = Array.from(datePicker.dates).flat();
+    const date = dates.find(date => date.isToday);
+    expect(date.date).toEqual(today.getDate());
+});
