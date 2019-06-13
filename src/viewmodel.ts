@@ -8,7 +8,7 @@ interface DateViewModel {
     readonly isToday: boolean;
 }
 
-export class DatePickerViewModel {
+export default class DatePickerViewModel {
     private readonly month: number;
     private readonly year: number;
     readonly selected?: Date;

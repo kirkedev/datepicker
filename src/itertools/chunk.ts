@@ -6,9 +6,8 @@ function* chunkElements<T>(iterator: Iterator<T>, size: number): Iterator<Array<
         let index = 0;
 
         while (!result.done && index < size) {
-            chunk[index] = result.value;
+            chunk[index++] = result.value;
             result = iterator.next();
-            index++;
         }
 
         yield chunk.slice(0, index);
