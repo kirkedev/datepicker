@@ -30,9 +30,10 @@ export class DatePickerViewModel {
         const selected = this.selected != null && this.selected.setHours(0, 0, 0, 0);
         const month = partition(new Month(this.month, this.year), getISOWeek);
 
-        return map(month, week => week.map(date =>
-            new DateViewModel(date, selected === +date, +date === today)
-        ));
+        return map(month, week => week.map(date => {
+            const time = date.getTime();
+            return new DateViewModel(date, selected === time, time === today)
+        }));
     }
 
     select(date: Date): DatePickerViewModel {
