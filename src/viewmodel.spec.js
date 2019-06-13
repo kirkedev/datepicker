@@ -55,3 +55,8 @@ test('highlight today', () => {
     const date = dates.find(date => date.isToday);
     expect(date.date).toEqual(today.getDate());
 });
+
+test('display formatted calendar title', () => {
+    const datePicker = new DatePickerViewModel(6, 2019);
+    expect(datePicker.title).toEqual('June 2019');
+});

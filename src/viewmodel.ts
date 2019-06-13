@@ -1,4 +1,4 @@
-import { getISOWeek } from 'date-fns';
+import {format, getISOWeek} from 'date-fns';
 import { Month, UTCDate } from './daterange';
 import { map, partition } from './itertools';
 
@@ -17,6 +17,10 @@ export class DatePickerViewModel {
         this.month = month;
         this.year = year;
         this.selected = selected;
+    }
+
+    get title(): string {
+        return format(new Date(this.year, this.month - 1, 1), 'MMMM YYYY');
     }
 
     get dates(): Iterable<DateViewModel[]> {
