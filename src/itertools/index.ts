@@ -13,7 +13,7 @@ export { filter, find } from './filter';
 export { indexed } from './indexed';
 export { map } from './map';
 export { partition } from './partition';
-export { reduce, count, countIf, sum, sumBy } from './reduce';
+export { reduce, count, countIf, sum, sumBy, all, none, any } from './reduce';
 export { take, takeWhile, takeUntil } from './take';
 
 export const slice = <T> (iterable: Iterable<T>, start: number, end: number) =>

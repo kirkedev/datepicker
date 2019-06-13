@@ -21,3 +21,22 @@ export const sum = <T> (iterable: Iterable<number>) =>
 
 export const sumBy = <T> (iterable: Iterable<T>, operator: UnaryOperator<T, number>) =>
     sum(map(iterable, operator));
+
+export function all<T> (iterable: Iterable<T>, predicate: Predicate<T>) {
+    for (const item of iterable) {
+        if (!predicate(item)) return false;
+    }
+
+    return true;
+}
+
+export function any<T>(iterable: Iterable<T>, predicate: Predicate<T>) {
+    for (const item of iterable) {
+        if (predicate(item)) return true;
+    }
+
+    return false;
+}
+
+export const none = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
+    all(iterable, (item) => !predicate(item));
