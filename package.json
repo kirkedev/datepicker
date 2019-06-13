@@ -1,0 +1,22 @@
+{
+  "name": "datepicker",
+  "version": "1.0.0",
+  "description": "An example datepicker project",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "author": "Andrew Kirkegaard",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.5",
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.1"
+  },
+  "dependencies": {
+    "date-fns": "^1.30.1"
+  }
+}
