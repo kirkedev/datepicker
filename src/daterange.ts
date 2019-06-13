@@ -1,3 +1,6 @@
+import { getISOWeek } from 'date-fns';
+import { partition } from "./itertools";
+
 export const UTCDate = (date: Date) => new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 
 function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
@@ -9,7 +12,7 @@ function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     }
 }
 
-class DateRange implements Iterable<Date> {
+export class DateRange implements Iterable<Date> {
     start: Date;
     end?: Date;
 
@@ -21,4 +24,13 @@ class DateRange implements Iterable<Date> {
     [Symbol.iterator] = () => DateIterator(this.start, this.end);
 }
 
-export const dateRange = (start = new Date(), end?: Date) => new DateRange(start, end);
+export class Month extends DateRange {
+    constructor(month: number, year: number) {
+        const start = new Date(year, month - 1, 1);
+        const end = new Date(year, month, 1);
+        super(start, end);
+    }
+}
+
+export const calendar = (month: number, year: number) =>
+    partition(new Month(month, year), getISOWeek);
