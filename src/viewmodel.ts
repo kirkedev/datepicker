@@ -21,9 +21,9 @@ export class DatePickerViewModel {
 
     get dates(): Iterable<DateViewModel[]> {
         const today = new Date().getDate();
-        const month = partition(new Month(this.month, this.year), getISOWeek);
+        const weeks = partition(new Month(this.month, this.year), getISOWeek);
 
-        return map(month, week => week.map(day => {
+        return map(weeks, week => week.map(day => {
             const date = day.getDate();
             const isSelected = this.selected != null && this.selected.getDate() === date;
             const isToday = date === today;
@@ -31,19 +31,13 @@ export class DatePickerViewModel {
         }));
     }
 
-    select(date: Date): DatePickerViewModel {
-        return new DatePickerViewModel(this.month, this.year, UTCDate(date));
-    }
+    select = (date: Date) => new DatePickerViewModel(this.month, this.year, UTCDate(date));
 
-    previous(): DatePickerViewModel {
-        return this.month === 1
-            ? new DatePickerViewModel(12, this.year - 1, this.selected)
-            : new DatePickerViewModel(this.month - 1, this.year, this.selected);
-    }
+    previous = () => this.month === 1
+        ? new DatePickerViewModel(12, this.year - 1, this.selected)
+        : new DatePickerViewModel(this.month - 1, this.year, this.selected);
 
-    next(): DatePickerViewModel {
-        return this.month === 12
-            ? new DatePickerViewModel(1, this.year + 1, this.selected)
-            : new DatePickerViewModel(this.month + 1, this.year, this.selected);
-    }
+    next = () => this.month === 12
+        ? new DatePickerViewModel(1, this.year + 1, this.selected)
+        : new DatePickerViewModel(this.month + 1, this.year, this.selected);
 }

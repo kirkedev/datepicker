@@ -7,7 +7,7 @@ import { dropUntil, dropWhile } from './itertools/drop';
 import { find } from './itertools/filter';
 import { countIf } from './itertools/reduce';
 import { slice, first } from './itertools';
-import { UTCDate, DateRange, Month } from './daterange';
+import { UTCDate, DateRange } from './daterange';
 
 test('create an end-exclusive iterable date range between two dates', () => {
     const start = new Date('2019-06-01');
@@ -79,17 +79,4 @@ test('count the number of Saturdays in a month', () => {
     const range = new DateRange(new Date('2019-06-01'));
     const june = takeWhile(range, date => date.getMonth() === 5);
     expect(countIf(june, date => date.getDay() === 6)).toEqual(5);
-});
-
-test('create a calendar for a given month', () => {
-    const june = partition(new Month(6, 2019), getISOWeek);
-    const dates = Array.from(map(june, week => week.map(date => date.getDate())));
-
-    expect(dates).toEqual([
-        [                     1,  2],
-        [ 3,  4,  5,  6,  7,  8,  9],
-        [10, 11, 12, 13, 14, 15, 16],
-        [17, 18, 19, 20, 21, 22, 23],
-        [24, 25, 26, 27, 28, 29, 30]
-    ]);
 });
