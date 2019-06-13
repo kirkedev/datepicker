@@ -41,10 +41,11 @@ test('create formatted dates for the next calendar month', () => {
 });
 
 test('select a date', () => {
-    const datePicker = new DatePickerViewModel(6, 2019).select(new Date(2019, 5, 6));
+    const date = new Date(2019, 5, 6);
+    const datePicker = new DatePickerViewModel(6, 2019).select(date);
     const dates = Array.from(datePicker.dates).flat();
-    const date = dates.find(date => date.isSelected);
-    expect(date.date).toEqual(6);
+    const selected = dates.find(date => date.isSelected);
+    expect(selected.date).toEqual(6);
 });
 
 test('highlight today', () => {
