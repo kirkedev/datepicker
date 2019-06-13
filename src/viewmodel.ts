@@ -2,16 +2,10 @@ import { getISOWeek } from 'date-fns';
 import { Month, UTCDate } from './daterange';
 import { map, partition } from './itertools';
 
-class DateViewModel {
+interface DateViewModel {
     readonly date: number;
     readonly isSelected: boolean;
     readonly isToday: boolean;
-
-    constructor(date: Date, isSelected: boolean, isToday: boolean) {
-        this.date = date.getDate();
-        this.isSelected = isSelected;
-        this.isToday = isToday;
-    }
 }
 
 export class DatePickerViewModel {
@@ -26,13 +20,14 @@ export class DatePickerViewModel {
     }
 
     get dates(): Iterable<DateViewModel[]> {
-        const today = new Date().setHours(0, 0, 0, 0);
-        const selected = this.selected != null && this.selected.setHours(0, 0, 0, 0);
+        const today = new Date().getDate();
         const month = partition(new Month(this.month, this.year), getISOWeek);
 
-        return map(month, week => week.map(date => {
-            const time = date.getTime();
-            return new DateViewModel(date, selected === time, time === today)
+        return map(month, week => week.map(day => {
+            const date = day.getDate();
+            const isSelected = this.selected != null && this.selected.getDate() === date;
+            const isToday = date === today;
+            return { date, isSelected, isToday };
         }));
     }
 
