@@ -1,6 +1,6 @@
-import { Predicate } from './index';
-import { map } from './map';
-import { indexed } from './indexed';
+import { Predicate } from "./index";
+import { indexed } from "./indexed";
+import { map } from "./map";
 
 function* dropElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let result = iterator.next();
@@ -16,15 +16,15 @@ function* dropElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Itera
 }
 
 class DropFromIterable<T> implements Iterable<T> {
-    iterable: Iterable<T>;
-    predicate: Predicate<T>;
+    private readonly iterable: Iterable<T>;
+    private readonly predicate: Predicate<T>;
 
     constructor(iterable: Iterable<T>, predicate: Predicate<T>) {
         this.iterable = iterable;
         this.predicate = predicate;
     }
 
-    [Symbol.iterator] = () => dropElements(this.iterable[Symbol.iterator](), this.predicate);
+    public [Symbol.iterator] = () => dropElements(this.iterable[Symbol.iterator](), this.predicate);
 }
 
 export const dropUntil = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>

@@ -1,6 +1,6 @@
-import { UnaryOperator } from './index';
+import { UnaryOperator } from "./index";
 
-function* partitionElements<T, R>(iterator: Iterator<T>, selector: UnaryOperator<T, R>): Iterator<Array<T>> {
+function* partitionElements<T, R>(iterator: Iterator<T>, selector: UnaryOperator<T, R>): Iterator<T[]> {
     let last;
     let index = 0;
     let result = iterator.next();
@@ -23,16 +23,16 @@ function* partitionElements<T, R>(iterator: Iterator<T>, selector: UnaryOperator
     yield group.slice(0, index);
 }
 
-class PartitionedIterable<T, R> implements Iterable<Array<T>> {
-    iterable: Iterable<T>;
-    operator: UnaryOperator<T, R>;
+class PartitionedIterable<T, R> implements Iterable<T[]> {
+    private readonly iterable: Iterable<T>;
+    private readonly operator: UnaryOperator<T, R>;
 
     constructor(iterable: Iterable<T>, operator: UnaryOperator<T, R>) {
         this.iterable = iterable;
         this.operator = operator;
     }
 
-    [Symbol.iterator] = () => partitionElements(this.iterable[Symbol.iterator](), this.operator);
+    public [Symbol.iterator] = () => partitionElements(this.iterable[Symbol.iterator](), this.operator);
 }
 
 export const partition = <T, R> (iterable: Iterable<T>, operator: UnaryOperator<T, R>) =>

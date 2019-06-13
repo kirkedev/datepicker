@@ -15,13 +15,13 @@ function* indexElements<T>(iterator: Iterator<T>): Iterator<IndexedValue<T>> {
 }
 
 class IndexedIterable<T> implements Iterable<IndexedValue<T>> {
-    iterable: Iterable<T>;
+    private readonly iterable: Iterable<T>;
 
     constructor(iterable: Iterable<T>) {
         this.iterable = iterable;
     }
 
-    [Symbol.iterator] = () => indexElements(this.iterable[Symbol.iterator]())
+    public [Symbol.iterator] = () => indexElements(this.iterable[Symbol.iterator]());
 }
 
 export const indexed = <T> (iterable: Iterable<T>) => new IndexedIterable(iterable);

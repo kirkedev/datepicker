@@ -1,6 +1,6 @@
-import { map } from './map';
-import { indexed } from './indexed'
-import { Predicate } from './index';
+import { Predicate } from "./index";
+import { indexed } from "./indexed";
+import { map } from "./map";
 
 function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let { done, value } = iterator.next();
@@ -15,15 +15,15 @@ function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Itera
 }
 
 class TakeFromIterable<T> implements Iterable<T> {
-    iterable: Iterable<T>;
-    predicate: Predicate<T>;
+    private readonly  iterable: Iterable<T>;
+    private readonly  predicate: Predicate<T>;
 
     constructor(iterable: Iterable<T>, predicate: Predicate<T>) {
         this.iterable = iterable;
         this.predicate = predicate;
     }
 
-    [Symbol.iterator] = () => takeElements(this.iterable[Symbol.iterator](), this.predicate);
+    public [Symbol.iterator] = () => takeElements(this.iterable[Symbol.iterator](), this.predicate);
 }
 
 export const takeUntil = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>

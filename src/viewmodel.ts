@@ -1,6 +1,6 @@
-import {format, getISOWeek} from 'date-fns';
-import { Month, UTCDate } from './daterange';
-import { map, partition } from './itertools';
+import { format } from "date-fns";
+import { calendarMonth, UTCDate } from "./daterange";
+import {chunk, map } from "./itertools";
 
 interface DateViewModel {
     readonly date: number;
@@ -9,9 +9,9 @@ interface DateViewModel {
 }
 
 export default class DatePickerViewModel {
+    public readonly selected?: Date;
     private readonly month: number;
     private readonly year: number;
-    readonly selected?: Date;
 
     constructor(month: number, year: number, selected?: Date) {
         this.month = month;
@@ -20,15 +20,15 @@ export default class DatePickerViewModel {
     }
 
     get title(): string {
-        return format(new Date(this.year, this.month - 1, 1), 'MMMM YYYY');
+        return format(new Date(this.year, this.month - 1, 1), "MMMM YYYY");
     }
 
     get dates(): Iterable<DateViewModel[]> {
         const today = new Date().getDate();
         const selected = this.selected != null && this.selected.getDate();
-        const weeks = partition(new Month(this.month, this.year), getISOWeek);
+        const weeks = chunk(calendarMonth(this.month, this.year), 7);
 
-        return map(weeks, week => week.map(day => {
+        return map(weeks, (week) => week.map((day) => {
             const date = day.getDate();
             const isSelected = !!selected && selected === date;
             const isToday = date === today;
@@ -36,13 +36,13 @@ export default class DatePickerViewModel {
         }));
     }
 
-    select = (date: Date) => new DatePickerViewModel(this.month, this.year, UTCDate(date));
+    public select = (date: Date) => new DatePickerViewModel(this.month, this.year, UTCDate(date));
 
-    previous = () => this.month === 1
+    public previous = () => this.month === 1
         ? new DatePickerViewModel(12, this.year - 1, this.selected)
-        : new DatePickerViewModel(this.month - 1, this.year, this.selected);
+        : new DatePickerViewModel(this.month - 1, this.year, this.selected)
 
-    next = () => this.month === 12
+    public next = () => this.month === 12
         ? new DatePickerViewModel(1, this.year + 1, this.selected)
-        : new DatePickerViewModel(this.month + 1, this.year, this.selected);
+        : new DatePickerViewModel(this.month + 1, this.year, this.selected)
 }

@@ -1,25 +1,25 @@
-import { Predicate } from './index';
+import { Predicate } from "./index";
 
 function* filterElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let result = iterator.next();
 
     while (!result.done) {
         const value = result.value;
-        if (predicate(value)) yield value;
+        if (predicate(value)) { yield value; }
         result = iterator.next();
     }
 }
 
 class FilteredIterable<T> implements Iterable<T> {
-    iterable: Iterable<T>;
-    predicate: Predicate<T>;
+    private readonly iterable: Iterable<T>;
+    private readonly predicate: Predicate<T>;
 
     constructor(iterable: Iterable<T>, predicate: Predicate<T>) {
         this.iterable = iterable;
         this.predicate = predicate;
     }
 
-    [Symbol.iterator] = () => filterElements(this.iterable[Symbol.iterator](), this.predicate);
+    public [Symbol.iterator] = () => filterElements(this.iterable[Symbol.iterator](), this.predicate);
 }
 
 export const filter = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>

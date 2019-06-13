@@ -1,8 +1,8 @@
 import { filter } from "./filter";
+import { BinaryOperator, Predicate, UnaryOperator } from "./index";
 import { map } from "./map";
-import { Predicate, UnaryOperator, BinaryOperator } from "./index";
 
-export function reduce<T, R> (iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R {
+export function reduce<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R {
     for (const item of iterable) {
         value = operator(value, item);
     }
@@ -11,7 +11,7 @@ export function reduce<T, R> (iterable: Iterable<T>, operator: BinaryOperator<T,
 }
 
 export const count = <T> (iterable: Iterable<T>) =>
-    reduce(iterable, (count) => ++count, 0);
+    reduce(iterable, (total) => ++total, 0);
 
 export const countIf = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
     count(filter(iterable, predicate));
@@ -22,9 +22,9 @@ export const sum = <T> (iterable: Iterable<number>) =>
 export const sumBy = <T> (iterable: Iterable<T>, operator: UnaryOperator<T, number>) =>
     sum(map(iterable, operator));
 
-export function all<T> (iterable: Iterable<T>, predicate: Predicate<T>) {
+export function all<T>(iterable: Iterable<T>, predicate: Predicate<T>) {
     for (const item of iterable) {
-        if (!predicate(item)) return false;
+        if (!predicate(item)) { return false; }
     }
 
     return true;
@@ -32,7 +32,7 @@ export function all<T> (iterable: Iterable<T>, predicate: Predicate<T>) {
 
 export function any<T>(iterable: Iterable<T>, predicate: Predicate<T>) {
     for (const item of iterable) {
-        if (predicate(item)) return true;
+        if (predicate(item)) { return true; }
     }
 
     return false;
