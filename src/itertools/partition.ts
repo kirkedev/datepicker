@@ -20,7 +20,7 @@ function* partitionElements<T, R>(iterator: Iterator<T>, operator: UnaryOperator
         result = iterator.next();
     }
 
-    yield group;
+    yield group.slice(0, index);
 }
 
 class PartitionedIterable<T, R> implements Iterable<Array<T>> {
