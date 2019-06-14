@@ -1,6 +1,5 @@
-import { format } from "date-fns";
 import { calendarMonth, UTCDate } from "./daterange";
-import {chunk, map } from "./itertools";
+import { chunk, map } from "./itertools";
 
 interface DateViewModel {
     readonly date: number;
@@ -8,6 +7,21 @@ interface DateViewModel {
     readonly isToday: boolean;
     readonly isActiveMonth: boolean;
 }
+
+const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 
 export default class DatePickerViewModel {
     public readonly selected?: Date;
@@ -21,7 +35,7 @@ export default class DatePickerViewModel {
     }
 
     get title(): string {
-        return format(new Date(this.year, this.month - 1, 1), "MMMM YYYY");
+        return `${months[this.month - 1]} ${this.year}`;
     }
 
     get dates(): Iterable<DateViewModel[]> {

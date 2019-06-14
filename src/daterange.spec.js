@@ -1,4 +1,3 @@
-import { getISOWeek, format } from 'date-fns';
 import { chunk } from './itertools/chunk';
 import { partition } from './itertools/partition';
 import { map } from './itertools/map';
@@ -20,18 +19,18 @@ test('create an end-exclusive iterable date range between two dates', () => {
 test('lazily map a date range', () => {
     const start = new Date('2019-06-08');
     const end = new Date('2019-06-15');
-    const dates = map(new DateRange(start, end), date => format(date, 'ddd'));
+    const dates = map(new DateRange(start, end), date => date.getDay());
 
-    expect(Array.from(dates)).toEqual(['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri']);
+    expect(Array.from(dates)).toEqual([6, 0, 1, 2, 3, 4, 5]);
 });
 
-test('partition a date range by week', () => {
-    const start = new Date('2019-06-01');
-    const end = new Date('2019-06-08');
+test('partition a date range by month', () => {
+    const start = new Date('2019-05-29');
+    const end = new Date('2019-06-04');
 
-    const [first, second] = Array.from(partition(new DateRange(start, end), getISOWeek));
-    expect(first.map(date => date.getDate())).toEqual([1, 2]);
-    expect(second.map(date => date.getDate())).toEqual([3, 4, 5, 6, 7]);
+    const [first, second] = Array.from(partition(new DateRange(start, end), date => date.getMonth()));
+    expect(first.map(date => date.getDate())).toEqual([29, 30, 31]);
+    expect(second.map(date => date.getDate())).toEqual([1, 2, 3]);
 });
 
 test('chunk a date range by size', () => {
