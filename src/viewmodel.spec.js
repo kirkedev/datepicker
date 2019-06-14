@@ -1,5 +1,5 @@
 import DatePickerViewModel from "./viewmodel";
-import { map } from './itertools';
+import { map, none, all } from './itertools';
 
 test('create formatted dates for a calendar month', () => {
     const datePicker = new DatePickerViewModel(6, 2019);
@@ -62,4 +62,12 @@ test('highlight today', () => {
 test('display formatted calendar title', () => {
     const datePicker = new DatePickerViewModel(6, 2019);
     expect(datePicker.title).toEqual('June 2019');
+});
+
+test('marks days in the active month', () =>  {
+    const datePicker = new DatePickerViewModel(6, 2019);
+    const dates = Array.from(datePicker.dates).flat();
+    expect(none(dates.slice(0, 6), date => date.isActiveMonth)).toBe(true);
+    expect(all(dates.slice(6, 36), date => date.isActiveMonth)).toBe(true);
+    expect(none(dates.slice(36), date => date.isActiveMonth)).toBe(true);
 });

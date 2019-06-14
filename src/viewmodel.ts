@@ -6,6 +6,7 @@ interface DateViewModel {
     readonly date: number;
     readonly isSelected: boolean;
     readonly isToday: boolean;
+    readonly isActiveMonth: boolean;
 }
 
 export default class DatePickerViewModel {
@@ -27,12 +28,14 @@ export default class DatePickerViewModel {
         const today = new Date().getDate();
         const selected = this.selected != null && this.selected.getDate();
         const weeks = chunk(calendarMonth(this.month, this.year), 7);
+        const month = this.month - 1;
 
         return map(weeks, (week) => week.map((day) => {
             const date = day.getDate();
             const isSelected = !!selected && selected === date;
             const isToday = date === today;
-            return { date, isSelected, isToday };
+            const isActiveMonth = day.getMonth() === month;
+            return { date, isSelected, isToday, isActiveMonth };
         }));
     }
 
