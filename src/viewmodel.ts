@@ -1,4 +1,4 @@
-import { calendarMonth, UTCDate } from "./daterange";
+import { DateRange, startOfDay, startOfWeek } from "./daterange";
 import { chunk, map } from "./itertools";
 
 interface DateViewModel {
@@ -23,6 +23,13 @@ const months = [
     "December",
 ];
 
+export function calendarMonth(month: number, year: number): Iterable<Date> {
+    const start = startOfWeek(new Date(year, month - 1, 1));
+    const end = new Date(start);
+    end.setDate(end.getDate() + 42);
+    return new DateRange(start, end);
+}
+
 export default class DatePickerViewModel {
     public readonly selected?: Date;
     private readonly month: number;
@@ -40,9 +47,9 @@ export default class DatePickerViewModel {
 
     get dates(): Iterable<DateViewModel[]> {
         const today = new Date().getDate();
+        const month = this.month - 1;
         const selected = this.selected != null && this.selected.getDate();
         const weeks = chunk(calendarMonth(this.month, this.year), 7);
-        const month = this.month - 1;
 
         return map(weeks, (week) => week.map((day) => {
             const date = day.getDate();
@@ -53,7 +60,7 @@ export default class DatePickerViewModel {
         }));
     }
 
-    public select = (date: Date) => new DatePickerViewModel(this.month, this.year, UTCDate(date));
+    public select = (date: Date) => new DatePickerViewModel(this.month, this.year, startOfDay(date));
 
     public previous = () => this.month === 1
         ? new DatePickerViewModel(12, this.year - 1, this.selected)

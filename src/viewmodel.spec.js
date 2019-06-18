@@ -1,5 +1,5 @@
 import DatePickerViewModel from "./viewmodel";
-import { map, none, all } from './itertools';
+import { map, none, all, slice } from './itertools';
 
 test('create formatted dates for a calendar month', () => {
     const datePicker = new DatePickerViewModel(6, 2019);
