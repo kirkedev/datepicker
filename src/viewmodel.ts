@@ -1,4 +1,4 @@
-import { DateRange, startOfDay, startOfWeek } from "./daterange";
+import { DateSequence, startOfDay, startOfWeek } from "./daterange";
 import { chunk, map } from "./itertools";
 
 interface DateViewModel {
@@ -23,11 +23,9 @@ const months = [
     "December",
 ];
 
-export function calendarMonth(month: number, year: number): Iterable<Date> {
+function calendarMonth(month: number, year: number): Iterable<Date> {
     const start = startOfWeek(new Date(year, month - 1, 1));
-    const end = new Date(start);
-    end.setDate(end.getDate() + 42);
-    return new DateRange(start, end);
+    return new DateSequence(start).take(42);
 }
 
 export default class DatePickerViewModel {
