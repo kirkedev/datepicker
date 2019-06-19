@@ -45,13 +45,13 @@ export default class DatePickerViewModel {
         return `${months[this.month - 1]} ${this.year}`;
     }
 
-    get dates(): Iterable<DateViewModel[]> {
+    get dates(): Iterable<Iterable<DateViewModel>> {
         const today = new Date().getDate();
         const month = this.month - 1;
         const selected = this.selected != null && this.selected.getDate();
         const weeks = chunk(calendarMonth(this.month, this.year), 7);
 
-        return map(weeks, (week) => week.map((day) => {
+        return map(weeks, (week) => map(week, (day) => {
             const date = day.getDate();
             const isSelected = !!selected && selected === date;
             const isToday = date === today;
