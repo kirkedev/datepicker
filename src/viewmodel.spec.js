@@ -1,5 +1,5 @@
 import DatePickerViewModel from "./viewmodel";
-import { map, none, all, slice } from './itertools';
+import { map, none, all, flatten, find } from './itertools';
 
 test('create formatted dates for a calendar month', () => {
     const datePicker = new DatePickerViewModel(6, 2019);
@@ -46,16 +46,14 @@ test('create formatted dates for the next calendar month', () => {
 test('select a date', () => {
     const date = new Date(2019, 5, 6);
     const datePicker = new DatePickerViewModel(6, 2019).select(date);
-    const dates = Array.from(datePicker.dates).map(week => Array.from(week)).flat();
-    const selected = dates.find(date => date.isSelected);
+    const selected = find(flatten(datePicker.dates), date => date.isSelected);
     expect(selected.date).toEqual(6);
 });
 
 test('highlight today', () => {
     const today = new Date();
     const datePicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
-    const dates = Array.from(datePicker.dates).map(week => Array.from(week)).flat();
-    const date = dates.find(date => date.isToday);
+    const date = find(flatten(datePicker.dates), date => date.isToday);
     expect(date.date).toEqual(today.getDate());
 });
 
@@ -64,10 +62,10 @@ test('display formatted calendar title', () => {
     expect(datePicker.title).toEqual('June 2019');
 });
 
-test('marks days in the active month', () =>  {
+test('mark days in the active month', () =>  {
     const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = Array.from(datePicker.dates).flat();
-    expect(none(slice(dates, 0, 6), date => date.isActiveMonth)).toBe(true);
-    expect(all(slice(dates, 6, 36), date => date.isActiveMonth)).toBe(true);
-    expect(none(slice(dates, 36, 42), date => date.isActiveMonth)).toBe(true);
+    const dates = Array.from(flatten(datePicker.dates));
+    expect(none(dates.slice(0, 6), date => date.isActiveMonth)).toBe(true);
+    expect(all(dates.slice(6, 36), date => date.isActiveMonth)).toBe(true);
+    expect(none(dates.slice(36), date => date.isActiveMonth)).toBe(true);
 });
