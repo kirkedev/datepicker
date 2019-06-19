@@ -1,3 +1,4 @@
+import { flatten } from "./flatten";
 import { UnaryOperator } from "./index";
 
 function* mapElements<T, R>(iterator: Iterator<T>, operator: UnaryOperator<T, R>): Iterator<R> {
@@ -23,3 +24,6 @@ class MappedIterable<T, R> implements Iterable<R> {
 
 export const map = <T, R> (iterable: Iterable<T>, operator: UnaryOperator<T, R>) =>
     new MappedIterable(iterable, operator);
+
+export const flatMap = <T, R> (iterable: Iterable<Iterable<T>>, operator: UnaryOperator<T, R>) =>
+    map(flatten(iterable), operator);
