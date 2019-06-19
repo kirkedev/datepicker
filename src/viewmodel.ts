@@ -35,9 +35,12 @@ export default class DatePickerViewModel {
     private readonly month: number;
     private readonly year: number;
 
-    constructor(month: number, year: number, selected?: Date) {
-        this.month = month;
-        this.year = year;
+    constructor()
+    constructor(month: number, year: number, selected?: Date)
+    constructor(month?: number, year?: number, selected?: Date) {
+        const today = new Date();
+        this.month = month === undefined ? today.getMonth() - 1 : month;
+        this.year = year === undefined ? today.getFullYear() : year;
         this.selected = selected;
     }
 
@@ -64,9 +67,9 @@ export default class DatePickerViewModel {
 
     public previous = () => this.month === 1
         ? new DatePickerViewModel(12, this.year - 1, this.selected)
-        : new DatePickerViewModel(this.month - 1, this.year, this.selected)
+        : new DatePickerViewModel(this.month - 1, this.year, this.selected);
 
     public next = () => this.month === 12
         ? new DatePickerViewModel(1, this.year + 1, this.selected)
-        : new DatePickerViewModel(this.month + 1, this.year, this.selected)
+        : new DatePickerViewModel(this.month + 1, this.year, this.selected);
 }
