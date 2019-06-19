@@ -14,7 +14,7 @@ function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     const date = startOfDay(start);
 
     while (end == null || date < end) {
-        yield startOfDay(date);
+        yield new Date(date);
         date.setDate(date.getDate() + step);
     }
 }
@@ -45,12 +45,12 @@ export class DateSequence implements Iterable<Date> {
         start.setDate(start.getDate() + from);
 
         const end = new Date(this.start);
-        end.setDate(start.getDate() + to);
+        end.setDate(end.getDate() + to - 1);
 
         return new DateRange(start, end);
     }
 
-    public take = (count: number) => this.slice(0, count);
+    public take = (count: number) => this.slice(0, count + 1);
 
     public takeUntil = (end: Date) => new DateRange(this.start, end);
 

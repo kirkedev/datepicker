@@ -1,4 +1,5 @@
 import { Predicate } from "./index";
+import { first } from "./slice";
 
 function* filterElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let result = iterator.next();
@@ -25,8 +26,5 @@ class FilteredIterable<T> implements Iterable<T> {
 export const filter = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
     new FilteredIterable(iterable, predicate);
 
-export function find<T>(iterable: Iterable<T>, predicate: Predicate<T>): T | null {
-    const matches = filterElements(iterable[Symbol.iterator](), predicate);
-    const { done, value } = matches.next();
-    return done ? null : value;
-}
+export const find = <T>(iterable: Iterable<T>, predicate: Predicate<T>) =>
+    first(filter(iterable, predicate));

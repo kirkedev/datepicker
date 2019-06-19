@@ -23,7 +23,7 @@ const months = [
     "December",
 ];
 
-function calendarMonth(month: number, year: number): Iterable<Date> {
+function calendar(month: number, year: number): Iterable<Date> {
     const start = startOfWeek(new Date(year, month - 1, 1));
     return new DateSequence(start).take(42);
 }
@@ -50,15 +50,16 @@ export default class DatePickerViewModel {
         const today = new Date().getDate();
         const month = this.month - 1;
         const selected = this.selected != null && this.selected.getDate();
-        const weeks = chunk(calendarMonth(this.month, this.year), 7);
 
-        return map(weeks, (week) => map(week, (day) => {
+        const dates = map(calendar(this.month, this.year), (day) => {
             const date = day.getDate();
             const isSelected = !!selected && selected === date;
             const isToday = date === today;
             const isActiveMonth = day.getMonth() === month;
             return { date, isSelected, isToday, isActiveMonth };
-        }));
+        });
+
+        return chunk(dates, 7);
     }
 
     public select = (date: Date) => new DatePickerViewModel(this.month, this.year, startOfDay(date));

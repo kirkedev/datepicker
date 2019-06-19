@@ -5,7 +5,7 @@ import { takeUntil, takeWhile } from './itertools/take';
 import { dropUntil, dropWhile } from './itertools/drop';
 import { find } from './itertools/filter';
 import { countIf } from './itertools/reduce';
-import { slice, first } from './itertools';
+import { first } from './itertools';
 import { DateRange, DateSequence } from './daterange';
 
 test('create an end-exclusive iterable date range between two dates', () => {
@@ -53,33 +53,34 @@ test('get remaining days in a month from an infinite sequence', () => {
 });
 
 test('start an infinite sequence at the next month', () => {
-    const range = new DateSequence(new Date(2019, 5, 28));
+    const dates = new DateSequence(new Date(2019, 5, 28));
 
-    let nextMonth = dropWhile(range, date => date.getMonth() === 5);
+    let nextMonth = dropWhile(dates, date => date.getMonth() === 5);
     let firstOfTheMonth = first(nextMonth);
     expect(firstOfTheMonth.getMonth()).toEqual(6);
     expect(firstOfTheMonth.getDate()).toEqual(1);
 
-    nextMonth = dropUntil(range, date => date.getMonth() === 6);
+    nextMonth = dropUntil(dates, date => date.getMonth() === 6);
     firstOfTheMonth = first(nextMonth);
     expect(firstOfTheMonth.getMonth()).toEqual(6);
     expect(firstOfTheMonth.getDate()).toEqual(1);
 });
 
 test('slice a date sequence', () => {
-   const range = new DateSequence(new Date(2019, 5, 1));
-   const dates = Array.from(slice(range, 7, 14));
-   expect(dates.map(date => date.getDate())).toEqual([8, 9, 10, 11, 12, 13]);
+   const range = new DateSequence(new Date(2019, 5, 1)).slice(7, 14);
+   const dates = map(range, date => date.getDate());
+   expect(Array.from(dates)).toEqual([8, 9, 10, 11, 12, 13]);
 });
 
-test('find the first Saturday in an infinite date range', () => {
-    const range = new DateSequence(new Date(2019, 5, 2));
-    const saturday = find(range, date => date.getDay() === 6);
+test('find the first Saturday in an infinite date sequence', () => {
+    const dates = new DateSequence(new Date(2019, 5, 2));
+    const saturday = find(dates, date => date.getDay() === 6);
     expect(saturday.getDate()).toEqual(8);
 });
 
 test('count the number of Saturdays in a month', () => {
-    const range = new DateSequence(new Date(2019, 5, 1));
-    const june = takeWhile(range, date => date.getMonth() === 5);
+    const start = new Date(2019,  5, 1);
+    const end = new Date(2019, 6, 1);
+    const june = new DateSequence(start).takeUntil(end);
     expect(countIf(june, date => date.getDay() === 6)).toEqual(5);
 });
