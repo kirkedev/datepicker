@@ -12,3 +12,4 @@ export { partition } from "./partition";
 export { reduce, count, countIf, sum, sumBy, all, none, any } from "./reduce";
 export { first, last, slice } from "./slice";
 export { take, takeWhile, takeUntil } from "./take";
+export { zip } from "./zip";
