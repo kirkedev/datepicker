@@ -69,7 +69,7 @@ test('start an infinite sequence at the next month', () => {
 test('slice a date sequence', () => {
    const range = new DateSequence(new Date(2019, 5, 1));
    const dates = Array.from(slice(range, 7, 14));
-   expect(dates.map(date => date.getDate())).toEqual([7, 8, 9, 10, 11, 12, 13]);
+   expect(dates.map(date => date.getDate())).toEqual([8, 9, 10, 11, 12, 13]);
 });
 
 test('find the first Saturday in an infinite date range', () => {
