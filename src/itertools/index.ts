@@ -10,21 +10,5 @@ export { indexed } from "./indexed";
 export { map, flatMap } from "./map";
 export { partition } from "./partition";
 export { reduce, count, countIf, sum, sumBy, all, none, any } from "./reduce";
+export { first, last, slice } from "./slice";
 export { take, takeWhile, takeUntil } from "./take";
-
-export const slice = <T> (iterable: Iterable<T>, start: number, end: number) =>
-    take(drop(iterable, start - 1), end - start);
-
-export const first = <T> (iterable: Iterable<T>) =>
-    iterable[Symbol.iterator]().next().value;
-
-export function last<T>(iterable: Iterable<T>) {
-    const iterator = iterable[Symbol.iterator]();
-    let result = iterator.next();
-
-    while (!result.done) {
-        result = iterator.next();
-    }
-
-    return result.value;
-}
