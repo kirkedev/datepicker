@@ -1,0 +1,10 @@
+{
+  "name": "react-datepicker",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^16.8.6"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.21"
+  }
+}

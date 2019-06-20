@@ -1,4 +1,4 @@
-import DatePickerViewModel from "./viewmodel";
+import { DatePickerViewModel } from "./viewmodel";
 import { map, none, all, flatten, find } from './itertools';
 
 test('create formatted dates for a calendar month', () => {

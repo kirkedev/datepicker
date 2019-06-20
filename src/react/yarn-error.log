@@ -1,0 +1,36 @@
+Arguments: 
+  /usr/local/Cellar/node/12.1.0/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js init
+
+PATH: 
+  /Users/andrew.kirkegaard/miniconda3/bin:/Users/andrew.kirkegaard/miniconda3/condabin:/Users/andrew.kirkegaard/.jenv/shims:/Users/andrew.kirkegaard/.jenv/bin:/Users/andrew.kirkegaard/Library/Android/sdk/emulator:/Users/andrew.kirkegaard/Library/Android/sdk/tools:/Users/andrew.kirkegaard/Library/Android/sdk/platform-tools:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/andrew.kirkegaard/.rvm/bin
+
+Yarn version: 
+  1.15.2
+
+Node version: 
+  12.1.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.15.2/libexec/lib/cli.js:125801:13)
+      at Interface.emit (events.js:196:13)
+      at Interface._ttyWrite (readline.js:877:16)
+      at ReadStream.onkeypress (readline.js:189:10)
+      at ReadStream.emit (events.js:196:13)
+      at emitKeys (internal/readline.js:424:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1145:36)
+      at ReadStream.emit (events.js:196:13)
+      at addChunk (_stream_readable.js:290:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

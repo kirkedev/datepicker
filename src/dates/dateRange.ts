@@ -1,14 +1,4 @@
-export const startOfDay = (date: Date) => {
-    const result = new Date(date);
-    result.setHours(0, 0, 0, 0);
-    return result;
-};
-
-export function startOfWeek(date: Date) {
-    const result = startOfDay(date);
-    result.setDate(date.getDate() - date.getDay());
-    return result;
-}
+import { startOfDay } from "./index";
 
 function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     const date = startOfDay(start);

@@ -1,12 +1,5 @@
-import { DateSequence, startOfDay, startOfWeek } from "./daterange";
+import { DateSequence, startOfDay, startOfWeek } from "./dates";
 import { chunk, map } from "./itertools";
-
-interface DateViewModel {
-    readonly date: number;
-    readonly isSelected: boolean;
-    readonly isToday: boolean;
-    readonly isActiveMonth: boolean;
-}
 
 const months = [
     "January",
@@ -28,7 +21,14 @@ function calendar(month: number, year: number): Iterable<Date> {
     return new DateSequence(start).take(42);
 }
 
-export default class DatePickerViewModel {
+export interface DateViewModel {
+    readonly date: number;
+    readonly isSelected: boolean;
+    readonly isToday: boolean;
+    readonly isActiveMonth: boolean;
+}
+
+export class DatePickerViewModel {
     public readonly selected?: Date;
     private readonly month: number;
     private readonly year: number;

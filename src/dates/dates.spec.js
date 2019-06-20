@@ -1,12 +1,12 @@
-import { chunk } from './itertools/chunk';
-import { partition } from './itertools/partition';
-import { map } from './itertools/map';
-import { takeUntil, takeWhile } from './itertools/take';
-import { dropUntil, dropWhile } from './itertools/drop';
-import { find } from './itertools/filter';
-import { countIf } from './itertools/reduce';
-import { first } from './itertools';
-import { DateRange, DateSequence } from './daterange';
+import { chunk } from 'itertools/chunk';
+import { partition } from 'itertools/partition';
+import { map } from 'itertools/map';
+import { takeUntil, takeWhile } from 'itertools/take';
+import { dropUntil, dropWhile } from 'itertools/drop';
+import { find } from 'itertools/filter';
+import { countIf } from 'itertools/reduce';
+import { first } from 'itertools';
+import { DateRange, DateSequence } from './dateRange';
 
 test('create an end-exclusive iterable date range between two dates', () => {
     const start = new Date(2019, 5, 1);
