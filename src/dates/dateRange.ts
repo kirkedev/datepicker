@@ -3,7 +3,7 @@ import { startOfDay } from "./index";
 function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     const date = startOfDay(start);
 
-    while (end == null || date < end) {
+    while (end === undefined || date < end) {
         yield new Date(date);
         date.setDate(date.getDate() + step);
     }

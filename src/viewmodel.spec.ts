@@ -1,9 +1,10 @@
 import { all, find, flatten, map, none } from "./itertools";
 import { DatePickerViewModel } from "./viewmodel";
+import {startOfDay} from "./dates";
 
-test("create formatted dates for a calendar month", () => {
+test("create formatted calendar for a calendar month", () => {
     const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = map(datePicker.dates, (week) => Array.from(week).map(({ date }) => date));
+    const dates = map(datePicker.dates, (week) => Array.from(week).map(({ date }) => date.getDate()));
 
     expect(Array.from(dates)).toEqual([
         [26, 27, 28, 29, 30, 31,  1],
@@ -15,9 +16,10 @@ test("create formatted dates for a calendar month", () => {
     ]);
 });
 
-test("create formatted dates for the previous calendar month", () => {
+test("create formatted calendar for the previousMonth calendar month", () => {
     const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = map(datePicker.previous().dates, (week) => Array.from(week).map(({ date }) => date));
+    const dates = map(datePicker.previous().dates, (week) =>
+        Array.from(week).map(({ date }) => date.getDate()));
 
     expect(Array.from(dates)).toEqual([
         [28, 29, 30,  1,  2,  3,  4],
@@ -29,9 +31,10 @@ test("create formatted dates for the previous calendar month", () => {
     ]);
 });
 
-test("create formatted dates for the next calendar month", () => {
+test("create formatted calendar for the nextMonth calendar month", () => {
     const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = map(datePicker.next().dates, (week) => Array.from(week).map(({ date }) => date));
+    const dates = map(datePicker.next().dates, (week) =>
+        Array.from(week).map(({ date }) => date.getDate()));
 
     expect(Array.from(dates)).toEqual([
         [30,  1,  2,  3,  4,  5,  6],
@@ -46,15 +49,15 @@ test("create formatted dates for the next calendar month", () => {
 test("select a date", () => {
     const date = new Date(2019, 5, 6);
     const datePicker = new DatePickerViewModel(6, 2019).select(date);
-    const selected = find(flatten(datePicker.dates), (date) => date.isSelected);
-    expect(selected.date).toEqual(6);
+    const selected = find(flatten(datePicker.dates), (day) => day.isSelected);
+    expect(selected.date.getDate()).toEqual(6);
 });
 
 test("highlight today", () => {
-    const today = new Date();
+    const today = startOfDay(new Date());
     const datePicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
-    const date = find(flatten(datePicker.dates), (date) => date.isToday);
-    expect(date.date).toEqual(today.getDate());
+    const date = find(flatten(datePicker.dates), (day) => day.isToday);
+    expect(date.date).toEqual(today);
 });
 
 test("display formatted calendar title", () => {

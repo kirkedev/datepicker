@@ -11,3 +11,8 @@ export function startOfWeek(date: Date) {
     result.setDate(date.getDate() - date.getDay());
     return result;
 }
+
+export const isSameDate = (first: Date, second: Date) =>
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate();

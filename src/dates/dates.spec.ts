@@ -1,14 +1,14 @@
-import { first } from "itertools";
 import { chunk } from "itertools/chunk";
 import { dropUntil, dropWhile } from "itertools/drop";
 import { find } from "itertools/filter";
 import { map } from "itertools/map";
 import { partition } from "itertools/partition";
 import { countIf } from "itertools/reduce";
+import { first } from "itertools/slice";
 import { takeUntil, takeWhile } from "itertools/take";
 import { DateRange, DateSequence } from "./dateRange";
 
-test("create an end-exclusive iterable date range between two dates", () => {
+test("create an end-exclusive iterable date range between two calendar", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 5, 8);
     const dates = Array.from(new DateRange(start, end)).map((date) => date.getDate());
@@ -28,9 +28,9 @@ test("partition a date range by month", () => {
     const start = new Date(2019, 4, 29);
     const end = new Date(2019, 5, 4);
 
-    const [first, second] = Array.from(partition(new DateRange(start, end), (date) => date.getMonth()));
-    expect(first.map((date) => date.getDate())).toEqual([29, 30, 31]);
-    expect(second.map((date) => date.getDate())).toEqual([1, 2, 3]);
+    const [may, june] = Array.from(partition(new DateRange(start, end), (date) => date.getMonth()));
+    expect(may.map((date) => date.getDate())).toEqual([29, 30, 31]);
+    expect(june.map((date) => date.getDate())).toEqual([1, 2, 3]);
 });
 
 test("chunk a date range by size", () => {
@@ -52,7 +52,7 @@ test("get remaining days in a month from an infinite sequence", () => {
     expect(dates.map((date) => date.getDate())).toEqual([28, 29, 30]);
 });
 
-test("start an infinite sequence at the next month", () => {
+test("start an infinite sequence at the nextMonth month", () => {
     const dates = new DateSequence(new Date(2019, 5, 28));
 
     let nextMonth = dropWhile(dates, (date) => date.getMonth() === 5);

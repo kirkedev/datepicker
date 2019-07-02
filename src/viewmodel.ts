@@ -1,4 +1,4 @@
-import { DateSequence, startOfDay, startOfWeek } from "./dates";
+import {DateSequence, isSameDate, startOfDay, startOfWeek} from "./dates";
 import { chunk, map } from "./itertools";
 
 const months = [
@@ -22,7 +22,7 @@ function calendar(month: number, year: number): Iterable<Date> {
 }
 
 export interface DateViewModel {
-    readonly date: number;
+    readonly date: Date;
     readonly isSelected: boolean;
     readonly isToday: boolean;
     readonly isActiveMonth: boolean;
@@ -39,7 +39,7 @@ export class DatePickerViewModel {
         const today = new Date();
         this.month = month === undefined ? today.getMonth() - 1 : month;
         this.year = year === undefined ? today.getFullYear() : year;
-        this.selected = selected;
+        if (selected !== undefined) { this.selected = startOfDay(selected); }
     }
 
     get title(): string {
@@ -47,22 +47,23 @@ export class DatePickerViewModel {
     }
 
     get dates(): Iterable<Iterable<DateViewModel>> {
-        const today = new Date().getDate();
+        const today = startOfDay(new Date());
         const month = this.month - 1;
-        const selected = this.selected != null && this.selected.getDate();
+        const selected = this.selected;
 
-        const dates = map(calendar(this.month, this.year), (day) => {
-            const date = day.getDate();
-            const isSelected = !!selected && selected === date;
-            const isToday = date === today;
-            const isActiveMonth = day.getMonth() === month;
+        const dates = map(calendar(this.month, this.year), (date) => {
+            const isSelected = !!selected && isSameDate(date, selected);
+            const isToday = isSameDate(date, today);
+            const isActiveMonth = date.getMonth() === month;
             return { date, isSelected, isToday, isActiveMonth };
         });
 
         return chunk(dates, 7);
     }
 
-    public select = (date: Date) => new DatePickerViewModel(this.month, this.year, startOfDay(date));
+    public select(date: Date) {
+        return new DatePickerViewModel(this.month, this.year, startOfDay(date));
+    }
 
     public previous = () => this.month === 1
         ? new DatePickerViewModel(12, this.year - 1, this.selected)
