@@ -1,4 +1,5 @@
-export { DateRange, DateSequence } from "./dateRange";
+export { DateRange, DateSequence } from "./ranges";
+export { DateViewModel, DatePickerViewModel } from "./viewmodel";
 
 export const startOfDay = (date: Date) => {
     const result = new Date(date);
@@ -13,6 +14,6 @@ export function startOfWeek(date: Date) {
 }
 
 export const isSameDate = (first: Date, second: Date) =>
-    first.getFullYear() === second.getFullYear() &&
+    first.getDate() === second.getDate() &&
     first.getMonth() === second.getMonth() &&
-    first.getDate() === second.getDate();
+    first.getFullYear() === second.getFullYear();

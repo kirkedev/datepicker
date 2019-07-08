@@ -35,12 +35,12 @@ export class DateSequence implements Iterable<Date> {
         start.setDate(start.getDate() + from);
 
         const end = new Date(this.start);
-        end.setDate(end.getDate() + to - 1);
+        end.setDate(end.getDate() + to);
 
         return new DateRange(start, end);
     }
 
-    public take = (count: number) => this.slice(0, count + 1);
+    public take = (count: number) => this.slice(0, count);
 
     public takeUntil = (end: Date) => new DateRange(this.start, end);
 

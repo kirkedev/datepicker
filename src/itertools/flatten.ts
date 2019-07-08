@@ -11,13 +11,11 @@ function* flattenElements<T>(iterator: Iterator<Iterable<T>>) {
 }
 
 class FlattenedIterable<T> implements Iterable<T> {
-    private readonly iterable: Iterable<Iterable<T>>;
+    constructor(private readonly iterable: Iterable<Iterable<T>>) {}
 
-    constructor(iterable: Iterable<Iterable<T>>) {
-        this.iterable = iterable;
-    }
-
-    public [Symbol.iterator] = () => flattenElements(this.iterable[Symbol.iterator]());
+    public [Symbol.iterator] = () =>
+        flattenElements(this.iterable[Symbol.iterator]())
 }
 
-export const flatten = <T> (iterable: Iterable<Iterable<T>>) => new FlattenedIterable(iterable);
+export const flatten = <T> (iterable: Iterable<Iterable<T>>) =>
+    new FlattenedIterable(iterable);

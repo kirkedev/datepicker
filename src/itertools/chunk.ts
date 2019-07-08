@@ -1,29 +1,27 @@
 function* chunkElements<T>(iterator: Iterator<T>, size: number): Iterator<T[]> {
-    let result = iterator.next();
     const group = new Array(size);
+    let result = iterator.next();
 
     while (!result.done) {
-        let index = 0;
+        let i = 0;
 
-        while (!result.done && index < size) {
-            group[index++] = result.value;
+        while (!result.done && i < size) {
+            group[i++] = result.value;
             result = iterator.next();
         }
 
-        yield group.slice(0, index);
+        yield group.slice(0, i);
     }
 }
 
 class ChunkedIterable<T> implements Iterable<T[]> {
-    private readonly iterable: Iterable<T>;
-    private readonly size: number;
+    constructor(
+        private readonly iterable: Iterable<T>,
+        private readonly size: number) {}
 
-    constructor(iterable: Iterable<T>, size: number) {
-        this.iterable = iterable;
-        this.size = size;
-    }
-
-    public [Symbol.iterator] = () => chunkElements(this.iterable[Symbol.iterator](), this.size);
+    public [Symbol.iterator] = () =>
+        chunkElements(this.iterable[Symbol.iterator](), this.size)
 }
 
-export const chunk = <T, R> (iterable: Iterable<T>, size: number) => new ChunkedIterable(iterable, size);
+export const chunk = <T> (iterable: Iterable<T>, size: number) =>
+    new ChunkedIterable(iterable, size);

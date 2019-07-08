@@ -24,15 +24,12 @@ function* partitionElements<T, R>(iterator: Iterator<T>, selector: UnaryOperator
 }
 
 class PartitionedIterable<T, R> implements Iterable<T[]> {
-    private readonly iterable: Iterable<T>;
-    private readonly operator: UnaryOperator<T, R>;
+    constructor(
+        private readonly iterable: Iterable<T>,
+        private readonly operator: UnaryOperator<T, R>) {}
 
-    constructor(iterable: Iterable<T>, operator: UnaryOperator<T, R>) {
-        this.iterable = iterable;
-        this.operator = operator;
-    }
-
-    public [Symbol.iterator] = () => partitionElements(this.iterable[Symbol.iterator](), this.operator);
+    public [Symbol.iterator] = () =>
+        partitionElements(this.iterable[Symbol.iterator](), this.operator)
 }
 
 export const partition = <T, R> (iterable: Iterable<T>, operator: UnaryOperator<T, R>) =>

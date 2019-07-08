@@ -6,7 +6,7 @@ export { chunk } from "./chunk";
 export { drop, dropWhile, dropUntil } from "./drop";
 export { filter, find } from "./filter";
 export { flatten } from "./flatten";
-export { indexed } from "./indexed";
+export { enumerate } from "./enumerate";
 export { map, flatMap } from "./map";
 export { partition } from "./partition";
 export { reduce, count, countIf, sum, sumBy, all, none, any } from "./reduce";

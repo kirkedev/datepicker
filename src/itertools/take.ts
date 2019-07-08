@@ -1,8 +1,8 @@
 import { Predicate } from "./index";
-import { indexed } from "./indexed";
+import { enumerate } from "./enumerate";
 import { map } from "./map";
 
-function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
+export function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let { done, value } = iterator.next();
 
     while (!done && predicate(value)) {
@@ -15,15 +15,12 @@ function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Itera
 }
 
 class TakeFromIterable<T> implements Iterable<T> {
-    private readonly  iterable: Iterable<T>;
-    private readonly  predicate: Predicate<T>;
+    constructor(
+        private readonly  iterable: Iterable<T>,
+        private readonly  predicate: Predicate<T>) {}
 
-    constructor(iterable: Iterable<T>, predicate: Predicate<T>) {
-        this.iterable = iterable;
-        this.predicate = predicate;
-    }
-
-    public [Symbol.iterator] = () => takeElements(this.iterable[Symbol.iterator](), this.predicate);
+    public [Symbol.iterator] = () =>
+        takeElements(this.iterable[Symbol.iterator](), this.predicate)
 }
 
 export const takeUntil = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
@@ -33,4 +30,4 @@ export const takeWhile = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
     new TakeFromIterable(iterable, predicate);
 
 export const take = <T> (iterable: Iterable<T>, count: number) =>
-    map(takeWhile(indexed(iterable), ({index}) => index < count), ({value}) => value);
+    map(takeWhile(enumerate(iterable), ([index]) => index < count), ([, value]) => value);

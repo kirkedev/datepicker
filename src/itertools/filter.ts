@@ -12,15 +12,12 @@ function* filterElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Ite
 }
 
 class FilteredIterable<T> implements Iterable<T> {
-    private readonly iterable: Iterable<T>;
-    private readonly predicate: Predicate<T>;
+    constructor(
+        private readonly iterable: Iterable<T>,
+        private readonly predicate: Predicate<T>) {}
 
-    constructor(iterable: Iterable<T>, predicate: Predicate<T>) {
-        this.iterable = iterable;
-        this.predicate = predicate;
-    }
-
-    public [Symbol.iterator] = () => filterElements(this.iterable[Symbol.iterator](), this.predicate);
+    public [Symbol.iterator] = () =>
+        filterElements(this.iterable[Symbol.iterator](), this.predicate)
 }
 
 export const filter = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>

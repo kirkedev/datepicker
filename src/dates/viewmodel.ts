@@ -1,5 +1,5 @@
-import {DateSequence, isSameDate, startOfDay, startOfWeek} from "./dates";
-import { chunk, map } from "./itertools";
+import { DateSequence, isSameDate, startOfDay, startOfWeek } from "./index";
+import { chunk, map } from "itertools";
 
 const months = [
     "January",
@@ -21,6 +21,12 @@ function calendar(month: number, year: number): Iterable<Date> {
     return new DateSequence(start).take(42);
 }
 
+function calendarMonth(month: number, year: number): Iterable<Date> {
+    const start = new Date(year, month - 1, 1);
+    const end = new Date(year, month, 1);
+    return new DateSequence(start).takeUntil(end);
+}
+
 export interface DateViewModel {
     readonly date: Date;
     readonly isSelected: boolean;
@@ -37,7 +43,7 @@ export class DatePickerViewModel {
     constructor(month: number, year: number, selected?: Date)
     constructor(month?: number, year?: number, selected?: Date) {
         const today = new Date();
-        this.month = month === undefined ? today.getMonth() - 1 : month;
+        this.month = month === undefined ? today.getMonth() + 1 : month;
         this.year = year === undefined ? today.getFullYear() : year;
         if (selected !== undefined) { this.selected = startOfDay(selected); }
     }
@@ -61,9 +67,8 @@ export class DatePickerViewModel {
         return chunk(dates, 7);
     }
 
-    public select(date: Date) {
-        return new DatePickerViewModel(this.month, this.year, startOfDay(date));
-    }
+    public select = (date: Date) =>
+        new DatePickerViewModel(this.month, this.year, date);
 
     public previous = () => this.month === 1
         ? new DatePickerViewModel(12, this.year - 1, this.selected)

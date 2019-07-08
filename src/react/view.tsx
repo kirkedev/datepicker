@@ -1,7 +1,8 @@
-import React, { useReducer } from "react";
-import { indexed, map } from "itertools";
-import { DatePickerViewModel, DateViewModel } from "../viewmodel";
-import { reducer, nextMonth, previousMonth, selectDate } from "./actions";
+import React from "react";
+import { enumerate, map } from "itertools";
+import { DateViewModel } from "dates";
+import { DatePickerReducer } from "./reducer";
+import { previousMonth, nextMonth, selectDate } from "./action";
 
 interface SelectDateHandler {
     onSelectDate?: (date: Date) => any;
@@ -19,29 +20,29 @@ interface CalendarProps extends SelectDateHandler {
     calendar: Iterable<Iterable<DateViewModel>>;
 }
 
-export const Day = ({ day, onSelectDate = (date: Date) => null }: DayProps) => {
+export const Day = ({ day, onSelectDate = () => false }: DayProps) => {
     let className = "date";
     if (day.isToday) { className += " today"; }
     if (day.isSelected) { className += " selected"; }
     if (day.isActiveMonth)  { className += " active"; }
 
-    return <span className={className} onClick={() => onSelectDate(day.date)}>
-        { day.date.getDate() }
-    </span>;
+    return <span className={className} onClick={() => onSelectDate(day.date)}>{
+        day.date.getDate()
+    }</span>;
 };
 
-export const Week = ({ week, onSelectDate = (date: Date) => null  }: WeekProps) =>
+export const Week = ({ week, onSelectDate }: WeekProps) =>
     <div className="week">{ map(week, (day) =>
-        <Day day={day} onSelectDate={onSelectDate} key={day.date.getTime()}/>)
+        <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
     }</div>;
 
-export const Calendar = ({ calendar, onSelectDate = (date: Date) => null  }: CalendarProps) =>
-    <div className="calendar">{ map(indexed(calendar), ({ index, value: week }) =>
-        <Week week={week} key={index} onSelectDate={onSelectDate}/>)
+export const Calendar = ({ calendar, onSelectDate }: CalendarProps) =>
+    <div className="calendar">{ map(enumerate(calendar), ([index, week]) =>
+        <Week key={index} week={week} onSelectDate={onSelectDate}/>)
     }</div>;
 
 export const DatePicker = () => {
-    const [model, dispatch] = useReducer(reducer, new DatePickerViewModel());
+    const [model, dispatch] = DatePickerReducer();
 
     return <div className="datepicker">
         <h1 className="header">{model.title}</h1>

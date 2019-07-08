@@ -1,10 +1,10 @@
-import { all, find, flatten, map, none } from "./itertools";
-import { DatePickerViewModel } from "./viewmodel";
-import {startOfDay} from "./dates";
+import { all, find, flatten, map, none } from "itertools";
+import { startOfDay, DatePickerViewModel } from "dates";
 
 test("create formatted calendar for a calendar month", () => {
     const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = map(datePicker.dates, (week) => Array.from(week).map(({ date }) => date.getDate()));
+    const dates = map(datePicker.dates, (week) =>
+        Array.from(week).map(({ date }) => date.getDate()));
 
     expect(Array.from(dates)).toEqual([
         [26, 27, 28, 29, 30, 31,  1],

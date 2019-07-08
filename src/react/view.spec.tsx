@@ -1,12 +1,10 @@
 import React from "react";
 import { create } from "react-test-renderer";
-import { Calendar, Day, Week } from "./view";
+import { Calendar, Week, Day } from "./view";
 
 test("render a day", () => {
-    const date = new Date(2019, 5, 6);
-
     const model = {
-        date,
+        date: new Date(2019, 5, 6),
         isActiveMonth: true,
         isSelected: true,
         isToday: true,
@@ -36,18 +34,22 @@ test("render multiple days", () => {
     }];
 
     const week = create(<Week week={model}/>).toJSON();
+
     const [first, second] = week.children;
+    expect(first.children).toContainEqual("31");
+    expect(second.children).toContainEqual("1");
 
     let className = first.props.className;
     expect(className).toEqual("date");
-    expect(first.children).toContainEqual("31");
+    expect(className).not.toContainEqual("active");
+    expect(className).not.toContainEqual("today");
+    expect(className).not.toContainEqual("selected");
 
     className = second.props.className;
     expect(className).toContain("date");
     expect(className).toContain("active");
     expect(className).toContain("today");
     expect(className).toContain("selected");
-    expect(second.children).toContainEqual("1");
 });
 
 test("render multiple weeks", () => {

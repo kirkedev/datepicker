@@ -10,15 +10,13 @@ function* mergeIterators<T, U>(first: Iterator<T>, second: Iterator<U>): Iterato
 }
 
 class MergedIterable<T, U> implements Iterable<[T, U]> {
-    private readonly first: Iterable<T>;
-    private readonly second: Iterable<U>;
+    constructor(
+        private readonly first: Iterable<T>,
+        private readonly second: Iterable<U>) {}
 
-    constructor(first: Iterable<T>, second: Iterable<U>) {
-        this.first = first;
-        this.second = second;
-    }
-
-    public [Symbol.iterator] = () => mergeIterators(this.first[Symbol.iterator](), this.second[Symbol.iterator]());
+    public [Symbol.iterator] = () =>
+        mergeIterators(this.first[Symbol.iterator](), this.second[Symbol.iterator]())
 }
 
-export const zip = <T, U> (first: Iterable<T>, second: Iterable<U>) => new MergedIterable(first, second);
+export const zip = <T, U> (first: Iterable<T>, second: Iterable<U>) =>
+    new MergedIterable(first, second);
