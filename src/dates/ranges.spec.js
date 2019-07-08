@@ -63,7 +63,8 @@ test("convert a date sequence to a sized range", function () {
     expect(Array.from(dates)).toEqual([1, 2, 3, 4, 5, 6, 7]);
 });
 test("terminate a date sequence at the beginning of the next month", function () {
-    var range = new DateSequence(new Date(2019, 5, 1)).takeUntil(new Date(2019, 6, 1));
+    var range = new DateSequence(new Date(2019, 5, 1))
+        .takeUntil(new Date(2019, 6, 1));
     var dates = map(range, function (date) { return date.getDate(); });
     expect(last(dates)).toEqual(30);
 });

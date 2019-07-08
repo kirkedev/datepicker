@@ -10,10 +10,12 @@ export const first = <T> (iterable: Iterable<T>) =>
 export function last<T>(iterable: Iterable<T>): T {
     const iterator = iterable[Symbol.iterator]();
     let result = iterator.next();
+    let value = result.value;
 
     while (!result.done) {
+        value = result.value;
         result = iterator.next();
     }
 
-    return result.value;
+    return value;
 }

@@ -4,7 +4,7 @@ import { find } from "itertools/filter";
 import { map } from "itertools/map";
 import { partition } from "itertools/partition";
 import { countIf } from "itertools/reduce";
-import {first, last} from "itertools/slice";
+import { first, last } from "itertools/slice";
 import { takeUntil, takeWhile } from "itertools/take";
 import { DateRange, DateSequence } from "./ranges";
 
@@ -79,7 +79,9 @@ test("convert a date sequence to a sized range", () => {
 });
 
 test("terminate a date sequence at the beginning of the next month", () => {
-    const range = new DateSequence(new Date(2019, 5, 1)).takeUntil(new Date(2019, 6, 1));
+    const range = new DateSequence(new Date(2019, 5, 1))
+        .takeUntil(new Date(2019, 6, 1));
+
     const dates = map(range, (date) => date.getDate());
     expect(last(dates)).toEqual(30);
 });
