@@ -1,5 +1,7 @@
 node_modules
+src/**/*.js
+build
 .*
-*.js
-!*.spec.js
-
+!.gitignore
+!.eslint.js
+!jest.config.js

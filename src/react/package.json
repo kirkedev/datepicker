@@ -6,10 +6,12 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.0.0",
     "@types/react": "^16.8.21",
     "@types/react-dom": "^16.8.4",
     "@types/react-test-renderer": "^16.8.2",
     "react-test-renderer": "^16.8.6"
+  },
+  "resolutions": {
+    "@types/react": "^16.8.21"
   }
 }

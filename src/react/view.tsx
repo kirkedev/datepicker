@@ -12,10 +12,6 @@ interface DayProps extends SelectDateHandler {
     day: DateViewModel;
 }
 
-interface WeekProps extends SelectDateHandler {
-    week: Iterable<DateViewModel>;
-}
-
 interface CalendarProps extends SelectDateHandler {
     calendar: Iterable<Iterable<DateViewModel>>;
 }
@@ -31,14 +27,11 @@ export const Day = ({ day, onSelectDate = () => false }: DayProps) => {
     }</span>;
 };
 
-export const Week = ({ week, onSelectDate }: WeekProps) =>
-    <div className="week">{ map(week, (day) =>
-        <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
-    }</div>;
-
 export const Calendar = ({ calendar, onSelectDate }: CalendarProps) =>
     <div className="calendar">{ map(enumerate(calendar), ([index, week]) =>
-        <Week key={index} week={week} onSelectDate={onSelectDate}/>)
+        <div key={index} className="week">{ map(week, (day) =>
+            <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
+        }</div>)
     }</div>;
 
 export const DatePicker = () => {

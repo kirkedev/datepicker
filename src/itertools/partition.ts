@@ -24,7 +24,7 @@ function* partitionElements<T, R>(iterator: Iterator<T>, selector: UnaryOperator
 }
 
 class PartitionedIterable<T, R> implements Iterable<T[]> {
-    constructor(
+    public constructor(
         private readonly iterable: Iterable<T>,
         private readonly operator: UnaryOperator<T, R>) {}
 
