@@ -1,7 +1,10 @@
 node_modules
 src/**/*.js
+src/**/*.d.ts
+src/**/*.js.map
 dist
 .*
 !.gitignore
 !.eslintrc.js
 !jest.config.js
+yarn-error.log
