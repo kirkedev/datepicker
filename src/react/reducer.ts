@@ -9,4 +9,4 @@ export default function(model: DatePickerViewModel, action: DatePickerAction): D
         case NextMonth: return model.next();
         case SelectDate: return model.select(action.data);
     }
-};
+}

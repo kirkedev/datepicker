@@ -20,7 +20,7 @@ class FilteredIterable<T> implements Iterable<T> {
         filterElements(this.iterable[Symbol.iterator](), this.predicate)
 }
 
-export const filter = <T> (iterable: Iterable<T>, predicate: Predicate<T>): FilteredIterable<T> =>
+export const filter = <T>(iterable: Iterable<T>, predicate: Predicate<T>): FilteredIterable<T> =>
     new FilteredIterable(iterable, predicate);
 
 export const find = <T>(iterable: Iterable<T>, predicate: Predicate<T>): T =>

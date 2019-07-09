@@ -17,5 +17,5 @@ class EnumeratedIterable<T> implements Iterable<EnumeratedValue<T>> {
         enumerateElements(this.iterable[Symbol.iterator]())
 }
 
-export const enumerate = <T> (iterable: Iterable<T>): Iterable<EnumeratedValue<T>> =>
+export const enumerate = <T>(iterable: Iterable<T>): Iterable<EnumeratedValue<T>> =>
     new EnumeratedIterable(iterable);

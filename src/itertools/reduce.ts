@@ -11,7 +11,7 @@ export function reduce<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, 
 }
 
 export const count = <T>(iterable: Iterable<T>): number =>
-    reduce(iterable, (total) => ++total, 0);
+    reduce(iterable, total => ++total, 0);
 
 export const countIf = <T>(iterable: Iterable<T>, predicate: Predicate<T>): number =>
     count(filter(iterable, predicate));
@@ -32,7 +32,7 @@ export function none<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean
 
 export function any<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean {
     for (const item of iterable) {
-        if (predicate(item)) { return true; }
+        if (predicate(item)) return true;
     }
 
     return false;

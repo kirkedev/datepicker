@@ -16,8 +16,8 @@ export function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>)
 
 class TakeFromIterable<T> implements Iterable<T> {
     public constructor(
-        private readonly  iterable: Iterable<T>,
-        private readonly  predicate: Predicate<T>) {}
+        private readonly iterable: Iterable<T>,
+        private readonly predicate: Predicate<T>) {}
 
     public [Symbol.iterator] = () =>
         takeElements(this.iterable[Symbol.iterator](), this.predicate)

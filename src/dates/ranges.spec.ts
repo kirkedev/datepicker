@@ -2,7 +2,6 @@ import { chunk } from "itertools/chunk";
 import { dropUntil, dropWhile } from "itertools/drop";
 import { find } from "itertools/filter";
 import { map } from "itertools/map";
-import { partition } from "itertools/partition";
 import { countIf } from "itertools/reduce";
 import { first, last } from "itertools/slice";
 import { takeUntil, takeWhile } from "itertools/take";
@@ -22,15 +21,6 @@ test("lazily map a date range", () => {
     const dates = map(new DateRange(start, end), date => date.getDay());
 
     expect(Array.from(dates)).toEqual([6, 0, 1, 2, 3, 4, 5]);
-});
-
-test("partition a date range by month", () => {
-    const start = new Date(2019, 4, 29);
-    const end = new Date(2019, 5, 4);
-
-    const [may, june] = Array.from(partition(new DateRange(start, end), date => date.getMonth()));
-    expect(may.map(date => date.getDate())).toEqual([29, 30, 31]);
-    expect(june.map(date => date.getDate())).toEqual([1, 2, 3]);
 });
 
 test("chunk a date range by size", () => {
