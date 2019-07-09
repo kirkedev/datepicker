@@ -1,89 +1,58 @@
-import { chunk } from "itertools/chunk";
-import { dropUntil, dropWhile } from "itertools/drop";
-import { find } from "itertools/filter";
-import { map } from "itertools/map";
-import { countIf } from "itertools/reduce";
-import { first, last } from "itertools/slice";
-import { takeUntil, takeWhile } from "itertools/take";
 import { DateRange, DateSequence } from "./ranges";
 
-test("create an end-exclusive iterable date range between two calendar", () => {
+test("create an infinite sequence of dates starting from a specific date", () => {
+    const dates = new DateSequence(new Date(2019, 5, 1));
+    const iterator = dates[Symbol.iterator]();
+
+    expect(iterator.next().value.getDate()).toEqual(1);
+    expect(iterator.next().value.getDate()).toEqual(2);
+    expect(iterator.next().value.getDate()).toEqual(3);
+});
+
+test("create an end-exclusive iterable date range between two calendar dates", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 5, 8);
     const dates = Array.from(new DateRange(start, end)).map(date => date.getDate());
-
     expect(dates).toEqual([1, 2, 3, 4, 5, 6, 7]);
 });
 
-test("lazily map a date range", () => {
-    const start = new Date(2019, 5, 8);
-    const end = new Date(2019, 5, 15);
-    const dates = map(new DateRange(start, end), date => date.getDay());
-
-    expect(Array.from(dates)).toEqual([6, 0, 1, 2, 3, 4, 5]);
-});
-
-test("chunk a date range by size", () => {
+test("convert a sequence of dates to a finite range from a beginning and ending position", () => {
     const start = new Date(2019, 5, 1);
-    const end = new Date(2019, 5, 11);
-
-    const [first, second] = Array.from(chunk(new DateRange(start, end), 7));
-    expect(first.map(date => date.getDate())).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(second.map(date => date.getDate())).toEqual([8, 9, 10]);
+    const range = new DateSequence(start).slice(7, 14);
+    const dates = Array.from(range).map(date => date.getDate());
+    expect(dates).toEqual([8, 9, 10, 11, 12, 13, 14]);
 });
 
-test("get remaining days in a month from an infinite sequence", () => {
-    const range = new DateSequence(new Date(2019, 5, 28));
-
-    let dates = Array.from(takeWhile(range, date => date.getMonth() === 5));
-    expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
-
-    dates = Array.from(takeUntil(range, date => date.getMonth() === 6));
-    expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
-});
-
-test("start an infinite sequence at the next month", () => {
-    const dates = new DateSequence(new Date(2019, 5, 28));
-
-    let nextMonth = dropWhile(dates, date => date.getMonth() === 5);
-    let firstOfTheMonth = first(nextMonth);
-    expect(firstOfTheMonth.getMonth()).toEqual(6);
-    expect(firstOfTheMonth.getDate()).toEqual(1);
-
-    nextMonth = dropUntil(dates, date => date.getMonth() === 6);
-    firstOfTheMonth = first(nextMonth);
-    expect(firstOfTheMonth.getMonth()).toEqual(6);
-    expect(firstOfTheMonth.getDate()).toEqual(1);
-});
-
-test("slice a date sequence", () => {
-    const range = new DateSequence(new Date(2019, 5, 1)).slice(7, 14);
-    const dates = map(range, date => date.getDate());
-    expect(Array.from(dates)).toEqual([8, 9, 10, 11, 12, 13, 14]);
-});
-
-test("convert a date sequence to a sized range", () => {
+test("terminate a sequence of dates after the next seven dates", () => {
     const range = new DateSequence(new Date(2019, 5, 1)).take(7);
-    const dates = map(range, date => date.getDate());
-    expect(Array.from(dates)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    const dates = Array.from(range).map( date => date.getDate());
+    expect(dates).toEqual([1, 2, 3, 4, 5, 6, 7]);
 });
 
 test("terminate a date sequence at the beginning of the next month", () => {
-    const range = new DateSequence(new Date(2019, 5, 1)).takeUntil(new Date(2019, 6, 1));
-
-    const dates = map(range, date => date.getDate());
-    expect(last(dates)).toEqual(30);
-});
-
-test("find the first Saturday in an infinite date sequence", () => {
-    const dates = new DateSequence(new Date(2019, 5, 2));
-    const saturday = find(dates, date => date.getDay() === 6);
-    expect(saturday.getDate()).toEqual(8);
-});
-
-test("count the number of Saturdays in a month", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 6, 1);
-    const june = new DateSequence(start).takeUntil(end);
-    expect(countIf(june, date => date.getDay() === 6)).toEqual(5);
+    const range = new DateSequence(start).takeUntil(end);
+    const dates = Array.from(range).map(date => date.getDate());
+    expect(dates[dates.length - 1]).toEqual(30);
+});
+
+test("skip the next 7 days of a date sequence", () => {
+    const start = new Date(2019, 5, 1);
+    const dates = new DateSequence(start).drop(7);
+    const iterator = dates[Symbol.iterator]();
+
+    expect(iterator.next().value.getDate()).toEqual(8);
+    expect(iterator.next().value.getDate()).toEqual(9);
+    expect(iterator.next().value.getDate()).toEqual(10);
+});
+
+test("skip to the next month of a date sequence", () => {
+    const start = new Date(2019, 5, 1);
+    const dates = new DateSequence(start).dropUntil(new Date(2019, 6, 1));
+    const iterator = dates[Symbol.iterator]();
+    const next = iterator.next().value;
+
+    expect(next.getMonth()).toEqual(6);
+    expect(next.getDate()).toEqual(1);
 });
