@@ -2,10 +2,7 @@ function* flattenElements<T>(iterator: Iterator<Iterable<T>>): Iterator<T> {
     let result = iterator.next();
 
     while (!result.done) {
-        for (const item of result.value) {
-            yield item;
-        }
-
+        yield* result.value;
         result = iterator.next();
     }
 }
