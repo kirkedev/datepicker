@@ -4,9 +4,10 @@
   "description": "An example datepicker project",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf build dist",
-    "prebuild": "eslint src/**/*.ts && yarn run clean",
-    "build": "tsc",
+    "clean": "rm -rf src/**/*.js src/**/*.d.ts src/**/*.js.map",
+    "prebuild": "yarn run clean && eslint src/**/*.ts",
+    "build": "tsc && rollup -c rollup.config.js",
+    "postbuild": "yarn run clean && yarn run uglifyjs dist/react-datepicker.js > dist/react-datepicker.min.js",
     "test": "jest"
   },
   "author": "Andrew Kirkegaard",
@@ -19,8 +20,11 @@
     "http-server": "^0.11.1",
     "jest": "^24.8.0",
     "rollup": "^1.16.6",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "uglify-js": "^3.6.0"
   },
   "private": true,
   "workspaces": [
