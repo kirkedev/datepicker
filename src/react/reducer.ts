@@ -12,5 +12,6 @@ const reducer = (model: DatePickerViewModel, action: DatePickerAction): DatePick
     }
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const DatePickerReducer = (initial = new DatePickerViewModel()) =>
     useReducer(reducer, initial);

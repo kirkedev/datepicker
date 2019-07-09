@@ -11,7 +11,7 @@ function* mapElements<T, R>(iterator: Iterator<T>, operator: UnaryOperator<T, R>
 }
 
 class MappedIterable<T, R> implements Iterable<R> {
-    constructor(
+    public constructor(
         private readonly iterable: Iterable<T>,
         private readonly operator: UnaryOperator<T, R>) {}
 
@@ -19,8 +19,8 @@ class MappedIterable<T, R> implements Iterable<R> {
         mapElements(this.iterable[Symbol.iterator](), this.operator)
 }
 
-export const map = <T, R> (iterable: Iterable<T>, operator: UnaryOperator<T, R>) =>
+export const map = <T, R>(iterable: Iterable<T>, operator: UnaryOperator<T, R>): Iterable<R> =>
     new MappedIterable(iterable, operator);
 
-export const flatMap = <T, R> (iterable: Iterable<Iterable<T>>, operator: UnaryOperator<T, R>) =>
+export const flatMap = <T, R>(iterable: Iterable<Iterable<T>>, operator: UnaryOperator<T, R>): Iterable<R> =>
     map(flatten(iterable), operator);

@@ -11,11 +11,11 @@ function* enumerateElements<T>(iterator: Iterator<T>): Iterator<EnumeratedValue<
 }
 
 class EnumeratedIterable<T> implements Iterable<EnumeratedValue<T>> {
-    constructor(private readonly iterable: Iterable<T>) {}
+    public constructor(private readonly iterable: Iterable<T>) {}
 
     public [Symbol.iterator] = () =>
         enumerateElements(this.iterable[Symbol.iterator]())
 }
 
-export const enumerate = <T> (iterable: Iterable<T>) =>
+export const enumerate = <T> (iterable: Iterable<T>): Iterable<EnumeratedValue<T>> =>
     new EnumeratedIterable(iterable);

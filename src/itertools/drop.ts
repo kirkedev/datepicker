@@ -16,19 +16,19 @@ function* dropElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Itera
 }
 
 class DropFromIterable<T> implements Iterable<T> {
-    constructor(
+    public constructor(
         private readonly iterable: Iterable<T>,
         private readonly predicate: Predicate<T>) {}
 
     public [Symbol.iterator] = () =>
-        dropElements(this.iterable[Symbol.iterator](), this.predicate)
+        dropElements(this.iterable[Symbol.iterator](), this.predicate);
 }
 
-export const dropUntil = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
-    new DropFromIterable(iterable, (item) => !predicate(item));
+export const dropUntil = <T>(iterable: Iterable<T>, predicate: Predicate<T>): Iterable<T> =>
+    new DropFromIterable(iterable, item => !predicate(item));
 
-export const dropWhile = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
+export const dropWhile = <T>(iterable: Iterable<T>, predicate: Predicate<T>): Iterable<T> =>
     new DropFromIterable(iterable, predicate);
 
-export const drop = <T> (iterable: Iterable<T>, count: number) =>
+export const drop = <T>(iterable: Iterable<T>, count: number): Iterable<T> =>
     map(dropWhile(enumerate(iterable), ([index]) => index < count), ([, value]) => value);

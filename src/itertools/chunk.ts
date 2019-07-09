@@ -15,7 +15,7 @@ function* chunkElements<T>(iterator: Iterator<T>, size: number): Iterator<T[]> {
 }
 
 class ChunkedIterable<T> implements Iterable<T[]> {
-    constructor(
+    public constructor(
         private readonly iterable: Iterable<T>,
         private readonly size: number) {}
 
@@ -23,5 +23,5 @@ class ChunkedIterable<T> implements Iterable<T[]> {
         chunkElements(this.iterable[Symbol.iterator](), this.size)
 }
 
-export const chunk = <T> (iterable: Iterable<T>, size: number) =>
+export const chunk = <T>(iterable: Iterable<T>, size: number): Iterable<T[]> =>
     new ChunkedIterable(iterable, size);

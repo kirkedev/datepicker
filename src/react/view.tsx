@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { enumerate, map } from "itertools";
 import { DateViewModel } from "dates";
 import { DatePickerReducer } from "./reducer";
@@ -16,25 +16,25 @@ interface CalendarProps extends SelectDateHandler {
     calendar: Iterable<Iterable<DateViewModel>>;
 }
 
-export const Day = ({ day, onSelectDate = () => false }: DayProps) => {
+export const Day = ({ day, onSelectDate = () => false }: DayProps): ReactElement => {
     let className = "date";
     if (day.isToday) { className += " today"; }
     if (day.isSelected) { className += " selected"; }
-    if (day.isActiveMonth)  { className += " active"; }
+    if (day.isActiveMonth) { className += " active"; }
 
     return <span className={className} onClick={() => onSelectDate(day.date)}>{
         day.date.getDate()
     }</span>;
 };
 
-export const Calendar = ({ calendar, onSelectDate }: CalendarProps) =>
+export const Calendar = ({ calendar, onSelectDate }: CalendarProps): ReactElement =>
     <div className="calendar">{ map(enumerate(calendar), ([index, week]) =>
         <div key={index} className="week">{ map(week, (day) =>
             <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
         }</div>)
     }</div>;
 
-export const DatePicker = () => {
+export const DatePicker = (): ReactElement => {
     const [model, dispatch] = DatePickerReducer();
 
     return <div className="datepicker">

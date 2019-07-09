@@ -3,5 +3,5 @@ src/**/*.js
 build
 .*
 !.gitignore
-!.eslint.js
+!.eslintrc.js
 !jest.config.js

@@ -32,5 +32,5 @@ class PartitionedIterable<T, R> implements Iterable<T[]> {
         partitionElements(this.iterable[Symbol.iterator](), this.operator)
 }
 
-export const partition = <T, R> (iterable: Iterable<T>, operator: UnaryOperator<T, R>) =>
+export const partition = <T, R>(iterable: Iterable<T>, operator: UnaryOperator<T, R>): Iterable<T[]> =>
     new PartitionedIterable(iterable, operator);

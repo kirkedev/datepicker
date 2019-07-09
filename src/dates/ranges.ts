@@ -13,7 +13,7 @@ export class DateRange implements Iterable<Date> {
     private readonly start: Date;
     private readonly end: Date;
 
-    constructor(start: Date, end: Date) {
+    public constructor(start: Date, end: Date) {
         this.start = startOfDay(start);
         this.end = startOfDay(end);
     }
@@ -24,7 +24,7 @@ export class DateRange implements Iterable<Date> {
 export class DateSequence implements Iterable<Date> {
     private readonly start: Date;
 
-    constructor(start: Date) {
+    public constructor(start: Date) {
         this.start = startOfDay(start);
     }
 

@@ -28,6 +28,6 @@ class SelectDateAction extends PayloadAction<Date> {
 }
 
 export type DatePickerAction = PreviousMonthAction | NextMonthAction | SelectDateAction;
-export const previousMonth = () => new PreviousMonthAction();
-export const nextMonth = () => new NextMonthAction();
-export const selectDate = (date: Date) => new SelectDateAction(date);
+export const previousMonth = (): PreviousMonthAction => new PreviousMonthAction();
+export const nextMonth = (): NextMonthAction => new NextMonthAction();
+export const selectDate = (date: Date): SelectDateAction => new SelectDateAction(date);

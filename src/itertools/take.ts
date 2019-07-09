@@ -15,7 +15,7 @@ export function* takeElements<T>(iterator: Iterator<T>, predicate: Predicate<T>)
 }
 
 class TakeFromIterable<T> implements Iterable<T> {
-    constructor(
+    public constructor(
         private readonly  iterable: Iterable<T>,
         private readonly  predicate: Predicate<T>) {}
 
@@ -23,11 +23,11 @@ class TakeFromIterable<T> implements Iterable<T> {
         takeElements(this.iterable[Symbol.iterator](), this.predicate)
 }
 
-export const takeUntil = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
+export const takeUntil = <T>(iterable: Iterable<T>, predicate: Predicate<T>): Iterable<T> =>
     new TakeFromIterable(iterable, (item) => !predicate(item));
 
-export const takeWhile = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
+export const takeWhile = <T>(iterable: Iterable<T>, predicate: Predicate<T>): Iterable<T> =>
     new TakeFromIterable(iterable, predicate);
 
-export const take = <T> (iterable: Iterable<T>, count: number) =>
+export const take = <T>(iterable: Iterable<T>, count: number): Iterable<T> =>
     map(takeWhile(enumerate(iterable), ([index]) => index < count), ([, value]) => value);

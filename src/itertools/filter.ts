@@ -6,13 +6,13 @@ function* filterElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Ite
 
     while (!result.done) {
         const value = result.value;
-        if (predicate(value)) { yield value; }
+        if (predicate(value)) yield value;
         result = iterator.next();
     }
 }
 
 class FilteredIterable<T> implements Iterable<T> {
-    constructor(
+    public constructor(
         private readonly iterable: Iterable<T>,
         private readonly predicate: Predicate<T>) {}
 
@@ -20,8 +20,8 @@ class FilteredIterable<T> implements Iterable<T> {
         filterElements(this.iterable[Symbol.iterator](), this.predicate)
 }
 
-export const filter = <T> (iterable: Iterable<T>, predicate: Predicate<T>) =>
+export const filter = <T> (iterable: Iterable<T>, predicate: Predicate<T>): FilteredIterable<T> =>
     new FilteredIterable(iterable, predicate);
 
-export const find = <T>(iterable: Iterable<T>, predicate: Predicate<T>) =>
+export const find = <T>(iterable: Iterable<T>, predicate: Predicate<T>): T =>
     first(filter(iterable, predicate));
