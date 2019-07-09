@@ -1,8 +1,8 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useReducer } from "react";
 import { enumerate, map } from "itertools";
-import { DateViewModel } from "dates";
-import { DatePickerReducer } from "./reducer";
+import { DateViewModel, DatePickerViewModel } from "dates";
 import { previousMonth, nextMonth, selectDate } from "./action";
+import reducer from "./reducer";
 
 interface SelectDateHandler {
     onSelectDate?: (date: Date) => any;
@@ -35,7 +35,7 @@ export const Calendar = ({ calendar, onSelectDate }: CalendarProps): ReactElemen
     }</div>;
 
 export const DatePicker = (): ReactElement => {
-    const [model, dispatch] = DatePickerReducer();
+    const [model, dispatch] = useReducer(reducer, new DatePickerViewModel());
 
     return <div className="datepicker">
         <h1 className="header">{model.title}</h1>
