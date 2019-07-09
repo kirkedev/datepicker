@@ -1,4 +1,4 @@
-import { startOfDay } from "./util";
+import { startOfDay } from "./lib";
 
 function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
     const date = startOfDay(start);
