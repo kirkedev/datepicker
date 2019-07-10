@@ -15,15 +15,14 @@ module.exports = {
         }
     },
     rules: {
+        "object-curly-spacing": ["error", "always"],
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "no-multi-spaces": "error",
         "brace-style": ["error", "1tbs", { allowSingleLine: true }],
         "comma-dangle": ["error", { arrays: "ignore" }],
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-parameter-properties": "off",
-        "@typescript-eslint/explicit-function-return-type": ["error", {
-            "allowExpressions": true
-        }],
+        "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
     },
     overrides: [{
         files: ["*.spec.ts", "*.spec.tsx"],
