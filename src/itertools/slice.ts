@@ -2,7 +2,7 @@ import { drop } from "./drop";
 import { take } from "./take";
 
 export const slice = <T>(iterable: Iterable<T>, start: number, end?: number): Iterable<T> =>
-    end === undefined ? drop(iterable, start) : take(drop(iterable, start), end - start - 1);
+    end === undefined ? drop(iterable, start) : take(drop(iterable, start), end - start);
 
 export const first = <T>(iterable: Iterable<T>): T =>
     iterable[Symbol.iterator]().next().value;

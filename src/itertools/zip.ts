@@ -2,7 +2,7 @@ function* mergeIterators<T, U>(first: Iterator<T>, second: Iterator<U>): Iterato
     let firstResult = first.next();
     let secondResult = second.next();
 
-    while (!firstResult.done && !secondResult.done) {
+    while (!firstResult.done || !secondResult.done) {
         yield [firstResult.value, secondResult.value];
         firstResult = first.next();
         secondResult = second.next();
