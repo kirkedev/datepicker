@@ -1,5 +1,6 @@
-import nodeResolve from 'rollup-plugin-node-resolve';
+import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
+import compiler from "@ampproject/rollup-plugin-closure-compiler";
 
 export default {
     input: 'src/react/index.js',
@@ -16,6 +17,11 @@ export default {
             namedExports: {
                 'node_modules/react/index.js': ['React', 'useReducer'],
             }
+        }),
+        compiler({
+            compilationLevel: "advanced",
+            strictModeInput: true,
+            jscompOff: "checkVars"
         })
     ]
 };
