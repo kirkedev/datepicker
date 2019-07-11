@@ -1,4 +1,4 @@
-import { Predicate, UnaryOperator, BinaryOperator } from "./index";
+import { Predicate, UnaryOperator, BinaryOperator, filter } from "./index";
 import { map } from "./map";
 
 export function reduce<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R {
@@ -39,3 +39,6 @@ export function any<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean 
 
 export const all = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
     none(iterable, (item) => !predicate(item));
+
+export const one = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
+    Array.from(filter(iterable, predicate)).length === 1;

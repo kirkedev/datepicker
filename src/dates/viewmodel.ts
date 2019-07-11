@@ -34,8 +34,6 @@ export class DatePickerViewModel {
     private readonly month: number;
     private readonly year: number;
 
-    public constructor();
-    public constructor(month: number, year: number, selected?: Date);
     public constructor(month?: number, year?: number, selected?: Date) {
         const today = new Date();
         this.month = month === undefined ? today.getMonth() + 1 : month;
