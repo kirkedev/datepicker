@@ -20,6 +20,8 @@
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
     "eslint": "^5.0.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
     "http-server": "^0.11.1",
     "jest": "^24.8.0",
     "rollup": "^1.16.6",
