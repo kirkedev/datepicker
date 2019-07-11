@@ -1,8 +1,7 @@
 import React, { ReactElement, useReducer } from "react";
 import { enumerate, map } from "itertools";
 import { DateViewModel, DatePickerViewModel } from "dates";
-import { previousMonth, nextMonth, selectDate } from "./action";
-import reducer from "./reducer";
+import { reducer, previousMonth, nextMonth, selectDate } from "./reducer";
 
 interface SelectDateHandler {
     onSelectDate?: (date: Date) => any;
