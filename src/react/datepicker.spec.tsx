@@ -85,9 +85,10 @@ defineFeature(feature, test => {
 
     test("Select a date", ({ given, when, then, and })=> {
         let datePicker: ReactElement;
+        const onSelectDate = jest.fn();
 
         given("a datepicker for June 2019", () => {
-            datePicker = <DatePicker month={6} year={2019}/>;
+            datePicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
             renderer = create(datePicker);
             const submit = renderer.root.findByProps({ className: "submit" });
 
@@ -114,6 +115,14 @@ defineFeature(feature, test => {
         and("the submit button is enabled", () => {
             const submit = renderer.root.findByProps({ className: "submit" });
             expect(submit.props.disabled).toBe(false);
+        });
+
+        when("I click the submit button", () => {
+            renderer.root.findByProps({ className: "submit" }).props!.onClick();
+        });
+
+        then("June 6 is chosen", () => {
+            expect(onSelectDate).toHaveBeenCalledWith(new Date(2019, 5, 6));
         });
     });
 });

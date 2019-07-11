@@ -16,3 +16,5 @@ Feature: React DatePicker
     When I select June 6
     Then June 6 is highlighted
     And the submit button is enabled
+    When I click the submit button
+    Then June 6 is chosen
