@@ -1,11 +1,11 @@
 import { startOfDay } from "./lib";
 
-function* DateIterator(start: Date, end?: Date, step = 1): Iterator<Date> {
+function* DateIterator(start: Date, end?: Date): Iterator<Date> {
     const date = startOfDay(start);
 
     while (end === undefined || date < end) {
         yield new Date(date);
-        date.setDate(date.getDate() + step);
+        date.setDate(date.getDate() + 1);
     }
 }
 
