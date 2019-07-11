@@ -9,6 +9,8 @@
     "@types/react": "^16.8.21",
     "@types/react-dom": "^16.8.4",
     "@types/react-test-renderer": "^16.8.2",
+    "eslint-plugin-react": "^7.14.2",
+    "jest-cucumber": "^2.0.11",
     "react-test-renderer": "^16.8.6"
   },
   "resolutions": {

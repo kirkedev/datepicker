@@ -12,11 +12,20 @@ interface DayProps extends SelectDateHandler {
     day: DateViewModel;
 }
 
+interface WeekProps extends SelectDateHandler {
+    week: Iterable<DateViewModel>;
+}
+
 interface CalendarProps extends SelectDateHandler {
     calendar: Iterable<Iterable<DateViewModel>>;
 }
 
-export const Day = ({ day, onSelectDate = () => false }: DayProps): ReactElement => {
+interface DatePickerProps extends SelectDateHandler {
+    month?: number;
+    year?: number;
+}
+
+const Day = ({ day, onSelectDate = () => false }: DayProps): ReactElement => {
     let className = "date";
     if (day.isToday) { className += " today"; }
     if (day.isSelected) { className += " selected"; }
@@ -27,20 +36,39 @@ export const Day = ({ day, onSelectDate = () => false }: DayProps): ReactElement
     }</span>;
 };
 
-export const Calendar = ({ calendar, onSelectDate }: CalendarProps): ReactElement =>
-    <div className="calendar">{ map(enumerate(calendar), ([index, week]) =>
-        <div key={index} className="week">{ map(week, (day) =>
-            <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
-        }</div>)
+const WeekDays = (): ReactElement =>
+    <div className="weekdays">
+        <span>Sun</span>
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+    </div>;
+
+const Week = ({ week, onSelectDate }: WeekProps): ReactElement =>
+    <div className="week">{map(week, day =>
+        <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
     }</div>;
 
-export const DatePicker = (): ReactElement => {
-    const [model, dispatch] = useReducer(reducer, new DatePickerViewModel());
+const Calendar = ({ calendar, onSelectDate }: CalendarProps): ReactElement =>
+    <div className="calendar">
+        <WeekDays/>
+        <div className="dates">{ map(enumerate(calendar), ([index, week]) =>
+            <Week key={index} week={week} onSelectDate={onSelectDate}/>)
+        }</div>;
+    </div>;
+
+export const DatePicker = ({ month, year, onSelectDate = () => false }: DatePickerProps): ReactElement => {
+    const [model, dispatch] = useReducer(reducer, new DatePickerViewModel(month, year));
 
     return <div className="datepicker">
-        <h1 className="header">{model.title}</h1>
+        <h1 className="title">{model.title}</h1>
         <button className="previous" onClick={() => dispatch(previousMonth())}/>
         <button className="next" onClick={() => dispatch(nextMonth())}/>
         <Calendar calendar={model.dates} onSelectDate={(date: Date) => dispatch(selectDate(date))}/>
+        <button className="submit" disabled={model.selected == null}
+            onClick={() => { if (model.selected != null) onSelectDate(model.selected) }} />
     </div>;
 };
