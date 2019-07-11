@@ -5,7 +5,7 @@ import { enumerate } from "./enumerate";
 import { filter, find } from "./filter";
 import { flatMap, map } from "./map";
 import { all, some, count, countIf, none, one } from "./reduce";
-import {elementAt, first, last, slice} from "./slice";
+import { elementAt, first, last, slice } from "./slice";
 import { take, takeUntil, takeWhile } from "./take";
 import { zip } from "./zip";
 
@@ -18,27 +18,30 @@ test("chunk a date range by size", () => {
     expect(second.map(date => date.getDate())).toEqual([8, 9, 10]);
 });
 
-test("start an infinite sequence at the next month", () => {
-    const dates = new DateSequence(new Date(2019, 5, 28));
-    let nextMonth = dropWhile(dates, date => date.getMonth() === 5);
-    let theFirst = first(nextMonth);
-    expect(theFirst.getMonth()).toEqual(6);
-    expect(theFirst.getDate()).toEqual(1);
+describe("start an infinite sequence at the next month", () => {
+    let dates: DateSequence;
 
-    nextMonth = dropUntil(dates, date => date.getMonth() === 6);
-    theFirst = first(nextMonth);
-    expect(theFirst.getMonth()).toEqual(6);
-    expect(theFirst.getDate()).toEqual(1);
+    beforeEach(() => {
+        dates = new DateSequence(new Date(2019, 5, 28));
+    });
 
-    nextMonth= drop(dates, 3);
-    theFirst = first(nextMonth);
-    expect(theFirst.getMonth()).toEqual(6);
-    expect(theFirst.getDate()).toEqual(1);
+    test("start an infinite sequence at the next month with drop while", () => {
+        const date = first(dropWhile(dates, date => date.getMonth() === 5));
+        expect(date.getMonth()).toEqual(6);
+        expect(date.getDate()).toEqual(1);
+    });
 
-    nextMonth= slice(dates, 3);
-    theFirst = first(nextMonth);
-    expect(theFirst.getMonth()).toEqual(6);
-    expect(theFirst.getDate()).toEqual(1);
+    test("start an infinite sequence at the next month with drop until", () => {
+        const date = first(dropUntil(dates, date => date.getMonth() === 6));
+        expect(date.getMonth()).toEqual(6);
+        expect(date.getDate()).toEqual(1);
+    });
+
+    test("start an infinite sequence at the next month with slice", () => {
+        const date = first(slice(dates, 3));
+        expect(date.getMonth()).toEqual(6);
+        expect(date.getDate()).toEqual(1);
+    });
 });
 
 test("drop is finished when there are no remaining elements", () => {
@@ -112,29 +115,57 @@ test("get a date at a specific index", () => {
     expect(date.getDate()).toBe(6);
 });
 
-test("boolean comparison aggregators", () => {
-    const start = new Date(2019, 5, 1);
-    const end = new Date(2019, 6, 1);
-    const dates = new DateRange(start, end);
+describe("boolean comparison aggregators", () => {
+    let dates: Iterable<Date>;
 
-    expect(all(dates, date => date.getMonth() === 5)).toBe(true);
-    expect(none(dates, date => date.getMonth() === 5)).toBe(false);
-    expect(some(dates, date => date.getDay() === 0)).toBe(true);
-    expect(one(dates, date => date.getDate() === 6)).toBe(true);
-    expect(none(dates, date => date.getMonth() === 6)).toBe(true);
-    expect(some(dates, date => date.getMonth() === 6)).toBe(false);
+    beforeEach(() => {
+        const start = new Date(2019, 5, 1);
+        const end = new Date(2019, 6, 1);
+        dates = new DateRange(start, end);
+    });
+
+    test("all", () => {
+        expect(all(dates, date => date.getMonth() === 5)).toBe(true);
+        expect(all(dates, date => date.getMonth() === 6)).toBe(false);
+    });
+
+    test("none", () => {
+        expect(none(dates, date => date.getMonth() === 5)).toBe(false);
+        expect(none(dates, date => date.getMonth() === 6)).toBe(true);
+    });
+
+    test("some", () => {
+        expect(some(dates, date => date.getDay() === 0)).toBe(true);
+        expect(some(dates, date => date.getMonth() === 6)).toBe(false);
+    });
+
+    test("one", () => {
+        expect(one(dates, date => date.getDate() === 6)).toBe(true);
+        expect(one(dates, date => date.getDay() === 6)).toBe(false);
+    });
 });
 
-test("get remaining days in a month from an infinite sequence", () => {
-    const range = new DateSequence(new Date(2019, 5, 28));
-    let dates = Array.from(takeWhile(range, date => date.getMonth() === 5));
-    expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
+describe("get remaining days in a month from an infinite sequence", () => {
+    let range: Iterable<Date>;
 
-    dates = Array.from(takeUntil(range, date => date.getMonth() === 6));
-    expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
+    beforeEach(() => {
+        range = new DateSequence(new Date(2019, 5, 28));
+    });
 
-    dates = Array.from(take(range, 3));
-    expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
+    test("get remaining days in a month from an infinite sequence with take while", () => {
+        const dates = Array.from(takeWhile(range, date => date.getMonth() === 5));
+        expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
+    });
+
+    test("get remaining days in a month from an infinite sequence with take until", () => {
+        const dates = Array.from(takeUntil(range, date => date.getMonth() === 6));
+        expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
+    });
+
+    test("get remaining days in a month from an infinite sequence with take", () => {
+        const dates = Array.from(take(range, 3));
+        expect(dates.map(date => date.getDate())).toEqual([28, 29, 30]);
+    });
 });
 
 test("combine two months into one sequence", () => {
