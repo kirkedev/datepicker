@@ -113,6 +113,7 @@ test("boolean comparison aggregators", () => {
     const dates = new DateRange(start, end);
 
     expect(all(dates, date => date.getMonth() === 5)).toBe(true);
+    expect(none(dates, date => date.getMonth() === 5)).toBe(false);
     expect(some(dates, date => date.getDay() === 0)).toBe(true);
     expect(one(dates, date => date.getDate() === 6)).toBe(true);
     expect(none(dates, date => date.getMonth() === 6)).toBe(true);
