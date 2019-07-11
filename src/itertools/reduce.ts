@@ -1,4 +1,5 @@
-import { Predicate, UnaryOperator, BinaryOperator, filter } from "./index";
+import { Predicate, UnaryOperator, BinaryOperator } from "./index";
+import { filter } from "./filter";
 import { map } from "./map";
 
 export function reduce<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R {
