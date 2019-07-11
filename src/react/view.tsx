@@ -24,17 +24,6 @@ interface DatePickerProps extends SelectDateHandler {
     year?: number;
 }
 
-const Day = ({ day, onSelectDate }: DayProps): ReactElement => {
-    let className = "date";
-    if (day.isToday) { className += " today"; }
-    if (day.isSelected) { className += " selected"; }
-    if (day.isActiveMonth) { className += " active"; }
-
-    return <span className={className} onClick={() => onSelectDate(day.date)}>{
-        day.date.getDate()
-    }</span>;
-};
-
 const WeekDays = (): ReactElement =>
     <div className="weekdays">
         <span>Sun</span>
@@ -45,6 +34,17 @@ const WeekDays = (): ReactElement =>
         <span>Fri</span>
         <span>Sat</span>
     </div>;
+
+const Day = ({ day, onSelectDate }: DayProps): ReactElement => {
+    let className = "date";
+    if (day.isToday) { className += " today"; }
+    if (day.isSelected) { className += " selected"; }
+    if (day.isActiveMonth) { className += " active"; }
+
+    return <span className={className} onClick={() => onSelectDate(day.date)}>{
+        day.date.getDate()
+    }</span>;
+};
 
 const Week = ({ week, onSelectDate }: WeekProps): ReactElement =>
     <div className="week">{ map(week, day =>
