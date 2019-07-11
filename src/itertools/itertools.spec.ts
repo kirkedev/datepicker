@@ -34,6 +34,11 @@ test("start an infinite sequence at the next month", () => {
     theFirst = first(nextMonth);
     expect(theFirst.getMonth()).toEqual(6);
     expect(theFirst.getDate()).toEqual(1);
+
+    nextMonth= slice(dates, 3);
+    theFirst = first(nextMonth);
+    expect(theFirst.getMonth()).toEqual(6);
+    expect(theFirst.getDate()).toEqual(1);
 });
 
 test("drop is finished when there are no remaining elements", () => {
