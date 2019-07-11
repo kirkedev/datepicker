@@ -1,14 +1,17 @@
 import { Predicate, UnaryOperator, BinaryOperator } from "./index";
 import { filter } from "./filter";
 import { map } from "./map";
+import { last } from "./slice";
 
-export function reduce<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R {
+export function* accumulate<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): Iterable<R> {
     for (const item of iterable) {
         value = operator(value, item);
+        yield value;
     }
-
-    return value;
 }
+
+export const reduce = <T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R =>
+    last(accumulate(iterable, operator, value));
 
 export const sum = (iterable: Iterable<number>): number =>
     reduce(iterable, (value, item) => value + item, 0);
