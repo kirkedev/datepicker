@@ -48,7 +48,7 @@ const WeekDays = (): ReactElement =>
     </div>;
 
 const Week = ({ week, onSelectDate }: WeekProps): ReactElement =>
-    <div className="week">{map(week, day =>
+    <div className="week">{ map(week, day =>
         <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
     }</div>;
 
@@ -69,6 +69,6 @@ export const DatePicker = ({ month, year, onSelectDate = () => false }: DatePick
         <button className="next" onClick={() => dispatch(nextMonth())}/>
         <Calendar calendar={model.dates} onSelectDate={(date: Date) => dispatch(selectDate(date))}/>
         <button className="submit" disabled={model.selected == null}
-            onClick={() => { if (model.selected != null) onSelectDate(model.selected) }} />
+            onClick={() => onSelectDate(model.selected as Date)} />
     </div>;
 };
