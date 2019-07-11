@@ -3,6 +3,7 @@ src/**/*.js
 src/**/*.d.ts
 src/**/*.js.map
 dist
+coverage
 .*
 !.gitignore
 !.eslintrc.js
