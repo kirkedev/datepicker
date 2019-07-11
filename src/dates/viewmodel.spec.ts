@@ -2,8 +2,8 @@ import { find, flatten } from "itertools";
 import { startOfDay, DatePickerViewModel } from "dates";
 
 test("create formatted calendar for a calendar month", () => {
-    const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = Array.from(datePicker.dates).map( week =>
+    const datepicker = new DatePickerViewModel(6, 2019);
+    const dates = Array.from(datepicker.dates).map( week =>
         Array.from(week).map(({ date }) => date.getDate()));
 
     expect(dates).toEqual([
@@ -48,27 +48,37 @@ test("create formatted calendar for the next calendar month", () => {
 
 test("select a date", () => {
     const date = new Date(2019, 5, 6);
-    const datePicker = new DatePickerViewModel(6, 2019).select(date);
-    const selected = find(flatten(datePicker.dates), (day) => day.isSelected);
+    const datepicker = new DatePickerViewModel(6, 2019).select(date);
+    const selected = find(flatten(datepicker.dates), (day) => day.isSelected);
     expect(selected.date.getDate()).toEqual(6);
 });
 
 test("highlight today", () => {
     const today = startOfDay(new Date());
-    const datePicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
-    const date = find(flatten(datePicker.dates), (day) => day.isToday);
+    const datepicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
+    const date = find(flatten(datepicker.dates), (day) => day.isToday);
     expect(date.date).toEqual(today);
 });
 
 test("display formatted calendar title", () => {
-    const datePicker = new DatePickerViewModel(6, 2019);
-    expect(datePicker.title).toEqual("June 2019");
+    const datepicker = new DatePickerViewModel(6, 2019);
+    expect(datepicker.title).toEqual("June 2019");
 });
 
 test("mark days in the active month", () =>  {
-    const datePicker = new DatePickerViewModel(6, 2019);
-    const dates = Array.from(flatten(datePicker.dates));
+    const datepicker = new DatePickerViewModel(6, 2019);
+    const dates = Array.from(flatten(datepicker.dates));
     expect(Array.from(dates.slice(0, 6)).some(date => date.isActiveMonth)).toBe(false);
     expect(Array.from(dates.slice(6, 36)).every((date) => date.isActiveMonth)).toBe(true);
     expect(Array.from(dates.slice(36)).some((date) => date.isActiveMonth)).toBe(false);
+});
+
+test("previous month should cycle to December of prior year from January", () => {
+    const datepicker = new DatePickerViewModel(1, 2019).previous();
+    expect(datepicker.title).toEqual("December 2018");
+});
+
+test("next month should cycle to January of next year from December", () => {
+    const datepicker = new DatePickerViewModel(12, 2018).next();
+    expect(datepicker.title).toEqual("January 2019");
 });
