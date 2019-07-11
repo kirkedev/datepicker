@@ -28,6 +28,7 @@ module.exports = {
         files: ["*.spec.ts", "*.spec.tsx"],
         rules: {
             "no-multi-spaces": "off",
+            "indent": "off",
             "@typescript-eslint/no-non-null-assertion": "off"
         }
     }]

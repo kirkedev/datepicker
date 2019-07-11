@@ -16,7 +16,7 @@ test("create formatted calendar for a calendar month", () => {
     ]);
 });
 
-test("create formatted calendar for the previousMonth calendar month", () => {
+test("create formatted calendar for the previous calendar month", () => {
     const previous = new DatePickerViewModel(6, 2019).previous().dates;
     const dates = Array.from(previous).map(week =>
         Array.from(week).map(({ date }) => date.getDate()));
@@ -31,7 +31,7 @@ test("create formatted calendar for the previousMonth calendar month", () => {
     ]);
 });
 
-test("create formatted calendar for the nextMonth calendar month", () => {
+test("create formatted calendar for the next calendar month", () => {
     const next = new DatePickerViewModel(6, 2019).next().dates;
     const dates = Array.from(next).map(week =>
         Array.from(week).map(({ date }) => date.getDate()));
