@@ -36,6 +36,11 @@ test("start an infinite sequence at the next month", () => {
     expect(theFirst.getDate()).toEqual(1);
 });
 
+test("drop is finished when there are no remaining elements", () => {
+    const dates = new DateSequence(new Date(2019, 5, 28)).take(7);
+    expect(first(drop(dates, 10))).toBeUndefined();
+});
+
 test("enumerate a date sequence", () => {
     const start = new Date(2019, 5, 1);
     const dates = enumerate(new DateSequence(start));
