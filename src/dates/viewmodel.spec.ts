@@ -1,5 +1,6 @@
 import { find, flatten } from "itertools";
 import { startOfDay, DatePickerViewModel } from "dates";
+import { months } from "./viewmodel";
 
 test("create formatted calendar for a calendar month", () => {
     const datepicker = new DatePickerViewModel(6, 2019);
@@ -81,4 +82,10 @@ test("previous month should cycle to December of prior year from January", () =>
 test("next month should cycle to January of next year from December", () => {
     const datepicker = new DatePickerViewModel(12, 2018).next();
     expect(datepicker.title).toEqual("January 2019");
+});
+
+test("default datepicker should be current date and month", () => {
+    const datepicker = new DatePickerViewModel();
+    const today = new Date();
+    expect(datepicker.title).toEqual(`${months[today.getMonth()]} ${today.getFullYear()}`);
 });
