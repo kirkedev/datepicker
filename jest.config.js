@@ -3,7 +3,7 @@ module.exports = {
         "<rootDir>/src"
     ],
     "transform": {
-        "^.+\\.tsx?$": "ts-jest",
+        "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "src/.*(test|spec)\\.tsx?$",
     "moduleFileExtensions": [
@@ -12,5 +12,5 @@ module.exports = {
         "js",
         "jsx",
     ],
-    "collectCoverage": true,
+    "collectCoverage": true
 };

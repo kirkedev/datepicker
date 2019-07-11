@@ -50,15 +50,15 @@ test("create formatted calendar for the next calendar month", () => {
 test("select a date", () => {
     const date = new Date(2019, 5, 6);
     const datepicker = new DatePickerViewModel(6, 2019).select(date);
-    const selected = find(flatten(datepicker.dates), (day) => day.isSelected);
+    const selected = find(flatten(datepicker.dates), day => day.isSelected);
     expect(selected.date.getDate()).toEqual(6);
 });
 
 test("highlight today", () => {
     const today = startOfDay(new Date());
     const datepicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
-    const date = find(flatten(datepicker.dates), (day) => day.isToday);
-    expect(date.date).toEqual(today);
+    const day = find(flatten(datepicker.dates), day => day.isToday);
+    expect(day.date).toEqual(today);
 });
 
 test("display formatted calendar title", () => {
@@ -79,12 +79,12 @@ test("previous month should cycle to December of prior year from January", () =>
     expect(datepicker.title).toEqual("December 2018");
 });
 
-test("next month should cycle to January of next year from December", () => {
+test("next month should cycle to January of following year from December", () => {
     const datepicker = new DatePickerViewModel(12, 2018).next();
     expect(datepicker.title).toEqual("January 2019");
 });
 
-test("default datepicker should be current date and month", () => {
+test("default datepicker should show current date and month", () => {
     const datepicker = new DatePickerViewModel();
     const today = new Date();
     expect(datepicker.title).toEqual(`${months[today.getMonth()]} ${today.getFullYear()}`);

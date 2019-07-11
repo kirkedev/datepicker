@@ -70,7 +70,7 @@ test("find the first Saturday in an infinite date sequence", () => {
     expect(saturday.getDate()).toEqual(8);
 });
 
-test("return undefined when a date isn't found in a sequence", () => {
+test("return undefined when a date isn't found in a range", () => {
     const dates = new DateSequence(new Date(2019, 5, 2)).take(6);
     const saturday = find(dates, date => date.getDay() === 6);
     expect(saturday).toBeUndefined();
@@ -103,13 +103,13 @@ test("count the number of Saturdays in a month", () => {
     expect(countIf(june, date => date.getDay() === 6)).toEqual(5);
 });
 
-test("slice an infinite date sequence with an iterable", () => {
+test("get a slice of an infinite date sequence", () => {
     const sequence = new DateSequence(new Date(2019, 5, 1));
     const dates = Array.from(map(slice(sequence, 7, 14), date => date.getDate()));
     expect(dates).toEqual([8, 9, 10, 11, 12, 13, 14]);
 });
 
-test("get a date at a specific index", () => {
+test("get the date at a specific position in a sequence", () => {
     const sequence = new DateSequence(new Date(2019, 5, 1));
     const date = elementAt(sequence, 5);
     expect(date.getDate()).toBe(6);
