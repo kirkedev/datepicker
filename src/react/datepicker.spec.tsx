@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { act, create, ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import { DatePicker } from "./view";
-import { none, one } from "../itertools/reduce";
+import { none, one } from "itertools/reduce";
 import { defineFeature, loadFeature } from "jest-cucumber";
 
 const getTitle = (instance: ReactTestInstance): string =>
@@ -16,13 +16,15 @@ const parseDates = (instance: ReactTestInstance): number[] => getDates(instance)
     .map(date => parseInt(date, 10));
 
 defineFeature(loadFeature("src/react/datepicker.feature"), test => {
+    const onSelectDate = jest.fn();
+
     test("Go to previous month", ({ given, when, then, and }) => {
         let datepicker: ReactElement;
         let renderer: ReactTestRenderer;
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            datepicker = <DatePicker month={6} year={2019}/>;
+            datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
             renderer = create(datepicker);
             instance = renderer.root;
 
@@ -58,7 +60,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            datepicker = <DatePicker month={6} year={2019}/>;
+            datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
             renderer = create(datepicker);
             instance = renderer.root;
 
@@ -92,8 +94,6 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         let datepicker: ReactElement;
         let renderer: ReactTestRenderer;
         let instance: ReactTestInstance;
-
-        const onSelectDate = jest.fn();
 
         given("a datepicker for June 2019", () => {
             datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;

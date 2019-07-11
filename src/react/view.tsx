@@ -4,7 +4,7 @@ import { DateViewModel, DatePickerViewModel } from "dates";
 import { reducer, previousMonth, nextMonth, selectDate } from "./reducer";
 
 interface SelectDateHandler {
-    onSelectDate?: (date: Date) => any;
+    onSelectDate: (date: Date) => any;
 }
 
 interface DayProps extends SelectDateHandler {
@@ -24,7 +24,7 @@ interface DatePickerProps extends SelectDateHandler {
     year?: number;
 }
 
-const Day = ({ day, onSelectDate = () => false }: DayProps): ReactElement => {
+const Day = ({ day, onSelectDate }: DayProps): ReactElement => {
     let className = "date";
     if (day.isToday) { className += " today"; }
     if (day.isSelected) { className += " selected"; }
@@ -59,7 +59,7 @@ const Calendar = ({ calendar, onSelectDate }: CalendarProps): ReactElement =>
         }</div>;
     </div>;
 
-export const DatePicker = ({ month, year, onSelectDate = () => false }: DatePickerProps): ReactElement => {
+export const DatePicker = ({ month, year, onSelectDate }: DatePickerProps): ReactElement => {
     const [model, dispatch] = useReducer(reducer, new DatePickerViewModel(month, year));
 
     return <div className="datepicker">
