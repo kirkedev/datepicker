@@ -50,7 +50,7 @@ export class DatePickerViewModel {
         const month = this.month - 1;
         const selected = this.selected;
 
-        const dates = map(calendar(this.month, this.year), (date) => {
+        const dates = map(calendar(this.month, this.year), date => {
             const isSelected = !!selected && isSameDate(date, selected);
             const isToday = isSameDate(date, today);
             const isActiveMonth = date.getMonth() === month;

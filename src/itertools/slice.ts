@@ -19,3 +19,6 @@ export function last<T>(iterable: Iterable<T>): T {
 
     return value;
 }
+
+export const elementAt = <T>(iterable: Iterable<T>, index: number): T =>
+    first(drop(iterable, index));
