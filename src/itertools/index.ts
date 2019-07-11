@@ -8,7 +8,7 @@ export { filter, find } from "./filter";
 export { flatten } from "./flatten";
 export { enumerate } from "./enumerate";
 export { map, flatMap } from "./map";
-export { reduce, count, countIf, sum, sumBy, all, none, any } from "./reduce";
+export { reduce, count, countIf, sum, sumBy, all, none, some } from "./reduce";
 export { first, last, slice } from "./slice";
 export { take, takeWhile, takeUntil } from "./take";
 export { zip } from "./zip";

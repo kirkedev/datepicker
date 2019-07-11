@@ -4,7 +4,7 @@ import { drop, dropUntil, dropWhile } from "./drop";
 import { enumerate } from "./enumerate";
 import { filter, find } from "./filter";
 import { flatMap, map } from "./map";
-import { all, any, count, countIf, none, one } from "./reduce";
+import { all, some, count, countIf, none, one } from "./reduce";
 import { first, last, slice } from "./slice";
 import { take, takeUntil, takeWhile } from "./take";
 import { zip } from "./zip";
@@ -102,10 +102,10 @@ test("boolean comparison aggregators", () => {
     const dates = new DateRange(start, end);
 
     expect(all(dates, (date => date.getMonth() === 5))).toBe(true);
-    expect(any(dates, (date => date.getDay() === 0))).toBe(true);
+    expect(some(dates, (date => date.getDay() === 0))).toBe(true);
     expect(one(dates, (date => date.getDate() === 6))).toBe(true);
     expect(none(dates, (date => date.getMonth() === 6))).toBe(true);
-    expect(any(dates, (date => date.getMonth() === 6))).toBe(false);
+    expect(some(dates, (date => date.getMonth() === 6))).toBe(false);
 });
 
 test("get remaining days in a month from an infinite sequence", () => {

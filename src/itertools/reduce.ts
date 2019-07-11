@@ -29,7 +29,7 @@ export function none<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean
     return true;
 }
 
-export function any<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean {
+export function some<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean {
     for (const item of iterable) {
         if (predicate(item)) return true;
     }
