@@ -12,10 +12,11 @@ import { zip } from "./zip";
 test("chunk a date range by size", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 5, 11);
-    const [first, second] = Array.from(chunk(new DateRange(start, end), 7));
+    const dates = map(new DateRange(start, end), date => date.getDate());
 
-    expect(first.map(date => date.getDate())).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(second.map(date => date.getDate())).toEqual([8, 9, 10]);
+    const [first, second] = Array.from(chunk(dates, 7));
+    expect(first).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(second).toEqual([8, 9, 10]);
 });
 
 describe("start an infinite sequence at the next month", () => {
@@ -59,8 +60,10 @@ test("enumerate a date sequence", () => {
 test("make every day Friday", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 6, 1);
+
     const fridays = filter(new DateRange(start, end), date => date.getDay() === 5);
-    expect(Array.from(fridays).map(date => date.getDate())).toEqual([7, 14, 21, 28]);
+    const dates = map(fridays, date => date.getDate());
+    expect(Array.from(dates)).toEqual([7, 14, 21, 28]);
 });
 
 test("find the first Saturday in an infinite date sequence", () => {
@@ -104,8 +107,9 @@ test("count the number of Saturdays in a month", () => {
 
 test("get a slice of an infinite date sequence", () => {
     const sequence = new DateSequence(new Date(2019, 5, 1));
-    const dates = Array.from(map(slice(sequence, 7, 14), date => date.getDate()));
-    expect(dates).toEqual([8, 9, 10, 11, 12, 13, 14]);
+    const range = slice(sequence, 7, 14);
+    const dates = map(range, date => date.getDate());
+    expect(Array.from(dates)).toEqual([8, 9, 10, 11, 12, 13, 14]);
 });
 
 test("get the date at a specific position in a sequence", () => {
@@ -174,8 +178,8 @@ test("combine two months into one sequence", () => {
 
     const january = new DateRange(jan1, feb1);
     const february = new DateSequence(feb1).takeUntil(new Date(2019, 2, 1));
-    const merged = zip(january, february);
 
+    const merged = zip(january, february);
     expect(first(merged)).toEqual([jan1, feb1]);
     expect(last(merged)).toEqual([jan31, undefined]);
 });
