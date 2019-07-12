@@ -1,4 +1,4 @@
-import { DateRange, DateSequence } from "../dates";
+import { DateRange, DateSequence } from "dates";
 import { chunk } from "./chunk";
 import { drop, dropUntil, dropWhile } from "./drop";
 import { enumerate } from "./enumerate";
