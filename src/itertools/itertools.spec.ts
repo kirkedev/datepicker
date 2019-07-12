@@ -51,8 +51,7 @@ test("drop is finished when there are no remaining elements", () => {
 
 test("enumerate a date sequence", () => {
     const start = new Date(2019, 5, 1);
-    const dates = enumerate(new DateSequence(start));
-    const [index, date] = first(dates);
+    const [index, date] = first(enumerate(new DateSequence(start)));
     expect(index).toBe(0);
     expect(date).toEqual(start);
 });
@@ -126,16 +125,16 @@ describe("boolean comparison aggregators", () => {
 
     test("all", () => {
         expect(all(dates, date => date.getMonth() === 5)).toBe(true);
-        expect(all(dates, date => date.getMonth() === 6)).toBe(false);
+        expect(all(dates, date => date.getDay() === 5)).toBe(false);
     });
 
     test("none", () => {
-        expect(none(dates, date => date.getMonth() === 5)).toBe(false);
         expect(none(dates, date => date.getMonth() === 6)).toBe(true);
+        expect(none(dates, date => date.getDay() === 6)).toBe(false);
     });
 
     test("some", () => {
-        expect(some(dates, date => date.getDay() === 0)).toBe(true);
+        expect(some(dates, date => date.getDay() === 6)).toBe(true);
         expect(some(dates, date => date.getMonth() === 6)).toBe(false);
     });
 

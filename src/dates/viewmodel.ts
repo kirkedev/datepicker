@@ -46,12 +46,12 @@ export class DatePickerViewModel {
     }
 
     public get dates(): Iterable<Iterable<DateViewModel>> {
-        const today = startOfDay(new Date());
+        const today = new Date();
         const month = this.month - 1;
         const selected = this.selected;
 
         const dates = map(calendar(this.month, this.year), date => {
-            const isSelected = !!selected && isSameDate(date, selected);
+            const isSelected = selected != null && isSameDate(date, selected);
             const isToday = isSameDate(date, today);
             const isActiveMonth = date.getMonth() === month;
             return { date, isSelected, isToday, isActiveMonth };
