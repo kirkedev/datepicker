@@ -24,7 +24,7 @@ class TakeFromIterable<T> implements Iterable<T> {
 }
 
 export const takeUntil = <T>(iterable: Iterable<T>, predicate: Predicate<T>): Iterable<T> =>
-    new TakeFromIterable(iterable, (item) => !predicate(item));
+    new TakeFromIterable(iterable, item => !predicate(item));
 
 export const takeWhile = <T>(iterable: Iterable<T>, predicate: Predicate<T>): Iterable<T> =>
     new TakeFromIterable(iterable, predicate);

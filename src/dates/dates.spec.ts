@@ -1,4 +1,5 @@
 import { isSameDate, startOfDay, startOfWeek } from "./lib";
+import { DateRange, DateSequence } from "./ranges";
 
 test("truncate a date's time", () => {
     const date = new Date(5, 1, 1, 12, 30, 30, 100);
@@ -32,8 +33,6 @@ test("compare two dates ignoring the time", () => {
     expect(isSameDate(date, other)).toBe(true);
     expect(isSameDate(date, new Date())).toBe(false);
 });
-
-import { DateRange, DateSequence } from "./ranges";
 
 test("create an infinite sequence of dates starting from a specific date", () => {
     const dates = new DateSequence(new Date(2019, 5, 1));

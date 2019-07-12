@@ -46,15 +46,16 @@ const Week = ({ week, onSelectDate }: WeekProps): ReactElement =>
         <Day key={day.date.getTime()} day={day} onSelectDate={onSelectDate}/>)
     }</div>;
 
-const WeekDays = (): ReactElement => <div className="weekdays">
-    <span>Sun</span>
-    <span>Mon</span>
-    <span>Tue</span>
-    <span>Wed</span>
-    <span>Thu</span>
-    <span>Fri</span>
-    <span>Sat</span>
-</div>;
+const WeekDays = (): ReactElement =>
+    <div className="weekdays">
+        <span>Sun</span>
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+    </div>;
 
 const Calendar = ({ calendar, onSelectDate }: CalendarProps): ReactElement =>
     <div className="calendar">
@@ -82,10 +83,10 @@ export const DatePicker = ({ month, year, onSelectDate }: DatePickerProps): Reac
 
         <Calendar
             calendar={model.dates}
-            onSelectDate={(date: Date) => dispatch(selectDate(date))}/>
+            onSelectDate={date => dispatch(selectDate(date))}/>
 
         <button className="submit"
             disabled={model.selected == null}
-            onClick={() => onSelectDate(model.selected as Date)} />
+            onClick={() => onSelectDate(model.selected as Date)}/>
     </div>;
 };

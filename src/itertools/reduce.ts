@@ -42,7 +42,7 @@ export function some<T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean
 }
 
 export const all = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
-    none(iterable, (item) => !predicate(item));
+    none(iterable, item => !predicate(item));
 
 export const one = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
     Array.from(filter(iterable, predicate)).length === 1;

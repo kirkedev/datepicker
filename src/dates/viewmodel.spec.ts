@@ -8,12 +8,12 @@ test("create formatted calendar for a calendar month", () => {
         Array.from(week).map(({ date }) => date.getDate()));
 
     expect(dates).toEqual([
-        [26, 27, 28, 29, 30, 31,  1],
-        [ 2,  3,  4,  5,  6,  7,  8],
-        [ 9, 10, 11, 12, 13, 14, 15],
+        [26, 27, 28, 29, 30, 31, 1],
+        [2, 3, 4, 5, 6, 7, 8],
+        [9, 10, 11, 12, 13, 14, 15],
         [16, 17, 18, 19, 20, 21, 22],
         [23, 24, 25, 26, 27, 28, 29],
-        [30,  1,  2,  3,  4,  5,  6],
+        [30, 1, 2, 3, 4, 5, 6],
     ]);
 });
 
@@ -23,12 +23,12 @@ test("create formatted calendar for the previous calendar month", () => {
         Array.from(week).map(({ date }) => date.getDate()));
 
     expect(dates).toEqual([
-        [28, 29, 30,  1,  2,  3,  4],
-        [ 5,  6,  7,  8,  9, 10, 11],
+        [28, 29, 30, 1, 2, 3, 4],
+        [5, 6, 7, 8, 9, 10, 11],
         [12, 13, 14, 15, 16, 17, 18],
         [19, 20, 21, 22, 23, 24, 25],
-        [26, 27, 28, 29, 30, 31,  1],
-        [ 2,  3,  4,  5,  6,  7,  8],
+        [26, 27, 28, 29, 30, 31, 1],
+        [2, 3, 4, 5, 6, 7, 8],
     ]);
 });
 
@@ -38,12 +38,12 @@ test("create formatted calendar for the next calendar month", () => {
         Array.from(week).map(({ date }) => date.getDate()));
 
     expect(dates).toEqual([
-        [30,  1,  2,  3,  4,  5,  6],
-        [ 7,  8,  9, 10, 11, 12, 13],
+        [30, 1, 2, 3, 4, 5, 6],
+        [7, 8, 9, 10, 11, 12, 13],
         [14, 15, 16, 17, 18, 19, 20],
         [21, 22, 23, 24, 25, 26, 27],
-        [28, 29, 30, 31,  1,  2,  3],
-        [ 4,  5,  6,  7,  8,  9, 10],
+        [28, 29, 30, 31, 1, 2, 3],
+        [4, 5, 6, 7, 8, 9, 10],
     ]);
 });
 
@@ -66,12 +66,12 @@ test("display formatted calendar title", () => {
     expect(datepicker.title).toEqual("June 2019");
 });
 
-test("mark days in the active month", () =>  {
+test("mark days in the active month", () => {
     const datepicker = new DatePickerViewModel(6, 2019);
     const dates = Array.from(flatten(datepicker.dates));
     expect(Array.from(dates.slice(0, 6)).some(date => date.isActiveMonth)).toBe(false);
-    expect(Array.from(dates.slice(6, 36)).every((date) => date.isActiveMonth)).toBe(true);
-    expect(Array.from(dates.slice(36)).some((date) => date.isActiveMonth)).toBe(false);
+    expect(Array.from(dates.slice(6, 36)).every(date => date.isActiveMonth)).toBe(true);
+    expect(Array.from(dates.slice(36)).some(date => date.isActiveMonth)).toBe(false);
 });
 
 test("previous month should cycle to December of prior year from January", () => {

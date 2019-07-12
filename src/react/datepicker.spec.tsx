@@ -40,12 +40,12 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
 
         then("I see dates for May 2019", () => {
             expect(parseDates(instance)).toEqual([
-                28, 29, 30,  1,  2,  3,  4,
-                5,   6,  7,  8,  9, 10, 11,
+                28, 29, 30, 1, 2, 3, 4,
+                5, 6, 7, 8, 9, 10, 11,
                 12, 13, 14, 15, 16, 17, 18,
                 19, 20, 21, 22, 23, 24, 25,
-                26, 27, 28, 29, 30, 31,  1,
-                2,   3,  4,  5,  6,  7,  8,
+                26, 27, 28, 29, 30, 31, 1,
+                2, 3, 4, 5, 6, 7, 8,
             ]);
         });
 
@@ -76,12 +76,12 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
 
         then("I see dates for July 2019", () => {
             expect(parseDates(instance)).toEqual([
-                30,  1,  2,  3,  4,  5,  6,
-                7,  8,  9, 10, 11, 12, 13,
+                30, 1, 2, 3, 4, 5, 6,
+                7, 8, 9, 10, 11, 12, 13,
                 14, 15, 16, 17, 18, 19, 20,
                 21, 22, 23, 24, 25, 26, 27,
-                28, 29, 30, 31,  1,  2,  3,
-                4,  5,  6,  7,  8,  9, 10,
+                28, 29, 30, 31, 1, 2, 3,
+                4, 5, 6, 7, 8, 9, 10,
             ]);
         });
 
