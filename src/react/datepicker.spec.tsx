@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import { act, create, ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
+import React from "react";
+import { act, create, ReactTestInstance } from "react-test-renderer";
 import { DatePicker } from "./datepicker";
 import { none, one } from "itertools";
 import { defineFeature, loadFeature } from "jest-cucumber";
@@ -19,23 +19,16 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
     const onSelectDate = jest.fn();
 
     test("Go to previous month", ({ given, when, then, and }) => {
-        let datepicker: ReactElement;
-        let renderer: ReactTestRenderer;
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
-            renderer = create(datepicker);
-            instance = renderer.root;
-
+            const datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
+            instance = create(datepicker).root;
             expect(getTitle(instance)).toEqual("June 2019");
         });
 
         when("I click the previous button", () => {
-            act(() => {
-                instance.findByProps({ className: "previous" }).props.onClick();
-                renderer.update(datepicker);
-            });
+            act(() => instance.findByProps({ className: "previous" }).props.onClick());
         });
 
         then("I see dates for May 2019", () => {
@@ -55,23 +48,16 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
     });
 
     test("Go to next month", ({ given, when, then, and }) => {
-        let datepicker: ReactElement;
-        let renderer: ReactTestRenderer;
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
-            renderer = create(datepicker);
-            instance = renderer.root;
-
+            const datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
+            instance = create(datepicker).root;
             expect(getTitle(instance)).toEqual("June 2019");
         });
 
         when("I click the next button", () => {
-            act(() => {
-                instance.findByProps({ className: "next" }).props.onClick();
-                renderer.update(datepicker);
-            });
+            act(() => instance.findByProps({ className: "next" }).props.onClick());
         });
 
         then("I see dates for July 2019", () => {
@@ -86,19 +72,16 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         });
 
         and("the header updates to July 2019", () => {
-            expect(getTitle(renderer.root)).toEqual("July 2019");
+            expect(getTitle(instance)).toEqual("July 2019");
         });
     });
 
     test("Select a date", ({ given, when, then, and })=> {
-        let datepicker: ReactElement;
-        let renderer: ReactTestRenderer;
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
-            renderer = create(datepicker);
-            instance = renderer.root;
+            const datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
+            instance = create(datepicker).root;
 
             expect(getTitle(instance)).toEqual("June 2019");
             expect(none(getDates(instance), el => el.props.className.includes("selected"))).toBe(true);
@@ -106,10 +89,9 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         });
 
         when("I select June 6", () => {
-            act(() => {
-                instance.findAllByType("span").find(el => el.children[0] === "6")!.props.onClick();
-                renderer.update(datepicker);
-            });
+            act(() => instance.findAllByType("span")
+                .find(el => el.children[0] === "6")!
+                .props.onClick());
         });
 
         then("June 6 is highlighted", () => {
