@@ -57,7 +57,7 @@ test("enumerate a date sequence", () => {
     expect(date).toEqual(start);
 });
 
-test("make every day Friday", () => {
+test("make every day Friday 😎", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 6, 1);
 
