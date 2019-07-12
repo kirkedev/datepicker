@@ -7,8 +7,7 @@ const identity = <T>(t: T): T => t;
 
 export function* accumulate<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): Iterable<R> {
     for (const item of iterable) {
-        value = operator(value, item);
-        yield value;
+        yield value = operator(value, item);
     }
 }
 
