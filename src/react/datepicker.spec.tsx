@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { act, create, ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import { DatePicker } from "./datepicker";
-import { none, one } from "itertools/reduce";
+import { none, one } from "itertools";
 import { defineFeature, loadFeature } from "jest-cucumber";
 
 const getTitle = (instance: ReactTestInstance): string =>

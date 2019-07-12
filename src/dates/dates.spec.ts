@@ -59,7 +59,7 @@ test("convert a sequence of dates to a finite range from a beginning and ending 
 
 test("terminate a sequence of dates after the next seven dates", () => {
     const range = new DateSequence(new Date(2019, 5, 1)).take(7);
-    const dates = Array.from(range).map( date => date.getDate());
+    const dates = Array.from(range).map(date => date.getDate());
     expect(dates).toEqual([1, 2, 3, 4, 5, 6, 7]);
 });
 

@@ -4,7 +4,7 @@ import { drop, dropUntil, dropWhile } from "./drop";
 import { enumerate } from "./enumerate";
 import { filter, find } from "./filter";
 import { flatMap, map } from "./map";
-import { all, some, count, countIf, none, one } from "./reduce";
+import { all, some, count, countIf, none, one, sumBy } from "./accumulate";
 import { elementAt, first, last, slice } from "./slice";
 import { take, takeUntil, takeWhile } from "./take";
 import { zip } from "./zip";
@@ -103,6 +103,7 @@ test("count the number of Saturdays in a month", () => {
     const end = new Date(2019, 6, 1);
     const june = new DateSequence(start).takeUntil(end);
     expect(countIf(june, date => date.getDay() === 6)).toEqual(5);
+    expect(sumBy(june, date => date.getDay() === 6 ? 1 : 0)).toEqual(5);
 });
 
 test("get a slice of an infinite date sequence", () => {
