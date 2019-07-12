@@ -1,5 +1,5 @@
-import { Predicate, UnaryOperator, BinaryOperator, find } from "./index";
-import { filter } from "./filter";
+import { Predicate, UnaryOperator, BinaryOperator } from "./index";
+import { filter, find } from "./filter";
 import { map } from "./map";
 import { last } from "./slice";
 
