@@ -1,6 +1,6 @@
-export type Predicate<T> = (item: T) => boolean;
 export type UnaryOperator<T, R> = (item: T) => R;
 export type BinaryOperator<T, R> = (last: R, item: T) => R;
+export type Predicate<T> = UnaryOperator<T, boolean>;
 
 export { chunk } from "./chunk";
 export { drop, dropWhile, dropUntil } from "./drop";
