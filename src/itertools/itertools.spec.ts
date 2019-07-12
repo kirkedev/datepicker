@@ -1,10 +1,10 @@
 import { DateRange, DateSequence } from "dates";
+import { all, some, count, countIf, none, one, sumBy } from "./accumulate";
 import { chunk } from "./chunk";
 import { drop, dropUntil, dropWhile } from "./drop";
 import { enumerate } from "./enumerate";
 import { filter, find } from "./filter";
 import { flatMap, map } from "./map";
-import { all, some, count, countIf, none, one, sumBy } from "./accumulate";
 import { elementAt, first, last, slice } from "./slice";
 import { take, takeUntil, takeWhile } from "./take";
 import { zip } from "./zip";

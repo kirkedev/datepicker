@@ -1,8 +1,8 @@
-export const startOfDay = (date: Date): Date => {
+export function startOfDay(date: Date): Date {
     const result = new Date(date);
     result.setHours(0, 0, 0, 0);
     return result;
-};
+}
 
 export function startOfWeek(date: Date): Date {
     const result = startOfDay(date);
