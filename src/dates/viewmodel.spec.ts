@@ -69,9 +69,9 @@ test("display formatted calendar title", () => {
 test("mark days in the active month", () => {
     const datepicker = new DatePickerViewModel(6, 2019);
     const dates = Array.from(flatten(datepicker.dates));
-    expect(Array.from(dates.slice(0, 6)).some(date => date.isActiveMonth)).toBe(false);
-    expect(Array.from(dates.slice(6, 36)).every(date => date.isActiveMonth)).toBe(true);
-    expect(Array.from(dates.slice(36)).some(date => date.isActiveMonth)).toBe(false);
+    expect(dates.slice(0, 6).some(date => date.isActiveMonth)).toBe(false);
+    expect(dates.slice(6, 36).every(date => date.isActiveMonth)).toBe(true);
+    expect(dates.slice(36).some(date => date.isActiveMonth)).toBe(false);
 });
 
 test("previous month should cycle to December of prior year from January", () => {

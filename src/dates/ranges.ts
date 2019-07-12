@@ -10,7 +10,10 @@ function* DateIterator(start: Date, end?: Date): Iterator<Date> {
 }
 
 export class DateRange implements Iterable<Date> {
-    public constructor(private readonly start: Date, private readonly end: Date) {}
+    public constructor(
+        private readonly start: Date,
+        private readonly end: Date) {}
+
     public [Symbol.iterator] = () => DateIterator(this.start, this.end);
 }
 
