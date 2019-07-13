@@ -22,25 +22,21 @@ export class DateSequence implements Iterable<Date> {
 
     public [Symbol.iterator] = () => DateIterator(this.start);
 
-    public slice(from: number, to: number): DateRange {
-        const start = new Date(this.start);
+    public slice(from: number): DateSequence
+    public slice(from: number, to: number): DateRange;
+    public slice(from: number, to?: number): Iterable<Date> {
+        const { start } = this;
         start.setDate(start.getDate() + from);
 
-        const end = new Date(this.start);
-        end.setDate(end.getDate() + to);
+        if (to === undefined) return new DateSequence(start);
 
+        const end = new Date(start);
+        end.setDate(end.getDate() + to - from);
         return new DateRange(start, end);
     }
 
-    public take = (count: number) => this.slice(0, count);
-
-    public takeUntil = (end: Date) => new DateRange(this.start, end);
-
-    public drop(count: number): DateSequence {
-        const start = new Date(this.start);
-        start.setDate(start.getDate() + count);
-        return new DateSequence(start);
-    }
-
-    public dropUntil = (end: Date) => new DateSequence(end);
+    public take = (count: number): DateRange => this.slice(0, count);
+    public drop = (count: number): DateSequence => this.slice(count);
+    public takeUntil = (end: Date): DateRange => new DateRange(this.start, end);
+    public dropUntil = (end: Date): DateSequence => new DateSequence(end);
 }
