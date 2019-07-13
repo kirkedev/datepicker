@@ -6,4 +6,5 @@ coverage
 !.gitignore
 !.eslintrc.js
 !jest.config.js
+!.travis.yml
 yarn-error.log
