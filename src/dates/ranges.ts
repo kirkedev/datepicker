@@ -38,5 +38,5 @@ export class DateSequence implements Iterable<Date> {
     public take = (count: number): DateRange => this.slice(0, count);
     public drop = (count: number): DateSequence => this.slice(count);
     public takeUntil = (end: Date): DateRange => new DateRange(this.start, end);
-    public dropUntil = (end: Date): DateSequence => new DateSequence(end);
+    public dropUntil = (start: Date): DateSequence => new DateSequence(start);
 }

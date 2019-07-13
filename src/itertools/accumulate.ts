@@ -1,17 +1,16 @@
-import { Predicate, UnaryOperator, BinaryOperator } from "./index";
+import { UnaryOperator, Predicate, Accumulator } from "./index";
+import { drop } from "./drop";
 import { filter, find } from "./filter";
 import { map } from "./map";
-import { last } from "./slice";
+import { first, last } from "./slice";
 
-const identity = <T>(t: T): T => t;
-
-export function* accumulate<T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): Iterable<R> {
+export function* accumulate<T, R>(iterable: Iterable<T>, operator: Accumulator<T, R>, value: R): Iterable<R> {
     for (const item of iterable) {
         yield value = operator(value, item);
     }
 }
 
-export const reduce = <T, R>(iterable: Iterable<T>, operator: BinaryOperator<T, R>, value: R): R =>
+export const reduce = <T, R>(iterable: Iterable<T>, operator: Accumulator<T, R>, value: R): R =>
     last(accumulate(iterable, operator, value));
 
 export const sum = (iterable: Iterable<number>): number =>
@@ -27,13 +26,13 @@ export const countIf = <T>(iterable: Iterable<T>, predicate: Predicate<T>): numb
     count(filter(iterable, predicate));
 
 export const none = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
-    find(map(iterable, predicate), identity) == null;
+    find(iterable, predicate) === undefined;
 
 export const some = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
-    find(map(iterable, predicate), identity) != null;
+    !none(iterable, predicate);
 
 export const all = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
     none(iterable, item => !predicate(item));
 
 export const one = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
-    Array.from(filter(iterable, predicate)).length === 1;
+    first(drop(filter(iterable, predicate), 1)) === undefined;
