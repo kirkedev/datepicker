@@ -1,6 +1,7 @@
 export type UnaryOperator<T, R> = (item: T) => R;
 export type Predicate<T> = UnaryOperator<T, boolean>;
-export type Accumulator<T, R> = (last: R, item: T) => R;
+export type BinaryOperator<T, U, R> = (first: T, second: U) => R;
+export type Accumulator<T, R> = BinaryOperator<R, T, R>;
 
 export { accumulate, count, countIf, sum, sumBy, all, none, some, one } from "./accumulate";
 export { chunk } from "./chunk";

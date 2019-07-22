@@ -146,6 +146,7 @@ describe("boolean comparison aggregators", () => {
     test("one", () => {
         expect(one(dates, date => date.getDate() === 6)).toBe(true);
         expect(one(dates, date => date.getDay() === 6)).toBe(false);
+        expect(one(dates, date => date.getMonth() === 6)).toBe(false);
     });
 });
 

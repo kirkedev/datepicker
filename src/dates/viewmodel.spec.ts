@@ -4,7 +4,7 @@ import { months } from "./viewmodel";
 
 test("create formatted calendar for a calendar month", () => {
     const datepicker = new DatePickerViewModel(6, 2019);
-    const dates = Array.from(datepicker.dates).map( week =>
+    const dates = Array.from(datepicker.dates).map(week =>
         Array.from(week).map(({ date }) => date.getDate()));
 
     expect(dates).toEqual([

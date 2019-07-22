@@ -1,15 +1,15 @@
 import React from "react";
 import { act, create, ReactTestInstance } from "react-test-renderer";
-import { DatePicker } from "./datepicker";
-import { none, one } from "itertools";
 import { defineFeature, loadFeature } from "jest-cucumber";
+import { none, one } from "itertools";
+import { DatePicker } from "./datepicker";
 
 const getTitle = (instance: ReactTestInstance): string =>
     instance.findByProps({ className: "title" }).children[0] as string;
 
 const getDates = (instance: ReactTestInstance): ReactTestInstance[] =>
-    instance.findAllByType("span").filter(el =>
-        "className" in el.props && el.props.className.includes("date"));
+    instance.findAllByType("span").filter(({ props }) =>
+        "className" in props && props.className.includes("date"));
 
 const parseDates = (instance: ReactTestInstance): number[] => getDates(instance)
     .map(el => el.children[0].toString())
@@ -89,7 +89,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         });
 
         when("I select June 6", () => {
-            act(() => instance.findAllByType("span")
+            act(() => getDates(instance)
                 .find(el => el.children[0] === "6")!
                 .props.onClick());
         });

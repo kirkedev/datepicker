@@ -1,17 +1,16 @@
-import { UnaryOperator, Predicate, Accumulator } from "./index";
-import { drop } from "./drop";
+import { Predicate, Accumulator, UnaryOperator } from "./index";
 import { filter, find } from "./filter";
 import { map } from "./map";
-import { first, last } from "./slice";
+import { last } from "./slice";
 
-export function* accumulate<T, R>(iterable: Iterable<T>, operator: Accumulator<T, R>, value: R): Iterable<R> {
+export function* accumulate<T, R>(iterable: Iterable<T>, accumulator: Accumulator<T, R>, value: R): Iterable<R> {
     for (const item of iterable) {
-        yield value = operator(value, item);
+        yield value = accumulator(value, item);
     }
 }
 
-export const reduce = <T, R>(iterable: Iterable<T>, operator: Accumulator<T, R>, value: R): R =>
-    last(accumulate(iterable, operator, value));
+export const reduce = <T, R>(iterable: Iterable<T>, accumulator: Accumulator<T, R>, value: R): R =>
+    last(accumulate(iterable, accumulator, value));
 
 export const sum = (iterable: Iterable<number>): number =>
     reduce(iterable, (value, item) => value + item, 0);
@@ -34,5 +33,12 @@ export const some = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean
 export const all = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
     none(iterable, item => !predicate(item));
 
-export const one = <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean =>
-    first(drop(filter(iterable, predicate), 1)) === undefined;
+export function one <T>(iterable: Iterable<T>, predicate: Predicate<T>): boolean {
+    const iterator = filter(iterable, predicate)[Symbol.iterator]();
+
+    let result = iterator.next();
+    if (result.done && result.value === undefined) return false;
+
+    result = iterator.next();
+    return result.done && result.value === undefined;
+}

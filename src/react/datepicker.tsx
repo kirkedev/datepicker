@@ -1,8 +1,8 @@
 import React, { ReactElement, useReducer } from "react";
 import { DatePickerViewModel } from "dates";
 import { SelectDateHandler } from "./index";
-import { reducer, previousMonth, nextMonth, selectDate } from "./reducer";
 import { Calendar } from "./calendar";
+import { reducer, previousMonth, nextMonth, selectDate } from "./reducer";
 
 interface DatePickerProps extends SelectDateHandler {
     month?: number;
