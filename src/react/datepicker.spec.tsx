@@ -1,19 +1,44 @@
 import React from "react";
 import { act, create, ReactTestInstance } from "react-test-renderer";
 import { defineFeature, loadFeature } from "jest-cucumber";
-import { none, one } from "itertools";
-import { DatePicker } from "./datepicker";
+import { DatePicker, DatePickerProps } from "./datepicker";
 
-const getTitle = (instance: ReactTestInstance): string =>
-    instance.findByProps({ className: "title" }).children[0] as string;
+const datepicker = (props: DatePickerProps): ReactTestInstance =>
+    create(<DatePicker {...props}/>).root;
+
+const findByClass = (instance: ReactTestInstance, className: string): ReactTestInstance =>
+    instance.findByProps({ className });
+
+const hasClass = (instance: ReactTestInstance, className: string): boolean =>
+    RegExp(String.raw`\b${className}\b`).test(instance.props.className);
+
+const getText = (instance: ReactTestInstance): string =>
+    instance.children[0] as string;
+
+function click(instance: ReactTestInstance): void;
+function click(instance: ReactTestInstance, className: string): void;
+function click(instance: ReactTestInstance, className?: string): void {
+    if (className !== undefined) instance = findByClass(instance, className);
+    act(() => instance.props.onClick());
+}
+
+const isSelected = (instance: ReactTestInstance): boolean =>
+    hasClass(instance, "selected");
+
+const isDisabled = (instance: ReactTestInstance): boolean =>
+    instance.props.disabled;
+
+const title = (instance: ReactTestInstance): string =>
+    getText(findByClass(instance, "title"));
 
 const getDates = (instance: ReactTestInstance): ReactTestInstance[] =>
-    instance.findAllByType("span").filter(({ props }) =>
-        "className" in props && props.className.includes("date"));
+    instance.findAllByType("span").filter(el => hasClass(el, "date"));
 
-const parseDates = (instance: ReactTestInstance): number[] => getDates(instance)
-    .map(el => el.children[0].toString())
-    .map(date => parseInt(date, 10));
+const parseDates = (instance: ReactTestInstance): number[] =>
+    getDates(instance).map(el => parseInt(getText(el), 10));
+
+const findDate = (instance: ReactTestInstance, date: number): ReactTestInstance =>
+    getDates(instance).find(el => getText(el) === `${date}`)!;
 
 defineFeature(loadFeature("src/react/datepicker.feature"), test => {
     const onSelectDate = jest.fn();
@@ -22,13 +47,12 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            const datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
-            instance = create(datepicker).root;
-            expect(getTitle(instance)).toEqual("June 2019");
+            instance = datepicker({ month: 6, year: 2019, onSelectDate });
+            expect(title(instance)).toEqual("June 2019");
         });
 
         when("I click the previous button", () => {
-            act(() => instance.findByProps({ className: "previous" }).props.onClick());
+            click(instance, "previous");
         });
 
         then("I see dates for May 2019", () => {
@@ -43,7 +67,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         });
 
         and("the header updates to May 2019", () => {
-            expect(getTitle(instance)).toEqual("May 2019");
+            expect(title(instance)).toEqual("May 2019");
         });
     });
 
@@ -51,13 +75,12 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            const datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
-            instance = create(datepicker).root;
-            expect(getTitle(instance)).toEqual("June 2019");
+            instance = datepicker({ month: 6, year: 2019, onSelectDate });
+            expect(title(instance)).toEqual("June 2019");
         });
 
         when("I click the next button", () => {
-            act(() => instance.findByProps({ className: "next" }).props.onClick());
+            click(instance, "next");
         });
 
         then("I see dates for July 2019", () => {
@@ -72,7 +95,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         });
 
         and("the header updates to July 2019", () => {
-            expect(getTitle(instance)).toEqual("July 2019");
+            expect(title(instance)).toEqual("July 2019");
         });
     });
 
@@ -80,34 +103,28 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
-            const datepicker = <DatePicker month={6} year={2019} onSelectDate={onSelectDate}/>;
-            instance = create(datepicker).root;
+            instance = datepicker({ month: 6, year: 2019, onSelectDate });
 
-            expect(getTitle(instance)).toEqual("June 2019");
-            expect(none(getDates(instance), el => el.props.className.includes("selected"))).toBe(true);
-            expect(instance.findByProps({ className: "submit" }).props.disabled).toBe(true);
+            expect(title(instance)).toEqual("June 2019");
+            expect(getDates(instance).some(isSelected)).toBe(false);
+            expect(isDisabled(findByClass(instance, "submit"))).toBe(true);
         });
 
         when("I select June 6", () => {
-            act(() => getDates(instance)
-                .find(el => el.children[0] === "6")!
-                .props.onClick());
+            click(findDate(instance, 6));
         });
 
         then("June 6 is highlighted", () => {
-            const dates = getDates(instance);
-            expect(one(dates, el => el.props.className.includes("selected"))).toBe(true);
-
-            const date = dates.find(el => el.children[0] === "6");
-            expect(date!.props.className).toContain("selected");
+            expect(getDates(instance).filter(isSelected).length).toBe(1);
+            expect(isSelected(findDate(instance, 6))).toBe(true);
         });
 
         and("the submit button is enabled", () => {
-            expect(instance.findByProps({ className: "submit" }).props.disabled).toBe(false);
+            expect(isDisabled(findByClass(instance, "submit"))).toBe(false);
         });
 
         when("I click the submit button", () => {
-            instance.findByProps({ className: "submit" }).props!.onClick();
+            click(instance, "submit");
         });
 
         then("June 6 is chosen", () => {

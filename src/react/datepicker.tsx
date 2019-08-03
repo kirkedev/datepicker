@@ -4,7 +4,7 @@ import { SelectDateHandler } from "./index";
 import { Calendar } from "./calendar";
 import { reducer, previousMonth, nextMonth, selectDate } from "./reducer";
 
-interface DatePickerProps extends SelectDateHandler {
+export interface DatePickerProps extends SelectDateHandler {
     month?: number;
     year?: number;
 }
