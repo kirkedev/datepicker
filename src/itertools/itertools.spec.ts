@@ -147,7 +147,7 @@ describe("boolean comparison aggregators", () => {
 });
 
 describe("get remaining days in a month from an infinite sequence", () => {
-    const range = new DateSequence(new Date(2019, 5, 28));
+    const range = new DateSequence(new Date(2019, 5, 16));
     let dates: Iterable<Date>;
 
     test("get remaining days in a month from an infinite sequence with take while", () => {
@@ -159,11 +159,11 @@ describe("get remaining days in a month from an infinite sequence", () => {
     });
 
     test("get remaining days in a month from an infinite sequence with take", () => {
-        dates = take(range, 3);
+        dates = take(range, 15);
     });
 
     afterEach(() => {
-        expect(Array.from(dates).map(date => date.getDate())).toEqual([28, 29, 30]);
+        expect(last(dates)).toEqual(new Date(2019, 5, 30));
     });
 });
 
