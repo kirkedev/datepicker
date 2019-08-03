@@ -34,11 +34,14 @@ const title = (instance: ReactTestInstance): string =>
 const getDates = (instance: ReactTestInstance): ReactTestInstance[] =>
     instance.findAllByType("span").filter(el => hasClass(el, "date"));
 
+const parseDate = (instance: ReactTestInstance): number =>
+    parseInt(getText(instance), 10);
+
 const parseDates = (instance: ReactTestInstance): number[] =>
-    getDates(instance).map(el => parseInt(getText(el), 10));
+    getDates(instance).map(parseDate);
 
 const findDate = (instance: ReactTestInstance, date: number): ReactTestInstance =>
-    getDates(instance).find(el => getText(el) === `${date}`)!;
+    getDates(instance).find(el => parseDate(el) === date)!;
 
 defineFeature(loadFeature("src/react/datepicker.feature"), test => {
     const onSelectDate = jest.fn();
