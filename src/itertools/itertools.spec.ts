@@ -20,24 +20,23 @@ test("chunk a date range by size", () => {
 });
 
 describe("start an infinite sequence at the next month", () => {
-    const dates = new DateSequence(new Date(2019, 5, 28));
-    let date: Date;
+    const dates = new DateSequence(new Date(2019, 5, 1));
+    let july: Iterable<Date>;
 
-    test("start an infinite sequence at the next month with drop while", () => {
-        date = first(dropWhile(dates, date => date.getMonth() === 5));
+    test("drop dates from the sequence while each date is in the current month", () => {
+        july = dropWhile(dates, date => date.getMonth() === 5);
     });
 
-    test("start an infinite sequence at the next month with drop until", () => {
-        date = first(dropUntil(dates, date => date.getMonth() === 6));
+    test("drop dates from the sequence until a date in the next month", () => {
+        july = dropUntil(dates, date => date.getMonth() === 6);
     });
 
-    test("start an infinite sequence at the next month with slice", () => {
-        date = first(slice(dates, 3));
+    test("drop the next 30 dates from the sequence", () => {
+        july = slice(dates, 30);
     });
 
     afterEach(() => {
-        expect(date.getMonth()).toEqual(6);
-        expect(date.getDate()).toEqual(1);
+        expect(first(july)).toEqual(new Date(2019, 6, 1));
     });
 });
 
@@ -115,7 +114,7 @@ test("get the date at a specific position in a sequence", () => {
     expect(date.getDate()).toBe(6);
 });
 
-describe("boolean comparison aggregators", () => {
+describe("boolean comparison accumulators", () => {
     let dates: Iterable<Date>;
 
     beforeEach(() => {
@@ -147,23 +146,23 @@ describe("boolean comparison aggregators", () => {
 });
 
 describe("get remaining days in a month from an infinite sequence", () => {
-    const range = new DateSequence(new Date(2019, 5, 16));
-    let dates: Iterable<Date>;
+    const dates = new DateSequence(new Date(2019, 5, 1));
+    let june: Iterable<Date>;
 
-    test("get remaining days in a month from an infinite sequence with take while", () => {
-        dates = takeWhile(range, date => date.getMonth() === 5);
+    test("take dates from the sequence while each date is in the current month", () => {
+        june = takeWhile(dates, date => date.getMonth() === 5);
     });
 
-    test("get remaining days in a month from an infinite sequence with take until", () => {
-        dates = takeUntil(range, date => date.getMonth() === 6);
+    test("take dates from the sequence until a date in the next month", () => {
+        june = takeUntil(dates, date => date.getMonth() === 6);
     });
 
-    test("get remaining days in a month from an infinite sequence with take", () => {
-        dates = take(range, 15);
+    test("take the next 30 days of the sequence", () => {
+        june = take(dates, 30);
     });
 
     afterEach(() => {
-        expect(last(dates)).toEqual(new Date(2019, 5, 30));
+        expect(last(june)).toEqual(new Date(2019, 5, 30));
     });
 });
 
