@@ -75,9 +75,8 @@ test("terminate a sequence of dates after the next seven dates", () => {
 test("terminate a date sequence at the beginning of the next month", () => {
     const start = new Date(2019, 5, 1);
     const end = new Date(2019, 6, 1);
-    const range = new DateSequence(start).takeUntil(end);
-    const dates = Array.from(range).map(date => date.getDate());
-    expect(dates[dates.length - 1]).toEqual(30);
+    const dates = Array.from(new DateSequence(start).takeUntil(end));
+    expect(dates[dates.length - 1]).toEqual(new Date(2019, 5, 30));
 });
 
 test("skip the next 7 days of a date sequence", () => {
@@ -94,8 +93,5 @@ test("skip to the next month of a date sequence", () => {
     const start = new Date(2019, 5, 1);
     const dates = new DateSequence(start).dropUntil(new Date(2019, 6, 1));
     const iterator = dates[Symbol.iterator]();
-    const next = iterator.next().value;
-
-    expect(next.getMonth()).toEqual(6);
-    expect(next.getDate()).toEqual(1);
+    expect(iterator.next().value).toEqual(new Date(2019, 6, 1));
 });
