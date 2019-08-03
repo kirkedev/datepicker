@@ -2,9 +2,15 @@ import { isSameDate, startOfDay, startOfWeek } from "./lib";
 import { DateRange, DateSequence } from "./ranges";
 
 test("truncate a date's time", () => {
-    const date = new Date(5, 1, 1, 12, 30, 30, 100);
-    const start = startOfDay(date);
+    const date = new Date();
+    date.setFullYear(2019);
+    date.setMonth(5);
+    date.setDate(6);
 
+    const start = startOfDay(date);
+    expect(start.getFullYear()).toEqual(2019);
+    expect(start.getMonth()).toEqual(5);
+    expect(start.getDate()).toEqual(6);
     expect(start.getHours()).toEqual(0);
     expect(start.getMinutes()).toEqual(0);
     expect(start.getSeconds()).toEqual(0);
@@ -13,9 +19,12 @@ test("truncate a date's time", () => {
 });
 
 test("find the Sunday prior to a date", () => {
-    const date = new Date(2019, 5, 1, 12, 30, 30, 100);
-    const start = startOfWeek(date);
+    const date = new Date();
+    date.setFullYear(2019);
+    date.setMonth(5);
+    date.setDate(1);
 
+    const start = startOfWeek(date);
     expect(start.getFullYear()).toEqual(2019);
     expect(start.getMonth()).toEqual(4);
     expect(start.getDate()).toEqual(26);
