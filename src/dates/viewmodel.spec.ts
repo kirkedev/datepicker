@@ -2,7 +2,7 @@ import { find, flatten, one } from "itertools";
 import { startOfDay } from "./lib";
 import { DatePickerViewModel, DateViewModel } from "./viewmodel";
 
-test("DateViewModel classes", () => {
+test("combine date states into a class name", () => {
     const date = new DateViewModel({
         date: new Date(),
         isToday: true,
@@ -10,7 +10,7 @@ test("DateViewModel classes", () => {
         isSelected: false
     });
 
-    expect(date.className).toEqual("date today active")
+    expect(date.className).toEqual("date today active");
 });
 
 test("display formatted calendar dates", () => {
