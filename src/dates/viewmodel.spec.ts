@@ -1,5 +1,5 @@
-import { startOfDay } from "dates";
 import { find, flatten, one } from "itertools";
+import { startOfDay } from "./lib";
 import { DatePickerViewModel, DateViewModel } from "./viewmodel";
 
 test("DateViewModel classes", () => {
