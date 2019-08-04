@@ -1,4 +1,4 @@
-import { DatePickerViewModel } from "dates";
+import { DatePickerViewModel } from "./viewmodel";
 
 type ActionType = string;
 
