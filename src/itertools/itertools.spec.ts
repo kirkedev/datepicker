@@ -174,14 +174,13 @@ describe("get remaining days in a month from an infinite sequence", () => {
 });
 
 test("combine two months into one sequence", () => {
-    const jan1 = new Date(2019, 0, 1);
-    const jan31 = new Date(2019, 0, 31);
-    const feb1 = new Date(2019, 1, 1);
+    const start2019 = new Date(2019, 1, 1);
+    const feb2019 = new DateSequence(start2019).takeUntil(new Date(2019, 2, 1));
 
-    const january = new DateRange(jan1, feb1);
-    const february = new DateSequence(feb1).takeUntil(new Date(2019, 2, 1));
+    const start2020 = new Date(2020, 1, 1);
+    const feb2020 = new DateSequence(start2020).takeUntil(new Date(2020, 2, 1));
 
-    const merged = zip(january, february);
-    expect(first(merged)).toEqual([jan1, feb1]);
-    expect(last(merged)).toEqual([jan31, undefined]);
+    const merged = zip(feb2019, feb2020);
+    expect(first(merged)).toEqual([start2019, start2020]);
+    expect(last(merged)).toEqual([undefined, new Date(2020, 1, 29)]);
 });
