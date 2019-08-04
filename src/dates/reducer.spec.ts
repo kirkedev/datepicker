@@ -1,5 +1,6 @@
-import { reducer, previousMonth, nextMonth, selectDate } from "./reducer";
 import { DatePickerViewModel } from "./viewmodel";
+import { previousMonth, nextMonth, selectDate } from "./actions";
+import { reducer } from "./reducer";
 
 test("go to previous calendar month", () => {
     const state = reducer(new DatePickerViewModel(6, 2019), previousMonth());
