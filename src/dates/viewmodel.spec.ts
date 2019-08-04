@@ -37,9 +37,9 @@ test("highlight selected date", () => {
     const date = new Date(2019, 5, 6);
     const datepicker = new DatePickerViewModel(6, 2019, date);
     const dates = flatten(datepicker.dates);
-    expect(one(dates, day => day.isSelected)).toBe(true);
-
     const selected = find(dates, day => day.isSelected);
+
+    expect(one(dates, day => day.isSelected)).toBe(true);
     expect(selected.date).toEqual(date);
     expect(selected.className).toMatch(/\bselected\b/);
 });
@@ -47,9 +47,9 @@ test("highlight selected date", () => {
 test("highlight today", () => {
     const datepicker = new DatePickerViewModel();
     const dates = flatten(datepicker.dates);
-    expect(one(dates, day => day.isToday)).toBe(true);
-
     const today = find(dates, day => day.isToday);
+
+    expect(one(dates, day => day.isToday)).toBe(true);
     expect(today.date).toEqual(startOfDay(new Date()));
     expect(today.className).toMatch(/\btoday\b/);
 });
@@ -57,22 +57,23 @@ test("highlight today", () => {
 describe("highlight days in the active month", () => {
     const isActiveMonth = (date: DateViewModel): boolean => date.isActiveMonth;
     const hasActiveClass = (date: DateViewModel): boolean => /\bactive\b/.test(date.className);
+
     const datepicker = new DatePickerViewModel(6, 2019);
     const dates = Array.from(flatten(datepicker.dates));
 
-    test("don't highlight dates in May", () => {
+    it("should not highlight any dates in May", () => {
         const may = dates.slice(0, 6);
         expect(may.some(isActiveMonth)).toBe(false);
         expect(may.some(hasActiveClass)).toBe(false);
     });
 
-    test("highlight all dates in June", () => {
+    it("should highlight all dates in June", () => {
         const june = dates.slice(6, 36);
         expect(june.every(isActiveMonth)).toBe(true);
         expect(june.every(hasActiveClass)).toBe(true);
     });
 
-    test("don't highlight dates in July", () => {
+    it("should not highlight any dates in July", () => {
         const july = dates.slice(36);
         expect(july.some(isActiveMonth)).toBe(false);
         expect(july.some(hasActiveClass)).toBe(false);
