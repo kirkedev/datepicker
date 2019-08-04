@@ -35,10 +35,21 @@ export const previousMonth = (): PreviousMonthAction => new PreviousMonthAction(
 export const nextMonth = (): NextMonthAction => new NextMonthAction();
 export const selectDate = (date: Date): SelectDateAction => new SelectDateAction(date);
 
-export const reducer = (model: DatePickerViewModel, action: DatePickerAction): DatePickerViewModel => {
+const select = (state: DatePickerViewModel, date: Date): DatePickerViewModel =>
+    new DatePickerViewModel(state.month, state.year, date);
+
+const previous = ({ month, year, selected }: DatePickerViewModel): DatePickerViewModel => month === 1
+    ? new DatePickerViewModel(12, year - 1, selected)
+    : new DatePickerViewModel(month - 1, year, selected);
+
+const next = ({ month, year, selected }: DatePickerViewModel): DatePickerViewModel => month === 12
+    ? new DatePickerViewModel(1, year + 1, selected)
+    : new DatePickerViewModel(month + 1, year, selected);
+
+export const reducer = (state: DatePickerViewModel, action: DatePickerAction): DatePickerViewModel => {
     switch (action.type) {
-        case DatePickerActionType.PreviousMonth: return model.previous();
-        case DatePickerActionType.NextMonth: return model.next();
-        case DatePickerActionType.SelectDate: return model.select(action.data);
+        case DatePickerActionType.PreviousMonth: return previous(state);
+        case DatePickerActionType.NextMonth: return next(state);
+        case DatePickerActionType.SelectDate: return select(state, action.data);
     }
 };

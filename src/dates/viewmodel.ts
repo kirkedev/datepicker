@@ -2,7 +2,7 @@ import { chunk, map, reduce } from "itertools";
 import { DateSequence } from "./ranges";
 import { isSameDate, startOfDay, startOfWeek } from "./lib";
 
-export const months = [
+const months = [
     "January",
     "February",
     "March",
@@ -55,8 +55,8 @@ export class DateViewModel implements DateViewModelProps {
 
 export class DatePickerViewModel {
     public readonly selected?: Date;
-    private readonly month: number;
-    private readonly year: number;
+    public readonly month: number;
+    public readonly year: number;
 
     public constructor(month?: number, year?: number, selected?: Date) {
         const today = new Date();
@@ -85,15 +85,4 @@ export class DatePickerViewModel {
 
         return chunk(dates, 7);
     }
-
-    public select = (date: Date): DatePickerViewModel =>
-        new DatePickerViewModel(this.month, this.year, date);
-
-    public previous = (): DatePickerViewModel => this.month === 1
-        ? new DatePickerViewModel(12, this.year - 1, this.selected)
-        : new DatePickerViewModel(this.month - 1, this.year, this.selected);
-
-    public next = (): DatePickerViewModel => this.month === 12
-        ? new DatePickerViewModel(1, this.year + 1, this.selected)
-        : new DatePickerViewModel(this.month + 1, this.year, this.selected);
 }
