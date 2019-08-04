@@ -13,7 +13,7 @@ test("DateViewModel classes", () => {
     expect(date.className).toEqual("date today active")
 });
 
-test("create formatted calendar for a calendar month", () => {
+test("display formatted calendar dates", () => {
     const datepicker = new DatePickerViewModel(6, 2019);
     const dates = Array.from(datepicker.dates).map(week =>
         Array.from(week).map(({ date }) => date.getDate()));
