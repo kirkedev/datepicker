@@ -102,7 +102,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
         });
     });
 
-    test("Select a date", ({ given, when, then, and })=> {
+    test("Select a date", ({ given, when, then, and }) => {
         let instance: ReactTestInstance;
 
         given("a datepicker for June 2019", () => {
