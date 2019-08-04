@@ -46,10 +46,17 @@ test("drop is finished when there are no remaining elements", () => {
 });
 
 test("enumerate a date sequence", () => {
-    const start = new Date(2019, 5, 1);
-    const [index, date] = first(enumerate(new DateSequence(start)));
-    expect(index).toBe(0);
-    expect(date).toEqual(start);
+    const dates = new DateSequence(new Date(2019, 5, 1)).take(3);
+
+    const expected = [
+        new Date(2019, 5, 1),
+        new Date(2019, 5, 2),
+        new Date(2019, 5, 3)
+    ];
+
+    for (const [index, date] of enumerate(dates)) {
+        expect(date).toEqual(expected[index]);
+    }
 });
 
 test("make every day Friday 😎", () => {
