@@ -33,13 +33,6 @@ test("display formatted calendar title", () => {
     expect(datepicker.title).toEqual("June 2019");
 });
 
-test("datepicker defaults to current month and year", () => {
-    const datepicker = new DatePickerViewModel();
-    const today = new Date();
-    expect(datepicker.month).toEqual(today.getMonth() + 1);
-    expect(datepicker.year).toEqual(today.getFullYear());
-});
-
 test("highlight selected date", () => {
     const date = new Date(2019, 5, 6);
     const model = new DatePickerViewModel(6, 2019, date);
@@ -52,7 +45,7 @@ test("highlight selected date", () => {
 
 test("highlight today", () => {
     const today = startOfDay(new Date());
-    const datepicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
+    const datepicker = new DatePickerViewModel();
     expect(one(flatten(datepicker.dates), day => day.isToday));
 
     const day = find(flatten(datepicker.dates), day => day.isToday);
