@@ -36,7 +36,7 @@ test("display formatted calendar title", () => {
 test("highlight selected date", () => {
     const date = new Date(2019, 5, 6);
     const model = new DatePickerViewModel(6, 2019, date);
-    expect(one(flatten(model.dates), day => day.isSelected));
+    expect(one(flatten(model.dates), day => day.isSelected)).toBe(true);
 
     const selected = find(flatten(model.dates), day => day.isSelected);
     expect(selected.date).toEqual(date);
@@ -46,7 +46,7 @@ test("highlight selected date", () => {
 test("highlight today", () => {
     const today = startOfDay(new Date());
     const datepicker = new DatePickerViewModel();
-    expect(one(flatten(datepicker.dates), day => day.isToday));
+    expect(one(flatten(datepicker.dates), day => day.isToday)).toBe(true);
 
     const day = find(flatten(datepicker.dates), day => day.isToday);
     expect(day.date).toEqual(today);
