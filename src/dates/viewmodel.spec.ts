@@ -1,6 +1,17 @@
 import { find, flatten } from "itertools";
-import { startOfDay, DatePickerViewModel } from "dates";
-import { months } from "./viewmodel";
+import { startOfDay } from "dates";
+import { DatePickerViewModel, DateViewModel, months } from "./viewmodel";
+
+test("DateViewModel classes", () => {
+    const date = new DateViewModel({
+        date: new Date(),
+        isToday: true,
+        isActiveMonth: true,
+        isSelected: false
+    });
+
+    expect(date.className).toEqual("date today active")
+});
 
 test("create formatted calendar for a calendar month", () => {
     const datepicker = new DatePickerViewModel(6, 2019);
@@ -52,6 +63,7 @@ test("select a date", () => {
     const datepicker = new DatePickerViewModel(6, 2019).select(date);
     const selected = find(flatten(datepicker.dates), day => day.isSelected);
     expect(selected.date.getDate()).toEqual(6);
+    expect(selected.className).toContain("selected");
 });
 
 test("highlight today", () => {
@@ -59,6 +71,7 @@ test("highlight today", () => {
     const datepicker = new DatePickerViewModel(today.getMonth() + 1, today.getFullYear());
     const day = find(flatten(datepicker.dates), day => day.isToday);
     expect(day.date).toEqual(today);
+    expect(day.className).toContain("today");
 });
 
 test("display formatted calendar title", () => {

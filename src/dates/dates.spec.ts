@@ -59,7 +59,7 @@ test("create an end-exclusive iterable date range between two calendar dates", (
     expect(dates).toEqual([1, 2, 3, 4, 5, 6, 7]);
 });
 
-test("convert a sequence of dates to a finite range from a beginning and ending position", () => {
+test("convert a sequence of dates to a finite range from start and end offsets", () => {
     const start = new Date(2019, 5, 1);
     const range = new DateSequence(start).slice(7, 14);
     const dates = Array.from(range).map(date => date.getDate());

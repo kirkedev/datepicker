@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { enumerate, map } from "itertools";
 import { DateViewModel } from "dates";
-import { SelectDateHandler, classNames } from "./index";
+import { SelectDateHandler } from "./index";
 
 interface CalendarProps extends SelectDateHandler {
     dates: Iterable<Iterable<DateViewModel>>;
@@ -16,14 +16,7 @@ interface DayProps extends SelectDateHandler {
 }
 
 const Day = ({ day, onSelectDate }: DayProps): ReactElement => {
-    const className = classNames({
-        date: true,
-        today: day.isToday,
-        selected: day.isSelected,
-        active: day.isActiveMonth
-    });
-
-    return <span className={className} onClick={() => onSelectDate(day.date)}>{
+    return <span className={day.className} onClick={() => onSelectDate(day.date)}>{
         day.date.getDate()
     }</span>;
 };

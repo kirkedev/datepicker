@@ -1,4 +1,4 @@
-import { chunk, map } from "itertools";
+import { chunk, map, reduce } from "itertools";
 import { DateSequence } from "./ranges";
 import { isSameDate, startOfDay, startOfWeek } from "./lib";
 
@@ -17,11 +17,40 @@ export const months = [
     "December",
 ];
 
-export interface DateViewModel {
+interface DateViewModelProps {
     readonly date: Date;
     readonly isSelected: boolean;
     readonly isToday: boolean;
     readonly isActiveMonth: boolean;
+}
+
+export class DateViewModel implements DateViewModelProps {
+    public readonly date: Date;
+    public readonly isSelected: boolean;
+    public readonly isToday: boolean;
+    public readonly isActiveMonth: boolean;
+
+    public constructor(props: DateViewModelProps) {
+        this.date = props.date;
+        this.isSelected = props.isSelected;
+        this.isToday = props.isToday;
+        this.isActiveMonth = props.isActiveMonth
+    }
+
+    public get classes(): Map<string, boolean> {
+        return new Map([
+            ["date", true],
+            ["selected", this.isSelected],
+            ["today", this.isToday],
+            ["active", this.isActiveMonth]
+        ]);
+    }
+
+    public get className(): string {
+        return reduce(this.classes.entries(), (className, [key, value]) =>
+            value ? `${className} ${key}` : className
+        , "").slice(1);
+    }
 }
 
 export class DatePickerViewModel {
@@ -45,14 +74,14 @@ export class DatePickerViewModel {
         const month = this.month - 1;
         const selected = this.selected;
         const start = startOfWeek(new Date(this.year, month, 1));
-        const range = new DateSequence(start).take(42);
 
-        const dates = map(range, date => ({
-            date,
-            isSelected: selected != null && isSameDate(date, selected),
-            isToday: isSameDate(date, today),
-            isActiveMonth: date.getMonth() === month
-        }));
+        const dates = map(new DateSequence(start).take(42), date =>
+            new DateViewModel({
+                date,
+                isSelected: selected != null && isSameDate(date, selected),
+                isToday: isSameDate(date, today),
+                isActiveMonth: date.getMonth() === month
+            }));
 
         return chunk(dates, 7);
     }
