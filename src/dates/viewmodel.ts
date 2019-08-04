@@ -1,4 +1,4 @@
-import { chunk, map, reduce } from "itertools";
+import { chunk, map } from "itertools";
 import { DateSequence } from "./ranges";
 import { isSameDate, startOfDay, startOfWeek } from "./lib";
 
@@ -37,19 +37,17 @@ export class DateViewModel implements DateViewModelProps {
         this.isActiveMonth = props.isActiveMonth
     }
 
-    public get classes(): Map<string, boolean> {
-        return new Map([
-            ["date", true],
-            ["selected", this.isSelected],
-            ["today", this.isToday],
-            ["active", this.isActiveMonth]
-        ]);
+    public get classes(): Iterable<string> {
+        return function*(model: DateViewModel) {
+            yield "date";
+            if (model.isSelected) yield "selected";
+            if (model.isToday) yield "today";
+            if (model.isActiveMonth) yield "active";
+        }(this);
     }
 
     public get className(): string {
-        return reduce(this.classes.entries(), (className, [key, value]) =>
-            value ? `${className} ${key}` : className
-        , "").slice(1);
+        return Array.from(this.classes).join(" ");
     }
 }
 
