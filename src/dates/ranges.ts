@@ -25,12 +25,12 @@ export class DateSequence implements Iterable<Date> {
     public slice(from: number): DateSequence
     public slice(from: number, to: number): DateRange;
     public slice(from: number, to?: number): Iterable<Date> {
-        const { start } = this;
+        const start = new Date(this.start);
         start.setDate(start.getDate() + from);
         if (to === undefined) return new DateSequence(start);
 
-        const end = new Date(start);
-        end.setDate(end.getDate() + to - from);
+        const end = new Date(this.start);
+        end.setDate(end.getDate() + to);
         return new DateRange(start, end);
     }
 
