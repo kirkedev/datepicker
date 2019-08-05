@@ -32,7 +32,7 @@ describe("start an infinite sequence at the next month", () => {
     });
 
     test("drop the next 30 dates from the sequence", () => {
-        july = slice(dates, 30);
+        july = drop(dates, 30);
     });
 
     afterEach(() => {
@@ -108,11 +108,25 @@ test("count the number of Saturdays in a month", () => {
     expect(sumBy(june, date => date.getDay() === 6 ? 1 : 0)).toEqual(5);
 });
 
-test("get a slice of an infinite date sequence", () => {
+describe("slice an infinite date sequence by starting and ending offsets", () => {
     const sequence = new DateSequence(new Date(2019, 5, 1));
-    const range = slice(sequence, 7, 14);
-    const dates = map(range, date => date.getDate());
-    expect(Array.from(dates)).toEqual([8, 9, 10, 11, 12, 13, 14]);
+
+    test("take the first 7 dates", () => {
+        const range = slice(sequence, 0, 7);
+        const dates = map(range, date => date.getDate());
+        expect(Array.from(dates)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    });
+
+    test("drop the first 7 dates", () => {
+        const dates = slice(sequence, 7);
+        expect(first(dates)).toEqual(new Date(2019, 5, 8));
+    });
+
+    test("drop the first 7 dates and take the next 7 dates", () => {
+        const range = slice(sequence, 7, 14);
+        const dates = map(range, date => date.getDate());
+        expect(Array.from(dates)).toEqual([8, 9, 10, 11, 12, 13, 14]);
+    });
 });
 
 test("get the date at a specific position in a sequence", () => {
