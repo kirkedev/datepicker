@@ -1,6 +1,6 @@
 import { chunk, map } from "itertools";
-import { DateSequence } from "./ranges";
 import { isSameDate, startOfDay, startOfWeek } from "./lib";
+import { DateSequence } from "./sequence";
 
 const months = [
     "January",

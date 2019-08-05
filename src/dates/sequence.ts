@@ -1,26 +1,25 @@
 import { startOfDay } from "./lib";
+import { DateRange } from "./range";
 
-function* dateSequence(start: Date, end?: Date): Iterator<Date> {
-    const date = startOfDay(start);
+class DateIterator implements Iterator<Date> {
+    private readonly date: Date;
 
-    while (end === undefined || date < end) {
-        yield new Date(date);
-        date.setDate(date.getDate() + 1);
+    public constructor(start: Date) {
+        this.date = startOfDay(start);
     }
-}
 
-export class DateRange implements Iterable<Date> {
-    public constructor(
-        private readonly start: Date,
-        private readonly end: Date) {}
-
-    public [Symbol.iterator] = () => dateSequence(this.start, this.end);
+    public next(): IteratorResult<Date> {
+        const { date } = this;
+        const result = { value: new Date(date), done: false };
+        date.setDate(date.getDate() + 1);
+        return result;
+    }
 }
 
 export class DateSequence implements Iterable<Date> {
     public constructor(private readonly start: Date) {}
 
-    public [Symbol.iterator] = () => dateSequence(this.start);
+    public [Symbol.iterator] = () => new DateIterator(this.start);
 
     public slice(from: number): DateSequence
     public slice(from: number, to: number): DateRange;

@@ -1,5 +1,6 @@
 import { isSameDate, startOfDay, startOfWeek } from "./lib";
-import { DateRange, DateSequence } from "./ranges";
+import { DateRange } from "./range";
+import { DateSequence } from "./sequence";
 
 test("truncate a date's time", () => {
     const date = new Date();
