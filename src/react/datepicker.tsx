@@ -1,5 +1,5 @@
-import React, { ReactElement, useReducer } from "react";
-import { DatePickerViewModel, reducer, previousMonth, nextMonth, selectDate } from "dates";
+import React, { ReactElement, useState } from "react";
+import { DatePickerViewModel, previousMonth, nextMonth, selectDate } from "viewmodel";
 import { Calendar } from "./calendar";
 import { SelectDateHandler } from "./index";
 
@@ -22,18 +22,18 @@ const Header = ({ title, previous, next }: HeaderProps): ReactElement =>
     </div>;
 
 export const DatePicker = ({ month, year, onSelectDate }: DatePickerProps): ReactElement => {
-    const [model, dispatch] = useReducer(reducer, new DatePickerViewModel(month, year));
+    const [model, update] = useState(new DatePickerViewModel(month, year));
     const { title, dates, selected } = model;
 
     return <div className="datepicker">
         <Header
             title={title}
-            previous={() => dispatch(previousMonth())}
-            next={() => dispatch(nextMonth())}/>
+            previous={() => update(previousMonth(model))}
+            next={() => update(nextMonth(model))}/>
 
         <Calendar
             dates={dates}
-            onSelectDate={date => dispatch(selectDate(date))}/>
+            onSelectDate={date => update(selectDate(model, date))}/>
 
         <button className="submit"
             disabled={selected == null}

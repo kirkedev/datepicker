@@ -11,8 +11,7 @@ import { zip } from "./zip";
 
 test("chunk a date range by size", () => {
     const start = new Date(2019, 5, 1);
-    const end = new Date(2019, 5, 11);
-    const dates = map(new DateRange(start, end), date => date.getDate());
+    const dates = map(new DateSequence(start).take(10), date => date.getDate());
 
     const [first, second] = Array.from(chunk(dates, 7));
     expect(first).toEqual([1, 2, 3, 4, 5, 6, 7]);

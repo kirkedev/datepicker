@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { enumerate, map } from "itertools";
-import { DateViewModel } from "dates";
+import { DateViewModel, className } from "viewmodel";
 import { SelectDateHandler } from "./index";
 
 interface CalendarProps extends SelectDateHandler {
@@ -16,7 +16,7 @@ interface DayProps extends SelectDateHandler {
 }
 
 const Day = ({ day, onSelectDate }: DayProps): ReactElement => {
-    return <span className={day.className} onClick={() => onSelectDate(day.date)}>{
+    return <span className={className(day)} onClick={() => onSelectDate(day.date)}>{
         day.date.getDate()
     }</span>;
 };

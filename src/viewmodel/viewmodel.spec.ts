@@ -1,16 +1,16 @@
 import { find, flatten, one } from "itertools";
-import { startOfDay } from "./lib";
-import { DatePickerViewModel, DateViewModel } from "./viewmodel";
+import { startOfDay } from "dates";
+import { DatePickerViewModel, DateViewModel, className } from "./viewmodel";
 
 test("combine date states into a class name", () => {
-    const date = new DateViewModel({
+    const date = {
         date: new Date(),
         isToday: true,
         isActiveMonth: true,
         isSelected: false
-    });
+    };
 
-    expect(date.className).toEqual("date today active");
+    expect(className(date)).toEqual("date today active");
 });
 
 test("display formatted calendar dates", () => {
@@ -41,7 +41,7 @@ test("highlight selected date", () => {
 
     expect(one(dates, day => day.isSelected)).toBe(true);
     expect(selected.date).toEqual(date);
-    expect(selected.className).toMatch(/\bselected\b/);
+    expect(className(selected)).toMatch(/\bselected\b/);
 });
 
 test("highlight today", () => {
@@ -51,12 +51,12 @@ test("highlight today", () => {
 
     expect(one(dates, day => day.isToday)).toBe(true);
     expect(today.date).toEqual(startOfDay(new Date()));
-    expect(today.className).toMatch(/\btoday\b/);
+    expect(className(today)).toMatch(/\btoday\b/);
 });
 
 describe("highlight days in the active month", () => {
     const isActiveMonth = (date: DateViewModel): boolean => date.isActiveMonth;
-    const hasActiveClass = (date: DateViewModel): boolean => /\bactive\b/.test(date.className);
+    const hasActiveClass = (date: DateViewModel): boolean => /\bactive\b/.test(className(date));
 
     const datepicker = new DatePickerViewModel(6, 2019);
     const dates = Array.from(flatten(datepicker.dates));
