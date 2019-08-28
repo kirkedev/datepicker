@@ -135,13 +135,9 @@ test("get the date at a specific position in a sequence", () => {
 });
 
 describe("boolean comparison accumulators", () => {
-    let dates: Iterable<Date>;
-
-    beforeEach(() => {
-        const start = new Date(2019, 5, 1);
-        const end = new Date(2019, 6, 1);
-        dates = new DateRange(start, end);
-    });
+    const start = new Date(2019, 5, 1);
+    const end = new Date(2019, 6, 1);
+    const dates = new DateRange(start, end);
 
     test("all", () => {
         expect(all(dates, date => date.getMonth() === 5)).toBe(true);
