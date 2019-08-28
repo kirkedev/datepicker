@@ -22,18 +22,18 @@ const Header = ({ title, previous, next }: HeaderProps): ReactElement =>
     </div>;
 
 export const DatePicker = ({ month, year, onSelectDate }: DatePickerProps): ReactElement => {
-    const [model, update] = useState(new DatePickerViewModel(month, year));
+    const [model, render] = useState(new DatePickerViewModel(month, year));
     const { title, dates, selected } = model;
 
     return <div className="datepicker">
         <Header
             title={title}
-            previous={() => update(previousMonth(model))}
-            next={() => update(nextMonth(model))}/>
+            previous={() => render(previousMonth(model))}
+            next={() => render(nextMonth(model))}/>
 
         <Calendar
             dates={dates}
-            onSelectDate={date => update(selectDate(model, date))}/>
+            onSelectDate={date => render(selectDate(model, date))}/>
 
         <button className="submit"
             disabled={selected == null}
