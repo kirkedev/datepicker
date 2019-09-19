@@ -15,11 +15,10 @@ interface DayProps extends SelectDateHandler {
     day: DateViewModel;
 }
 
-const Day = ({ day, onSelectDate }: DayProps): ReactElement => {
-    return <span className={className(day)} onClick={() => onSelectDate(day.date)}>{
-        day.date.getDate()
-    }</span>;
-};
+const Day = ({ day, onSelectDate }: DayProps): ReactElement =>
+    <span className={className(day)} onClick={() => onSelectDate(day.date)}>
+        {day.date.getDate()}
+    </span>;
 
 const Week = ({ week, onSelectDate }: WeekProps): ReactElement =>
     <div className="week">{ map(week, day =>
