@@ -1,6 +1,6 @@
 import { startOfDay } from "./lib";
 
-function* iterateRange(start: Date, end: Date): Iterator<Date> {
+function* dates(start: Date, end: Date): Iterator<Date> {
     const date = startOfDay(start);
 
     while (date < end) {
@@ -14,5 +14,5 @@ export class DateRange implements Iterable<Date> {
         private readonly start: Date,
         private readonly end: Date) {}
 
-    public [Symbol.iterator] = () => iterateRange(this.start, this.end);
+    public [Symbol.iterator] = () => dates(this.start, this.end);
 }

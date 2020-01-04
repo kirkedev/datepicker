@@ -23,13 +23,13 @@ export interface DateViewModel {
     readonly isActiveMonth: boolean;
 }
 
-export const className = (date: DateViewModel): string =>
-    Array.from(function*(this: DateViewModel) {
-        yield "date";
-        if (this.isSelected) yield "selected";
-        if (this.isToday) yield "today";
-        if (this.isActiveMonth) yield "active";
-    }.call(date)).join(" ");
+export function className (date: DateViewModel): string {
+    let result = "date";
+    if (date.isSelected) result += " selected";
+    if (date.isToday) result += " today";
+    if (date.isActiveMonth) result += " active";
+    return result;
+}
 
 export class DatePickerViewModel {
     public readonly selected?: Date;
