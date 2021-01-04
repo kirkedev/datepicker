@@ -1,26 +1,11 @@
 import React from "react";
-import { act, create, ReactTestInstance } from "react-test-renderer";
+import { create, ReactTestInstance } from "react-test-renderer";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import { DatePicker, DatePickerProps } from "./datepicker";
+import { click, findByClass, getText, hasClass } from "./index";
 
 const datepicker = (props: DatePickerProps): ReactTestInstance =>
     create(<DatePicker {...props}/>).root;
-
-const findByClass = (instance: ReactTestInstance, className: string): ReactTestInstance =>
-    instance.findByProps({ className });
-
-const hasClass = (instance: ReactTestInstance, className: string): boolean =>
-    RegExp(String.raw`\b${className}\b`).test(instance.props.className);
-
-const getText = (instance: ReactTestInstance): string =>
-    instance.children[0] as string;
-
-function click(instance: ReactTestInstance): void;
-function click(instance: ReactTestInstance, className: string): void;
-function click(instance: ReactTestInstance, className?: string): void {
-    if (className !== undefined) instance = findByClass(instance, className);
-    act(() => instance.props.onClick());
-}
 
 const isSelected = (instance: ReactTestInstance): boolean =>
     hasClass(instance, "selected");
@@ -82,9 +67,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
             expect(title(instance)).toEqual("June 2019");
         });
 
-        when("I click the next button", () => {
-            click(instance, "next");
-        });
+        when("I click the next button", () => click(instance, "next"));
 
         then("I see dates for July 2019", () => {
             expect(parseDates(instance)).toEqual([
@@ -113,9 +96,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
             expect(isDisabled(findByClass(instance, "submit"))).toBe(true);
         });
 
-        when("I select June 6", () => {
-            click(findDate(instance, 6));
-        });
+        when("I select June 6", () => click(findDate(instance, 6)));
 
         then("June 6 is highlighted", () => {
             expect(getDates(instance).filter(isSelected).length).toBe(1);
@@ -126,9 +107,7 @@ defineFeature(loadFeature("src/react/datepicker.feature"), test => {
             expect(isDisabled(findByClass(instance, "submit"))).toBe(false);
         });
 
-        when("I click the submit button", () => {
-            click(instance, "submit");
-        });
+        when("I click the submit button", () => click(instance, "submit"));
 
         then("June 6 is chosen", () => {
             expect(onSelectDate).toHaveBeenCalledWith(new Date(2019, 5, 6));
