@@ -32,7 +32,7 @@ test("go to next month from December", () => {
 
 test("select a date", () => {
     const date = new Date(2019, 5, 6);
-    const state = selectDate(new DatePickerViewModel(6, 2019), date);
+    const state = selectDate(date)(new DatePickerViewModel(6, 2019));
     expect(state.month).toBe(6);
     expect(state.year).toBe(2019);
     expect(state.selected).toEqual(date);
