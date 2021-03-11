@@ -2067,21 +2067,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"coveralls@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "coveralls@npm:3.1.0"
-  dependencies:
-    js-yaml: ^3.13.1
-    lcov-parse: ^1.0.0
-    log-driver: ^1.2.7
-    minimist: ^1.2.5
-    request: ^2.88.2
-  bin:
-    coveralls: ./bin/coveralls.js
-  checksum: bac2998bf30432827b982d9a098db396d99f3763d473fccba0599c77ec1b67124804a37e2a5dbedf4915917627ed3814c0582e334c382f31ab4c156e9ca2dd69
-  languageName: node
-  linkType: hard
-
 "cross-spawn@npm:^6.0.0":
   version: 6.0.5
   resolution: "cross-spawn@npm:6.0.5"
@@ -2181,7 +2166,6 @@ __metadata:
     "@types/jest": ^26.0.20
     "@typescript-eslint/eslint-plugin": ^4.17.0
     "@typescript-eslint/parser": ^4.17.0
-    coveralls: ^3.1.0
     eslint: ^7.21.0
     eslint-config-standard: ^16.0.2
     eslint-plugin-import: ^2.22.1
@@ -4596,15 +4580,6 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"lcov-parse@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "lcov-parse@npm:1.0.0"
-  bin:
-    lcov-parse: ./bin/cli.js
-  checksum: 7747ea686f77cf0c7f5d2d4c5bf95549ed7b966623e0d006941934ab7d9ffd97bc6fe9b1e33a38371b262a71c5ff5ae45dac08f7baa91132f31f6b78fb576356
-  languageName: node
-  linkType: hard
-
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -4688,13 +4663,6 @@ fsevents@^2.1.2:
   version: 4.17.15
   resolution: "lodash@npm:4.17.15"
   checksum: aec3fbb7570aa67bda500b8299b1b1821d60646bede87f76a74dfcc7666ab3445267d734ec71424d70809d52ad67a1356fab5ab694a3faa1908d68e9d48f00f5
-  languageName: node
-  linkType: hard
-
-"log-driver@npm:^1.2.7":
-  version: 1.2.7
-  resolution: "log-driver@npm:1.2.7"
-  checksum: b4355545c33328fc022f49a48f68a834191efedf7a8279f51aefdc1b3b387e20db41c0ce0124db84d170da9d8443ad66d1869325336630ba376a89bc83c357a6
   languageName: node
   linkType: hard
 

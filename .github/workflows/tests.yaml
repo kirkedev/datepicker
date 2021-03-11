@@ -20,7 +20,7 @@ jobs:
       - name: Run tests
         run: yarn test
 
-      - name: Coveralls
+      - name: Upload coverage
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
