@@ -6,8 +6,7 @@
   "scripts": {
     "clean": "tsc -b --clean",
     "lint": "eslint '**/*.{ts,tsx}'",
-    "pretest": "yarn run lint",
-    "test": "yarn run pretest && jest",
+    "test": "jest",
     "prebuild": "yarn test",
     "build": "yarn run prebuild && tsc -b"
   },
