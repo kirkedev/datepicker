@@ -3,8 +3,9 @@ src/**/*.{js,d.ts,js.map}
 dist
 coverage
 .*
+!.yarn
 !.gitignore
-!.eslintrc.js
+!.eslintrc.json
 !jest.config.js
 !.travis.yml
 yarn-error.log
