@@ -6,7 +6,6 @@
         { "path": "../itertools" }
     ],
     "compilerOptions": {
-        "composite": true,
-        "noEmit": false
+        "composite": true
     }
 }

@@ -13,7 +13,6 @@
             "ES2020",
             "ESNext"
         ],
-        "jsx": "react-jsx",
-        "noEmit": false
+        "jsx": "react-jsx"
     }
 }

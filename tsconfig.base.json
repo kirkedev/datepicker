@@ -13,7 +13,6 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "noEmit": true,
-    "preserveSymlinks": true,
-    "jsx": "react-jsx"
+    "preserveSymlinks": true
   }
 }

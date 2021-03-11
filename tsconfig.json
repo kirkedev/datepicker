@@ -2,9 +2,9 @@
     "extends": "./tsconfig.base.json",
     "files": [],
     "references": [
-        { "path": "./dates" },
-        { "path": "./itertools" },
-        { "path": "./viewmodel" },
-        { "path": "./react" },
-    ]
+        { "path": "./react" }
+    ],
+    "compilerOptions": {
+        "jsx": "react-jsx"
+    }
 }
