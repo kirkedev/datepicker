@@ -1,5 +1,5 @@
-import { UnaryOperator } from "./index";
 import { flatten } from "./flatten";
+import type { UnaryOperator } from ".";
 
 function* mapElements<T, R>(iterator: Iterator<T>, operator: UnaryOperator<T, R>): Iterator<R> {
     let result = iterator.next();

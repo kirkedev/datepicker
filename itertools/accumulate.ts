@@ -1,7 +1,7 @@
-import { Predicate, Accumulator, UnaryOperator } from "./index";
 import { filter, find } from "./filter";
 import { map } from "./map";
 import { last } from "./slice";
+import type { Predicate, Accumulator, UnaryOperator } from ".";
 
 export function* accumulate<T, R>(iterable: Iterable<T>, accumulator: Accumulator<T, R>, value: R): Iterable<R> {
     for (const item of iterable) {

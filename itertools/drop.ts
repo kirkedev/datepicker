@@ -1,6 +1,6 @@
-import { Predicate } from "./index";
 import { enumerate } from "./enumerate";
 import { map } from "./map";
+import type { Predicate } from ".";
 
 function* dropElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let result = iterator.next();

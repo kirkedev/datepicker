@@ -1,5 +1,5 @@
-import { Predicate } from "./index";
 import { first } from "./slice";
+import type { Predicate } from ".";
 
 function* filterElements<T>(iterator: Iterator<T>, predicate: Predicate<T>): Iterator<T> {
     let result = iterator.next();
