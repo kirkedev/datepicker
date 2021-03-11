@@ -4,13 +4,12 @@
   "description": "An example datepicker project",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -b",
     "clean": "tsc -b --clean",
     "lint": "eslint '**/*.{ts,tsx}'",
     "pretest": "yarn run lint",
     "test": "yarn run pretest && jest",
     "prebuild": "yarn test",
-    "postbuild": "yarn run prebuild && yarn run clean"
+    "build": "yarn run prebuild && tsc -b"
   },
   "author": "Andrew Kirkegaard",
   "license": "ISC",
