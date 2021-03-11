@@ -1,17 +1,17 @@
-import { find, flatten, one } from "itertools";
+import { find, flatten } from "itertools";
 import { startOfDay } from "dates";
 import DateViewModel from "./DateViewModel";
 import DatePickerViewModel from "./DatePickerViewModel";
 
 test("combine date states into a class name", () => {
-    const date = {
+    const date = DateViewModel.from({
         date: new Date(),
+        isSelected: false,
         isToday: true,
-        isActiveMonth: true,
-        isSelected: false
-    };
+        isActive: true
+    });
 
-    expect(DateViewModel.className(date)).toEqual("date today active");
+    expect(date.className).toEqual("date today active");
 });
 
 test("display formatted calendar dates", () => {
@@ -38,26 +38,19 @@ test("highlight selected date", () => {
     const date = new Date(2019, 5, 6);
     const datepicker = new DatePickerViewModel(6, 2019, date);
     const dates = flatten(datepicker.dates);
-    const selected = find(dates, day => day.isSelected);
-
-    expect(one(dates, day => day.isSelected)).toBe(true);
+    const selected = find(dates, day => /\bselected\b/.test(day.className));
     expect(selected.date).toEqual(date);
-    expect(DateViewModel.className(selected)).toMatch(/\bselected\b/);
 });
 
 test("highlight today", () => {
     const datepicker = new DatePickerViewModel();
     const dates = flatten(datepicker.dates);
-    const today = find(dates, day => day.isToday);
-
-    expect(one(dates, day => day.isToday)).toBe(true);
+    const today = find(dates, day => /\btoday\b/.test(day.className));
     expect(today.date).toEqual(startOfDay(new Date()));
-    expect(DateViewModel.className(today)).toMatch(/\btoday\b/);
 });
 
 describe("highlight days in the active month", () => {
-    const isActiveMonth = (date: DateViewModel): boolean => date.isActiveMonth;
-    const hasActiveClass = (date: DateViewModel): boolean => /\bactive\b/.test(DateViewModel.className(date));
+    const isActiveMonth = (date: DateViewModel): boolean => /\bactive\b/.test(date.className);
 
     const datepicker = new DatePickerViewModel(6, 2019);
     const dates = Array.from(flatten(datepicker.dates));
@@ -65,18 +58,15 @@ describe("highlight days in the active month", () => {
     it("should not highlight any dates in May", () => {
         const may = dates.slice(0, 6);
         expect(may.some(isActiveMonth)).toBe(false);
-        expect(may.some(hasActiveClass)).toBe(false);
     });
 
     it("should highlight all dates in June", () => {
         const june = dates.slice(6, 36);
         expect(june.every(isActiveMonth)).toBe(true);
-        expect(june.every(hasActiveClass)).toBe(true);
     });
 
     it("should not highlight any dates in July", () => {
         const july = dates.slice(36);
         expect(july.some(isActiveMonth)).toBe(false);
-        expect(july.some(hasActiveClass)).toBe(false);
     });
 });

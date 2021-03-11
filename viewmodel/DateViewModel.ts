@@ -1,20 +1,27 @@
 interface DateViewModel {
     readonly date: Date;
-    readonly isSelected: boolean;
-    readonly isToday: boolean;
-    readonly isActiveMonth: boolean;
+    readonly className: string;
 }
 
-function* classNames(this: DateViewModel): Iterable<string> {
+function* classNames(isSelected: boolean, isToday: boolean, isActive: boolean): Iterable<string> {
     yield "date";
-    if (this.isSelected) yield "selected";
-    if (this.isToday) yield "today";
-    if (this.isActiveMonth) yield "active";
+    if (isSelected) yield "selected";
+    if (isToday) yield "today";
+    if (isActive) yield "active";
+}
+
+interface DateViewModelProps {
+    date: Date;
+    isSelected: boolean;
+    isToday: boolean;
+    isActive: boolean;
 }
 
 namespace DateViewModel {
-    export const className = (date: DateViewModel): string =>
-        Array.from(classNames.call(date)).join(" ");
+    export const from = ({ date, isSelected, isToday, isActive }: DateViewModelProps): DateViewModel => ({
+        date,
+        className: Array.from(classNames(isSelected, isToday, isActive)).join(" ")
+    });
 }
 
 export default DateViewModel;

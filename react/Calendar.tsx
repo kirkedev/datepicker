@@ -21,11 +21,11 @@ function Calendar({ dates }: CalendarProps): JSX.Element {
         </div>
 
         <div className="dates">{ map(enumerate(dates), ([index, week]) =>
-            <div key={index} className="week">{ map(week, day =>
-                <span key={day.date.getTime()}
-                    className={DateViewModel.className(day)}
-                    onClick={() => select(day.date)}>
-                    {day.date.getDate()}
+            <div key={index} className="week">{ map(week, ({ date, className }) =>
+                <span key={date.getTime()}
+                    className={className}
+                    onClick={() => select(date)}>
+                    {date.getDate()}
                 </span>
             )}</div>
         )}</div>

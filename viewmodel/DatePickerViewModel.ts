@@ -1,6 +1,6 @@
 import { chunk, map } from "itertools";
 import { isSameDate, startOfDay, startOfWeek, DateSequence } from "dates";
-import type DateViewModel from "./DateViewModel";
+import DateViewModel from "./DateViewModel";
 
 const months = [
     "January",
@@ -36,14 +36,14 @@ class DatePickerViewModel {
     public get dates(): Iterable<Iterable<DateViewModel>> {
         const today = new Date();
         const month = this.month - 1;
-        const selected = this.selected;
-        const start = startOfWeek(new Date(this.year, month, 1));
+        const { selected, year } = this;
+        const start = startOfWeek(new Date(year, month, 1));
 
-        const dates = map(new DateSequence(start).take(42), date => ({
+        const dates = map(new DateSequence(start).take(42), date => DateViewModel.from({
             date,
             isSelected: selected != null && isSameDate(date, selected),
             isToday: isSameDate(date, today),
-            isActiveMonth: date.getMonth() === month
+            isActive: date.getMonth() === month && date.getFullYear() === year
         }));
 
         return chunk(dates, 7);
