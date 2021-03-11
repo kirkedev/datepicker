@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { DatePickerViewModel, selectDate, nextMonth, previousMonth } from "viewmodel";
 import type { ReactNode } from "react";
 import type { Optional } from "itertools";

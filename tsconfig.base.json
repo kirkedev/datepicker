@@ -14,6 +14,6 @@
     "moduleResolution": "node",
     "noEmit": true,
     "preserveSymlinks": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   }
 }

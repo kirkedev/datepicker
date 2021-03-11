@@ -55,7 +55,9 @@
         "import/no-named-default": "off",
         "generator-star-spacing": ["error", { "before": false, "after": true }],
         "node/handle-callback-err": "warn",
-        "no-unmodified-loop-condition": "warn"
+        "no-unmodified-loop-condition": "warn",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
     },
     "overrides": [{
         "files": ["{dates,itertools,viewmodel}/**/*.ts"],

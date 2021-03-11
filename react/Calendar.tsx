@@ -1,4 +1,3 @@
-import React from "react";
 import { enumerate, map } from "itertools";
 import { DateViewModel } from "viewmodel";
 import { useInteractor } from "./DatePickerProvider";

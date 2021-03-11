@@ -1,4 +1,3 @@
-import React from "react";
 import { act, create } from "react-test-renderer";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import DatePicker from ".";

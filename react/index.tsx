@@ -1,4 +1,3 @@
-import React from "react";
 import DatePickerView from "./DatePickerView";
 import DatePickerProvider from "./DatePickerProvider";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { useDatePicker } from "./DatePickerProvider";
 import Calendar from "./Calendar";
 
