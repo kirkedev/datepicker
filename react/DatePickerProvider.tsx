@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { DatePickerViewModel, selectDate, nextMonth, previousMonth } from "../viewmodel";
+import { DatePickerViewModel, selectDate, nextMonth, previousMonth } from "viewmodel";
 import type { ReactNode } from "react";
 import type { Optional } from "itertools";
 import type { DatePickerProps } from ".";
@@ -18,25 +18,11 @@ interface Props extends DatePickerProps {
 const InteractorContext = createContext<Optional<Interactor>>(undefined);
 const ViewModelContext = createContext<Optional<DatePickerViewModel>>(undefined);
 
-export function useInteractor(): Interactor {
-    const interactor = useContext(InteractorContext);
+export const useInteractor = (): Interactor =>
+    useContext(InteractorContext) as Interactor;
 
-    if (interactor === undefined) {
-        throw new Error("Could not locate Interactor. Are you using a DatePickerProvider?");
-    }
-
-    return interactor;
-}
-
-export function useViewModel(): DatePickerViewModel {
-    const model = useContext(ViewModelContext);
-
-    if (model === undefined) {
-        throw new Error("Could not locate ViewModel. Are you using a DatePickerProvider?");
-    }
-
-    return model;
-}
+export const useViewModel = (): DatePickerViewModel =>
+    useContext(ViewModelContext) as DatePickerViewModel;
 
 export const useDatePicker = (): readonly [DatePickerViewModel, Interactor] =>
     [useViewModel(), useInteractor()] as const;
